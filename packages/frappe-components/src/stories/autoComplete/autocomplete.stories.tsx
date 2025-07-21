@@ -51,6 +51,7 @@ const meta = {
   args: {
     modelValue: null,
     options,
+    placeholder:"Select person"
     },
 } satisfies Meta<typeof Autocomplete>;
 
@@ -59,35 +60,16 @@ type Story = StoryObj<typeof meta>;
 
 export const AutocompletePrimary: Story = {
   args: {
-    modelValue: null,
+    modelValue: [],
+    options,
+    multiple: false
+  },
+};
+
+export const AutocompleteWtithMultiple: Story = {
+  args: {
+    modelValue: [],
     options,
     multiple: true
   },
 };
-
-// export const Secondary: Story = {
-//   args: {
-//     label: 'Button',
-//   },
-// };
-
-// export const Large: Story = {
-//   args: {
-//     size: 'large',
-//     label: 'Button',
-//   },
-// };
-
-// export const Small: Story = {
-//   args: {
-//     size: 'small',
-//     label: 'Button',
-//   },
-// };
-
-// export const Test: Story = {
-//   args: {
-//     primary: false,
-//     label: "Button"
-//   }
-// };

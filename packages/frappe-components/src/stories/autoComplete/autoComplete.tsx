@@ -50,6 +50,7 @@ export interface AutocompleteProps
   modelValue: AutocompleteOption | AutocompleteOption[] | null | undefined;
   options: AutocompleteOptions;
   multiple?: boolean;
+  showPrefix?: boolean;
   label?: string;
   placeholder?: string;
   loading?: boolean;
@@ -77,6 +78,7 @@ const Autocomplete: React.FC<AutocompleteProps> = ({
   loading = false,
   hideSearch = false,
   showFooter = false,
+  showPrefix = false,
   maxOptions = 50,
   compareFn = (a: any, b: any) => a?.value === b?.value,
   placement = "bottom-start",
@@ -321,7 +323,7 @@ const Autocomplete: React.FC<AutocompleteProps> = ({
                 onClick={popoverToggle}
               >
                 <div className="flex items-center overflow-hidden">
-                  {!multiple && (
+                  {!multiple && showPrefix && (
                     <img src={''} className="mr-2 h-4 w-4 rounded-full" />
                   )}
                   <span
