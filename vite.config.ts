@@ -12,7 +12,7 @@ const __dirname = path.dirname(__filename);
 
 // More info at: https://storybook.js.org/docs/next/writing-tests/integrations/vitest-addon
 export default defineConfig({
-  plugins: [react(), tailwindcss(), svgr()],
+  plugins: [react(), tailwindcss(), svgr({ include: '**/*.svg?react' })],
   test: {
     projects: [{
       extends: true,

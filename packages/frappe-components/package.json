@@ -8,8 +8,8 @@
   "sideEffects": false,
   "exports": {
     ".": {
-      "import": "./dist/index.js",
-      "require": "./dist/index.js"
+      "import": "./src/index.js",
+      "require": "./src/index.js"
     }
   },
   "dependencies": {
