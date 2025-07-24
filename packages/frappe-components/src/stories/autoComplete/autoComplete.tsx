@@ -57,7 +57,7 @@ export interface AutocompleteProps
   hideSearch?: boolean;
   showFooter?: boolean;
   maxOptions?: number;
-  compareFn?: (a: any, b: any) => boolean;
+  compareFn?: (a: Option, b: Option) => boolean;
   placement?: Placement;
   bodyClasses?: string | string[] | { [key: string]: boolean };
   onChange?: (
@@ -76,12 +76,11 @@ const Autocomplete: React.FC<AutocompleteProps> = ({
   showFooter = false,
   showPrefix = false,
   maxOptions = 50,
-  compareFn = (a: any, b: any) => a?.value === b?.value,
+  compareFn = (a: Option, b: Option) => a?.value === b?.value,
   placement = "bottom-start",
   bodyClasses,
   onChange,
 }) => {
-  console.log("Autocomplete rendered with options:", modelValue);
   const [query, setQuery] = useState<string>("");
   const [showOptions, setShowOptions] = useState<boolean>(false);
   const searchInputRef = useRef<HTMLInputElement>(null);
@@ -109,7 +108,9 @@ const Autocomplete: React.FC<AutocompleteProps> = ({
 
   const sanitizeOptions = useCallback(
     (opts: AutocompleteOption[]): Option[] => {
-      if (!opts) return [];
+      if (!opts){
+        return [];
+      }
       return opts.map((option) => {
         return isOption(option)
           ? option
@@ -121,7 +122,10 @@ const Autocomplete: React.FC<AutocompleteProps> = ({
 
   const filterOptions = useCallback(
     (opts: Option[]): Option[] => {
-      if (!query) return opts;
+      if (!query){
+        return opts;
+      }
+
       const lowerCaseQuery = query.trim().toLowerCase();
       return opts.filter((option) => {
         return (
@@ -134,7 +138,9 @@ const Autocomplete: React.FC<AutocompleteProps> = ({
   );
 
   const groups = useMemo<AutocompleteOptionGroup[]>(() => {
-    if (!options?.length) return [];
+    if (!options?.length) {
+      return [];
+    }
 
     let processedGroups: AutocompleteOptionGroup[];
     // Check if the first item in options array is an option group
@@ -164,7 +170,10 @@ const Autocomplete: React.FC<AutocompleteProps> = ({
 
   const findOption = useCallback(
     (option: AutocompleteOption): Option | undefined => {
-      if (!option) return undefined;
+      if (!option){
+        return undefined;
+      }
+
       const value = isOption(option) ? option.value : option;
       return allOptions.find((o) => o.value === value);
     },
@@ -189,9 +198,11 @@ const Autocomplete: React.FC<AutocompleteProps> = ({
     },
     [isOption]
   );
+
   const selectedComboboxValue = useMemo<Option | Option[] | null>(() => {
-    if (modelValue === null || modelValue === undefined)
+    if (modelValue === null || modelValue === undefined) {
       return multiple ? [] : null;
+    }
 
     if (!multiple) {
       return (
@@ -207,6 +218,7 @@ const Autocomplete: React.FC<AutocompleteProps> = ({
   const handleComboboxChange = useCallback(
     (val: Option | Option[] | null) => {
       setQuery("");
+
       if (!multiple) {
         setShowOptions(false); // Close Popover when single item selected
       }
@@ -223,10 +235,14 @@ const Autocomplete: React.FC<AutocompleteProps> = ({
   );
 
   const displayValue = useMemo<string>(() => {
-    if (!selectedComboboxValue) return "";
+    if (!selectedComboboxValue) {
+      return "";
+    }
+
     if (!multiple) {
       return getLabel(selectedComboboxValue as Option);
     }
+
     return (selectedComboboxValue as Option[])
       .map((v) => getLabel(v))
       .join(", ");
@@ -234,13 +250,14 @@ const Autocomplete: React.FC<AutocompleteProps> = ({
 
   const isOptionSelected = useCallback(
     (option: Option): boolean => {
-      if (!selectedComboboxValue) return false;
-      if (!multiple) {
-        return compareFn(selectedComboboxValue, option);
+      if (!selectedComboboxValue) {
+        return false;
       }
-      console.log(option, selectedComboboxValue, (selectedComboboxValue as Option[]).some((v) =>
-        compareFn(v, option)
-      ));
+      
+      if (!multiple) {
+        return compareFn(selectedComboboxValue as Option, option);
+      }
+      
       return (selectedComboboxValue as Option[]).some((v) =>
         compareFn(v, option)
       );
@@ -249,7 +266,10 @@ const Autocomplete: React.FC<AutocompleteProps> = ({
   );
 
   const areAllOptionsSelected = useMemo<boolean>(() => {
-    if (!multiple) return false;
+    if (!multiple) {
+      return false;
+    }
+
     return (
       allOptions.length > 0 &&
       allOptions.length === (selectedComboboxValue as Option[])?.length
@@ -264,7 +284,6 @@ const Autocomplete: React.FC<AutocompleteProps> = ({
     handleComboboxChange(multiple ? [] : null);
   }, [multiple, handleComboboxChange]);
 
-  // Effect to focus search input when popover opens
   useEffect(() => {
     if (showOptions && searchInputRef.current) {
       requestAnimationFrame(() => {
