@@ -1,5 +1,7 @@
-import type { Meta, StoryObj } from '@storybook/react-vite';
-import Autocomplete from './autoComplete';
+// src/components/Autocomplete/Autocomplete.stories.tsx
+import React, { useState } from 'react';
+import type { Meta, StoryObj } from '@storybook/react';
+import Autocomplete from './autoComplete'; // Adjust the import path
 
 const options = [
   {
@@ -34,42 +36,114 @@ const options = [
   },
 ]
 
-const meta = {
-  title: 'Example/Autocomplete',
+const meta: Meta<typeof Autocomplete> = {
+  title: 'Components/Autocomplete',
   component: Autocomplete,
-  parameters: {
-    layout: 'centered',
-  },
-    decorators: [
-    (Story) => (
-      <div style={{ width: '450px'}}>
-        <Story />
-      </div>
-    ),
-  ],
   tags: ['autodocs'],
+  argTypes: {
+    modelValue: { control: 'object', description: 'The currently selected value(s).' },
+    options: { control: 'object', description: 'Array of options to display.' },
+    multiple: { control: 'boolean', description: 'Allow multiple selections.' },
+    label: { control: 'text', description: 'Label for the autocomplete input.' },
+    placeholder: { control: 'text', description: 'Placeholder text for the input.' },
+    loading: { control: 'boolean', description: 'Show loading indicator.' },
+    hideSearch: { control: 'boolean', description: 'Hide the search input in the dropdown.' },
+    showFooter: { control: 'boolean', description: 'Show the default footer (Clear/Select All).' },
+    maxOptions: { control: 'number', description: 'Maximum number of options to display.' },
+    compareFn: { control: false, description: 'Function to compare option values (for objects).' },
+    placement: { control: 'select', options: ['bottom-start', 'bottom', 'top-end'], description: 'Placement of the dropdown.' },
+    bodyClasses: { control: 'text', description: 'CSS classes for the popover body.' },
+    onChange: { action: 'update:modelValue', description: 'Event when selection changes.' },
+    children: { control: false }, // Children are handled via render functions/slots
+  },
   args: {
-    modelValue: null,
-    options,
-    placeholder:"Select person"
-    },
-} satisfies Meta<typeof Autocomplete>;
-
-export default meta;
-type Story = StoryObj<typeof meta>;
-
-export const AutocompletePrimary: Story = {
-  args: {
-    modelValue: [],
-    options,
-    multiple: false
+    multiple: false,
+    label: 'Select an Option',
+    placeholder: 'Start typing to search...',
+    loading: false,
+    hideSearch: false,
+    showFooter: false,
+    maxOptions: 50,
+    placement: 'bottom-start',
   },
 };
 
-export const AutocompleteWtithMultiple: Story = {
+export default meta;
+type Story = StoryObj<typeof Autocomplete>;
+
+
+export const SingleSelect_SimpleOptions: Story = {
+  render: (args) => {
+    const [value, setValue] = useState<string | null>(null);
+    return (
+      <Autocomplete
+        {...args}
+        modelValue={value}
+        onChange={setValue}
+        options={options}
+      />
+    );
+  },
   args: {
-    modelValue: [],
-    options,
-    multiple: true
+    options: options,
+  },
+};
+
+export const SingleSelect_ObjectOptions: Story = {
+  render: (args) => {
+    const [value, setValue] = useState<string | null>(null);
+    return (
+      <Autocomplete
+        {...args}
+        modelValue={value}
+        onChange={setValue}
+        options={options}
+        compareFn={(a, b) => a?.value === b?.value}
+      />
+    );
+  },
+  args: {
+    options: options,
+    label: 'Select a Product',
+  },
+};
+
+export const MultiSelect_ObjectOptions: Story = {
+  render: (args) => {
+    const [values, setValues] = useState<string[]>([]);
+    return (
+      <Autocomplete
+        {...args}
+        modelValue={values}
+        onChange={setValues}
+        options={options}
+        multiple
+        compareFn={(a, b) => a?.value === b?.value}
+      />
+    );
+  },
+  args: {
+    options: options,
+    label: 'Select Products (Multi)',
+    placeholder: 'Add products...',
+    showFooter: true,
+  },
+};
+
+export const GroupedOptions: Story = {
+  render: (args) => {
+    const [value, setValue] = useState<string | null>(null);
+    return (
+      <Autocomplete
+        {...args}
+        modelValue={value}
+        onChange={setValue}
+        options={options}
+      />
+    );
+  },
+  args: {
+    options: options,
+    label: 'Select Food Item',
   },
 };

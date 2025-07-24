@@ -60,10 +60,6 @@ export interface AutocompleteProps
   compareFn?: (a: any, b: any) => boolean;
   placement?: Placement;
   bodyClasses?: string | string[] | { [key: string]: boolean };
-  onUpdateModelValue?: (
-    value: AutocompleteOption | AutocompleteOption[] | null | undefined
-  ) => void;
-  onUpdateQuery?: (query: string) => void;
   onChange?: (
     value: AutocompleteOption | AutocompleteOption[] | null | undefined
   ) => void;
@@ -83,10 +79,9 @@ const Autocomplete: React.FC<AutocompleteProps> = ({
   compareFn = (a: any, b: any) => a?.value === b?.value,
   placement = "bottom-start",
   bodyClasses,
-  onUpdateModelValue,
-  onUpdateQuery,
   onChange,
 }) => {
+  console.log("Autocomplete rendered with options:", modelValue);
   const [query, setQuery] = useState<string>("");
   const [showOptions, setShowOptions] = useState<boolean>(false);
   const searchInputRef = useRef<HTMLInputElement>(null);
@@ -220,14 +215,11 @@ const Autocomplete: React.FC<AutocompleteProps> = ({
         ? (val as Option[]).map((o) => o.value)
         : (val as Option)?.value ?? null; // If val is null, ensure emitted is null, not undefined
 
-      if (onUpdateModelValue) {
-        onUpdateModelValue(emittedValue);
-      }
       if (onChange) {
         onChange(emittedValue);
       }
     },
-    [multiple, onUpdateModelValue, onChange]
+    [multiple, onChange]
   );
 
   const displayValue = useMemo<string>(() => {
@@ -246,6 +238,9 @@ const Autocomplete: React.FC<AutocompleteProps> = ({
       if (!multiple) {
         return compareFn(selectedComboboxValue, option);
       }
+      console.log(option, selectedComboboxValue, (selectedComboboxValue as Option[]).some((v) =>
+        compareFn(v, option)
+      ));
       return (selectedComboboxValue as Option[]).some((v) =>
         compareFn(v, option)
       );
@@ -277,13 +272,6 @@ const Autocomplete: React.FC<AutocompleteProps> = ({
       });
     }
   }, [showOptions]);
-
-  // Effect to emit query changes
-  useEffect(() => {
-    if (onUpdateQuery) {
-      onUpdateQuery(query);
-    }
-  }, [query, onUpdateQuery]);
 
   const comboboxInputId = useMemo(
     () => `combobox-input-${Math.random().toString(36).substring(2, 9)}`,
@@ -411,15 +399,15 @@ const Autocomplete: React.FC<AutocompleteProps> = ({
                                       />
                                     ) && (
                                       <div className="flex flex-shrink-0">
-                                        <img
-                                          src={(option as Option).image}
-                                          className="h-4 w-4 rounded-full"
-                                        />
                                         {isOptionSelected(option as Option) ? (
                                           <Check className="h-4 w-4 text-ink-gray-7" />
                                         ) : (
                                           <div className="h-4 w-4" />
                                         )}
+                                        <img
+                                          src={(option as Option).image}
+                                          className="h-4 w-4 rounded-full"
+                                        />
                                       </div>
                                     )}
                                   <span className="flex-1 truncate text-ink-gray-7">
