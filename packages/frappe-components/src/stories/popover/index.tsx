@@ -9,7 +9,6 @@ import React, {
 import { createPortal } from "react-dom";
 import {
   createPopper,
-  popper,
   type Instance,
   type Placement,
 } from "@popperjs/core";
@@ -87,8 +86,8 @@ const Popover: React.FC<PopoverProps> = ({
   const referenceRef = useRef<HTMLDivElement>(null);
   const popperRef = useRef<HTMLDivElement>(null);
   const popperInstance = useRef<Instance | null>(null); // Store Popper instance
-  const leaveTimer = useRef<NodeJS.Timeout | null>(null);
-  const hoverTimer = useRef<NodeJS.Timeout | null>(null);
+  const leaveTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const hoverTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const popperRoot = getOrCreatePopoverRoot();
 
@@ -377,7 +376,7 @@ const Popover: React.FC<PopoverProps> = ({
           <div
             ref={popperRef}
             style={{
-              ...(popperInstance.current?.state?.styles?.popper ?? {}),
+              ...(popperInstance.current?.state?.styles?.popper as React.CSSProperties ?? {}),
             }}
             data-popper-placement={
               popperInstance.current?.state?.placement || ""
