@@ -80,8 +80,8 @@ const Popover: React.FC<PopoverProps> = ({
 }) => {
   const [showPopup, setShowPopup] = useState<boolean>(false);
   const [targetWidth, setTargetWidth] = useState<number | null>(null);
-  const [pointerOverTargetOrPopup, setPointerOverTargetOrPopup] =
-    useState<boolean>(false);
+  const pointerOverTargetOrPopupRef =
+    useRef<boolean>(false);
 
   const referenceRef = useRef<HTMLDivElement>(null);
   const popperRef = useRef<HTMLDivElement>(null);
@@ -122,7 +122,6 @@ const Popover: React.FC<PopoverProps> = ({
 
   const open = useCallback(() => {
     setIsOpen(true);
-    // Popper instance will be created/updated in the useEffect based on isOpen
   }, [setIsOpen]);
 
   const close = useCallback(() => {
@@ -142,7 +141,7 @@ const Popover: React.FC<PopoverProps> = ({
   );
 
   const onMouseover = useCallback(() => {
-    setPointerOverTargetOrPopup(true);
+    pointerOverTargetOrPopupRef.current = true;
     if (leaveTimer.current) {
       clearTimeout(leaveTimer.current);
       leaveTimer.current = null;
@@ -150,7 +149,7 @@ const Popover: React.FC<PopoverProps> = ({
     if (trigger === "hover") {
       if (hoverDelay) {
         hoverTimer.current = setTimeout(() => {
-          if (pointerOverTargetOrPopup) {
+          if(pointerOverTargetOrPopupRef.current){
             open();
           }
         }, Number(hoverDelay) * 1000);
@@ -158,31 +157,33 @@ const Popover: React.FC<PopoverProps> = ({
         open();
       }
     }
-  }, [trigger, hoverDelay, open, pointerOverTargetOrPopup]);
+  }, [trigger, hoverDelay, open]);
 
   const onMouseleave = useCallback(() => {
-    setPointerOverTargetOrPopup(false);
+    pointerOverTargetOrPopupRef.current = false;
     if (hoverTimer.current) {
       clearTimeout(hoverTimer.current);
       hoverTimer.current = null;
     }
+
     if (trigger === "hover") {
       if (leaveTimer.current) {
         clearTimeout(leaveTimer.current);
       }
       if (leaveDelay) {
         leaveTimer.current = setTimeout(() => {
-          if (!pointerOverTargetOrPopup) {
+          if(!pointerOverTargetOrPopupRef.current) {
             close();
           }
         }, Number(leaveDelay) * 1000);
       } else {
-        if (!pointerOverTargetOrPopup) {
+        if(!pointerOverTargetOrPopupRef.current) {
           close();
         }
+        
       }
     }
-  }, [trigger, leaveDelay, close, pointerOverTargetOrPopup]);
+  }, [trigger, leaveDelay, close]);
 
   // Define a constant for the body container class (if used for sibling check)
   const popoverContainerClass = "body-container"; // This was used in Vue component's JS block
@@ -295,10 +296,8 @@ const Popover: React.FC<PopoverProps> = ({
     }
   }, []);
 
-  // Watch for the `showProp` change from outside to control internal state
   useEffect(() => {
     if (showProp !== undefined && showProp !== isOpen) {
-      // Prevent unnecessary updates
       setIsOpen(showProp);
     }
   }, [showProp, setIsOpen, isOpen]);
