@@ -1,6 +1,8 @@
 @import "tailwindcss";
 @config '../../../tailwind.config.cjs';
 
+@custom-variant dark (&:is(.dark *));
+
 @layer base {
   :root {
     /* Primary color */
