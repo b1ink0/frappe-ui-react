@@ -13,30 +13,34 @@ const __dirname = path.dirname(__filename);
 export default defineConfig({
   plugins: [react(), tailwindcss()],
   test: {
-    projects: [{
-      extends: true,
-      plugins: [
-        storybookTest({
-          configDir: path.join(__dirname, '.storybook')
-        })
-      ],
-      test: {
-        name: 'storybook',
-        browser: {
-          enabled: true,
-          headless: true,
-          provider: 'playwright',
-          instances: [{
-            browser: 'chromium'
-          }]
+    projects: [
+      {
+        extends: true,
+        plugins: [
+          storybookTest({
+            configDir: path.join(__dirname, ".storybook"),
+          }),
+        ],
+        test: {
+          name: "storybook",
+          browser: {
+            enabled: true,
+            headless: true,
+            provider: "playwright",
+            instances: [
+              {
+                browser: "chromium",
+              },
+            ],
+          },
+          setupFiles: [".storybook/vitest.setup.ts"],
         },
-        setupFiles: ['.storybook/vitest.setup.ts']
-      }
-    }]
+      },
+    ],
   },
   resolve: {
     alias: {
-      '@': path.resolve(__dirname, 'packages/frappe-components/src'),
+      "@": path.resolve(__dirname, "packages/frappe-components/src"),
     },
   },
 });

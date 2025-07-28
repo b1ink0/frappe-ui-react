@@ -1,0 +1,16 @@
+import type { Meta, StoryObj } from "@storybook/react-vite";
+import ThemeShowcase from "../components/ThemeShowcase";
+
+const meta = {
+  title: "Theme/ThemeShowcase",
+  component: ThemeShowcase,
+  parameters: {
+    layout: "fullscreen",
+  },
+  tags: ["autodocs"],
+} satisfies Meta<typeof ThemeShowcase>;
+
+export default meta;
+type Story = StoryObj<typeof meta>;
+
+export const Default: Story = {};
