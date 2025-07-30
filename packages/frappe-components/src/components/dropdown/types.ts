@@ -1,0 +1,29 @@
+import type { ReactNode, ComponentType } from 'react';
+import type { ButtonProps } from '../button';
+
+export interface DropdownOption {
+  label: string;
+  onClick?: () => void;
+  route?: string;
+  link?: string;
+  icon?: (props: any) => React.JSX.Element;
+  component?: ComponentType<any>;
+  submenu?: DropdownOptions;
+  condition?: () => boolean;
+}
+
+export interface DropdownGroupOption {
+  key: string | number;
+  group?: string;
+  hideLabel?: boolean;
+  items: DropdownOption[];
+}
+
+export type DropdownOptions = (DropdownOption | DropdownGroupOption)[];
+
+export interface DropdownProps {
+  options: DropdownOptions;
+  placement?: 'left' | 'right' | 'center';
+  button?: Omit<ButtonProps, 'children' | 'onClick' | 'active'> & { label?: string };
+  children?: ReactNode;
+}

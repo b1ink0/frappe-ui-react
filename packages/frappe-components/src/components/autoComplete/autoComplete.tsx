@@ -19,7 +19,7 @@ import {
   X,
 } from "../../icons";
 import { Popover } from "../popover";
-import { Button } from "../button/Button";
+import { Button } from "../button";
 
 type OptionValue = string | number | boolean;
 
