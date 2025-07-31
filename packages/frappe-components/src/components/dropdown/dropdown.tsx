@@ -1,22 +1,23 @@
 import React, { useMemo, useCallback } from 'react';
 import { useNavigate } from 'react-router';
 import * as DropdownMenu from '@radix-ui/react-dropdown-menu';
+
 import { Button } from '../button';
 import type { DropdownProps, DropdownOption, DropdownGroupOption, DropdownOptions } from './types';
 import { ChevronRight } from '../../icons';
 
 const cssClasses = {
   dropdownContent:
-    'min-w-40 divide-y divide-outline-gray-modals rounded-lg bg-surface-modal shadow-2xl ring-1 ring-black ring-opacity-5 focus:outline-none dropdown-content',
+    'min-w-40 divide-y divide-(--outline-gray-modals) rounded-lg bg-(--surface-modal) shadow-2xl ring-1 ring-black ring-opacity-5 focus:outline-none dropdown-content',
   groupContainer: 'p-1.5',
-  groupLabel: 'flex h-7 items-center px-2 text-sm font-medium text-ink-gray-6',
-  itemLabel: 'whitespace-nowrap text-ink-gray-7',
-  itemIcon: 'mr-2 h-4 w-4 flex-shrink-0 text-ink-gray-6',
-  chevronIcon: 'ml-auto h-4 w-4 flex-shrink-0 text-ink-gray-6',
+  groupLabel: 'flex h-7 items-center px-2 text-sm font-medium text-(--ink-gray-6)',
+  itemLabel: 'whitespace-nowrap text-(--ink-gray-7)',
+  itemIcon: 'mr-2 h-4 w-4 flex-shrink-0 text-(--ink-gray-6)',
+  chevronIcon: 'ml-auto h-4 w-4 flex-shrink-0 text-(--ink-gray-6)',
   itemButton:
-    'group flex h-7 w-full items-center rounded px-2 text-base text-ink-gray-6 focus:bg-surface-gray-3 focus:outline-none data-[highlighted]:bg-surface-gray-3',
+    'group flex h-7 w-full items-center rounded px-2 text-base text-(--ink-gray-6) focus:bg-(--surface-gray-3) focus:outline-none data-[highlighted]:bg-(--surface-gray-3)',
   submenuTrigger:
-    'group flex h-7 w-full items-center rounded px-2 text-base text-ink-gray-6 focus:bg-surface-gray-3 focus:outline-none data-[highlighted]:bg-surface-gray-3 data-[state=open]:bg-surface-gray-3',
+    'group flex h-7 w-full items-center rounded px-2 text-base text-(--ink-gray-6) focus:bg-(--surface-gray-3) focus:outline-none data-[highlighted]:bg-(--surface-gray-3) data-[state=open]:bg-(--surface-gray-3)',
 };
 
 const Dropdown: React.FC<DropdownProps> = ({
@@ -59,7 +60,11 @@ const Dropdown: React.FC<DropdownProps> = ({
     (opts: DropdownOptions): DropdownOption[] => {
       return (opts || [])
         .filter(Boolean)
-        .filter((option) => !('group' in option) && ((option as DropdownOption).condition ? option?.condition() : true))
+        .filter(
+          (option) =>
+            !('group' in option) &&
+            ('condition' in option ? (option as DropdownOption).condition?.() ?? true : true)
+        )
         .map((option) => normalizeDropdownItem(option as DropdownOption));
     },
     [normalizeDropdownItem]
