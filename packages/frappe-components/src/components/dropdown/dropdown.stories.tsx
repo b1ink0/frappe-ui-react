@@ -1,9 +1,10 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
+import { action } from "storybook/actions";
+import { MemoryRouter } from "react-router";
 import Dropdown from "./dropdown";
 import { Button } from "../button";
 import { DropdownOptions } from "./types";
-import { action } from "storybook/actions";
-import { MemoryRouter } from "react-router";
+
 
 export default {
   title: "Components/Dropdown",
@@ -43,6 +44,7 @@ const actions: DropdownOptions = [
   {
     label: "Delete",
     icon: "trash-2",
+    theme: 'red',
     onClick: () => action("Delete clicked")(),
   },
 ];
@@ -50,7 +52,7 @@ const actions: DropdownOptions = [
 const groupedActions: DropdownOptions = [
   {
     group: "Actions",
-    key: "actions-group", // Add a unique key for the group
+    key: "actions-group",
     items: [
       {
         label: "Edit",
@@ -98,12 +100,12 @@ const groupedActions: DropdownOptions = [
   },
   {
     group: "Danger",
-    key: "danger-group", // Add a unique key for the group
+    key: "danger-group",
     items: [
       {
         label: "Delete",
         icon: "trash-2",
-        // theme: 'red', // See note above regarding theme on individual items
+        theme: 'red',
         onClick: () => action("Delete clicked")(),
       },
     ],
@@ -132,7 +134,7 @@ const submenuActions: DropdownOptions = [
           {
             label: "Delete",
             icon: "trash-2",
-            // theme: 'red',
+            theme: 'red',
             onClick: () => action("Delete clicked")(),
           },
         ],
@@ -209,7 +211,7 @@ export const Default: StoryObj<typeof Dropdown> = {
   ...DropdownTemplate,
   args: {
     options: actions,
-    button: { label: "Options" }, // Default label for the button trigger
+    button: { label: "Options" },
   },
 };
 
@@ -217,7 +219,7 @@ export const WithCustomButton: StoryObj<typeof Dropdown> = {
   ...DropdownTemplate,
   args: {
     options: actions,
-    children: <Button variant="solid">Custom Trigger</Button>, // Custom trigger element
+    children: <Button variant="solid">Custom Trigger</Button>,
   },
 };
 
@@ -225,7 +227,7 @@ export const WithGroups: StoryObj<typeof Dropdown> = {
   ...DropdownTemplate,
   args: {
     options: groupedActions,
-    button: { label: "Grouped Options" },
+    button: { label: "Grouped Options", },
   },
 };
 

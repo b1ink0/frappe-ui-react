@@ -1,5 +1,5 @@
 import type { ReactNode, ComponentType } from 'react';
-import type { ButtonProps } from '../button';
+import type { ButtonProps, ButtonTheme } from '../button';
 
 export interface DropdownOption {
   label: string;
@@ -9,6 +9,7 @@ export interface DropdownOption {
   icon?: string;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   component?: ComponentType<any>;
+  theme?: ButtonTheme;
   submenu?: DropdownOptions;
   condition?: () => boolean;
 }
