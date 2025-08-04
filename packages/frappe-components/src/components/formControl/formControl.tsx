@@ -22,6 +22,7 @@ const FormControl: React.FC<FormControlProps> = ({
   ...attrs
 }) => {
   const controlAttrs = useMemo(() => {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { className, style, ...rest } = attrs;
     return rest;
   }, [attrs]);

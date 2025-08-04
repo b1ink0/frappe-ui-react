@@ -37,15 +37,14 @@ export type AutocompleteOptionGroup = {
 
 type AutocompleteOptions = AutocompleteOption[] | AutocompleteOptionGroup[];
 
-export interface AutocompleteProps
-  extends Omit<
-    React.HTMLAttributes<HTMLDivElement>,
-    "children" | "onChange" | "value"
-  > {
+export interface AutocompleteProps {
   modelValue: AutocompleteOption | AutocompleteOption[] | null | undefined;
   options: AutocompleteOptions;
   multiple?: boolean;
-  showPrefix?: boolean;
+  prefix?: (option: Option | Option[] | null) => React.ReactNode;
+  suffix?: (option: Option | Option[] | null) => React.ReactNode;
+  itemPrefix?: (option: AutocompleteOption) => React.ReactNode;
+  itemSuffix?: (option: AutocompleteOption) => React.ReactNode;
   label?: string;
   placeholder?: string;
   loading?: boolean;
@@ -69,7 +68,10 @@ const Autocomplete: React.FC<AutocompleteProps> = ({
   loading = false,
   hideSearch = false,
   showFooter = false,
-  showPrefix = false,
+  prefix,
+  suffix,
+  itemPrefix,
+  itemSuffix,
   maxOptions = 50,
   compareFn = (a: Option, b: Option) => a?.value === b?.value,
   placement = "bottom-start",
@@ -214,12 +216,12 @@ const Autocomplete: React.FC<AutocompleteProps> = ({
       setQuery("");
 
       if (!multiple) {
-        setShowOptions(false); // Close Popover when single item selected
+        setShowOptions(false);
       }
-      // Convert back to original modelValue format (value or array of values)
+
       const emittedValue = multiple
         ? (val as Option[]).map((o) => o.value)
-        : (val as Option)?.value ?? null; // If val is null, ensure emitted is null, not undefined
+        : (val as Option)?.value ?? null;
 
       if (onChange) {
         onChange(emittedValue);
@@ -285,7 +287,7 @@ const Autocomplete: React.FC<AutocompleteProps> = ({
       });
     }
   }, [showOptions]);
-  console.log(selectedComboboxValue);
+
 
   const comboboxInputId = useMemo(
     () => `combobox-input-${Math.random().toString(36).substring(2, 9)}`,
@@ -328,6 +330,7 @@ const Autocomplete: React.FC<AutocompleteProps> = ({
                   aria-hidden="true"
                 />
                 <div className="flex items-center overflow-hidden">
+                  {prefix && prefix(selectedComboboxValue)}
                   <span
                     className={`truncate text-base leading-5 ${
                       displayValue
@@ -337,11 +340,7 @@ const Autocomplete: React.FC<AutocompleteProps> = ({
                   >
                     {displayValue || placeholder || ""}
                   </span>
-                  {!multiple && showPrefix && displayValue && (
-                    <>
-                      <img src={selectedComboboxValue?.image ?? ''} className="ml-2 h-4 w-4 rounded-full" />
-                    </>
-                  )}
+                  {suffix && suffix(selectedComboboxValue)}
                 </div>
               </button>
             </div>
@@ -375,7 +374,10 @@ const Autocomplete: React.FC<AutocompleteProps> = ({
                             <LoadingIndicator className="h-4 w-4 text-(--ink-gray-5)" />
                           ) : (
                             <button type="button" onClick={clearAll}>
-                              <FeatherIcon name="x" className="w-4 h-4 text-(--ink-gray-8)" />
+                              <FeatherIcon
+                                name="x"
+                                className="w-4 h-4 text-(--ink-gray-8)"
+                              />
                             </button>
                           )}
                         </div>
@@ -413,28 +415,28 @@ const Autocomplete: React.FC<AutocompleteProps> = ({
                           >
                             <>
                               <div className="flex flex-1 gap-2 overflow-hidden items-center">
-                                {
+                                {(itemPrefix || multiple) && (
                                   <div className="flex flex-shrink-0">
-                                    {isOptionSelected(option as Option) ? (
-                                      <FeatherIcon name="check" className="h-4 w-4 text-ink-gray-7" />
-                                    ) : (
-                                      <></>
-                                    )}
-                                    {showPrefix && (
-                                      <img
-                                        src={(option as Option).image}
-                                        className="h-4 w-4 rounded-full"
+                                    {itemPrefix ? (
+                                      itemPrefix(option as AutocompleteOption)
+                                    ) : isOptionSelected(option as Option) ? (
+                                      <FeatherIcon
+                                        name="check"
+                                        className="h-4 w-4 text-ink-gray-7"
                                       />
+                                    ) : (
+                                      <div className="h-4 w-4" />
                                     )}
                                   </div>
-                                }
+                                )}
                                 <span className="flex-1 truncate text-ink-gray-7">
                                   {getLabel(option)}
                                 </span>
                               </div>
 
-                              {(option as Option)?.description && (
+                              {itemSuffix && (
                                 <div className="ml-2 flex-shrink-0">
+                                  {itemSuffix(option as Option)}
                                   {(option as Option)?.description && (
                                     <div className="text-sm text-ink-gray-5">
                                       {(option as Option).description}

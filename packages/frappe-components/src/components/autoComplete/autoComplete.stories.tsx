@@ -130,7 +130,8 @@ export const SingleOptionWithPrefixSlots: Story = {
         <Autocomplete
           {...args}
           modelValue={value}
-          showPrefix
+          prefix={(value) =>  <img src={value?.image ?? ''} className="mr-2 h-4 w-4 rounded-full" />}
+          itemPrefix={(value) =>  <img src={value?.image ?? ''} className="ml-2 h-4 w-4 rounded-full" />}
           onChange={(_value) => {
             setValue(_value as string);
           }}
