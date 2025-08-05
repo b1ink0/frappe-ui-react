@@ -16,7 +16,8 @@ export interface SelectProps {
   value?: string;
   placeholder?: string;
   options: (string | SelectOption)[];
-  prefix?: ReactNode;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  prefix?: (args?: any) => ReactNode;
   htmlId?: string;
   onChange?: (event: React.ChangeEvent<HTMLSelectElement>) => void;
 

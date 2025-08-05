@@ -11,53 +11,11 @@ import {
   ComboboxOption,
   ComboboxOptions,
 } from "@headlessui/react";
-import type { Placement } from "@popperjs/core";
 import { Popover } from "../popover";
 import { Button } from "../button";
 import LoadingIndicator from "../loadingIndicator";
 import FeatherIcon from "../featherIcon";
-
-type OptionValue = string | number | boolean;
-
-export type Option = {
-  label: string;
-  value: OptionValue;
-  description?: string;
-  disabled?: boolean;
-  image?: string;
-};
-
-export type AutocompleteOption = OptionValue | Option;
-
-export type AutocompleteOptionGroup = {
-  group: string;
-  items: AutocompleteOption[];
-  hideLabel?: boolean;
-};
-
-type AutocompleteOptions = AutocompleteOption[] | AutocompleteOptionGroup[];
-
-export interface AutocompleteProps {
-  modelValue: AutocompleteOption | AutocompleteOption[] | null | undefined;
-  options: AutocompleteOptions;
-  multiple?: boolean;
-  prefix?: (option: Option | Option[] | null) => React.ReactNode;
-  suffix?: (option: Option | Option[] | null) => React.ReactNode;
-  itemPrefix?: (option: AutocompleteOption) => React.ReactNode;
-  itemSuffix?: (option: AutocompleteOption) => React.ReactNode;
-  label?: string;
-  placeholder?: string;
-  loading?: boolean;
-  hideSearch?: boolean;
-  showFooter?: boolean;
-  maxOptions?: number;
-  compareFn?: (a: Option, b: Option) => boolean;
-  placement?: Placement;
-  bodyClasses?: string | string[] | { [key: string]: boolean };
-  onChange?: (
-    value: AutocompleteOption | AutocompleteOption[] | null | undefined
-  ) => void;
-}
+import type { AutocompleteOption, AutocompleteOptionGroup, AutocompleteProps, Option } from "./types";
 
 const Autocomplete: React.FC<AutocompleteProps> = ({
   modelValue,

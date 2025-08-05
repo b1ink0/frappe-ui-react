@@ -1,4 +1,4 @@
-import type{ ReactNode } from "react";
+import type { ReactNode } from "react";
 import { TextInputTypes } from "../../types";
 
 export interface TextInputProps {
@@ -12,8 +12,11 @@ export interface TextInputProps {
   debounce?: number;
   required?: boolean;
   onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
-  prefix?: ReactNode;
-  suffix?: ReactNode;
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  prefix?: (args?: any) => ReactNode;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  suffix?: (args?: any) => ReactNode;
   className?: string;
-  style?: Record<string,string|number|boolean>;
+  style?: Record<string, string | number | boolean>;
 };

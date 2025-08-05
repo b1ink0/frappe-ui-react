@@ -1,66 +1,80 @@
-import React, { useState, useMemo, useEffect, useRef } from 'react';
-import { FormControl } from '../formControl';
-import { Tooltip } from '../tooltip';
-import { KeyboardShortcut } from '../KeyboardShortcut';
-import { PasswordProps } from './types';
-import FeatherIcon from '../featherIcon';
+import React, { useState, useMemo, useEffect, useRef } from "react";
+import { FormControl } from "../formControl";
+import { Tooltip } from "../tooltip";
+import KeyboardShortcut from "../keyboardShortcut";
+import { PasswordProps } from "./types";
+import FeatherIcon from "../featherIcon";
 
 const Password: React.FC<PasswordProps> = ({ value, ...attrs }) => {
   const [show, setShow] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
   const showEye = useMemo(() => {
-    return !value?.includes('*');
+    return !value?.includes("*");
   }, [value]);
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
-      if ((e.metaKey || e.ctrlKey) && e.key === 'i') {
+      if ((e.metaKey || e.ctrlKey) && e.key === "i") {
         e.preventDefault();
         setShow((prevShow) => !prevShow);
       }
     };
-    
+
     const inputElement = inputRef.current;
     if (inputElement) {
-      inputElement.addEventListener('keydown', handleKeyDown);
+      inputElement.addEventListener("keydown", handleKeyDown);
       return () => {
-        inputElement.removeEventListener('keydown', handleKeyDown);
+        inputElement.removeEventListener("keydown", handleKeyDown);
       };
     }
   }, []);
 
   return (
     <FormControl
-      type={show ? 'text' : 'password'}
+      htmlId={"1"}
+      type={show ? "text" : "password"}
       value={value}
       {...attrs}
       ref={inputRef}
-    >
-      {attrs.prefix && <div slot="prefix">{attrs.prefix}</div>}
-      <Tooltip
-        body={
-          <div className="rounded bg-surface-gray-7 py-1.5 px-2 text-xs text-ink-white shadow-xl">
-            <span className="flex items-center gap-1">
-              {show ? 'Hide Password' : 'Show Password'}
-              <KeyboardShortcut
-                bg
-                ctrl
-                className="!bg-surface-gray-5 !text-ink-gray-2 px-1"
-              >
-                <span className="font-mono leading-none tracking-widest">+I</span>
-              </KeyboardShortcut>
-            </span>
-          </div>
-        }
-      >
-        <div>
-          {showEye && (
-            <div className="h-3 cursor-pointer mr-1" onClick={() => setShow(!show)}>
-              {show ? <FeatherIcon name="eye-off" className="h-full w-full" /> : <FeatherIcon name="eye" className="h-full w-full" />}
+      prefix={ attrs?.prefix ? () => attrs?.prefix && <div slot="prefix">{attrs?.prefix()}</div> : undefined}
+      suffix={() => {
+        return (
+          <Tooltip
+            body={
+              <div className="rounded bg-surface-gray-7 py-1.5 px-2 text-xs text-ink-white shadow-xl">
+                <span className="flex items-center gap-1">
+                  {show ? "Hide Password" : "Show Password"}
+                  <KeyboardShortcut
+                    bg
+                    ctrl
+                    className="!bg-surface-gray-5 !text-ink-gray-2 px-1"
+                  >
+                    <span className="font-mono leading-none tracking-widest">
+                      +I
+                    </span>
+                  </KeyboardShortcut>
+                </span>
+              </div>
+            }
+          >
+            <div>
+              {showEye && (
+                <div
+                  className="h-3 w-3 cursor-pointer mr-1"
+                  onClick={() => setShow(!show)}
+                >
+                  {show ? (
+                    <FeatherIcon name="eye-off" className="h-full w-full" />
+                  ) : (
+                    <FeatherIcon name="eye" className="h-full w-full" />
+                  )}
+                </div>
+              )}
             </div>
-          )}
-        </div>
-      </Tooltip>
+          </Tooltip>
+        );
+      }}
+    >
     </FormControl>
   );
 };

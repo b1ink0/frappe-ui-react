@@ -1,4 +1,4 @@
-import React, { useMemo, Children, isValidElement } from 'react';
+import React, { useMemo } from 'react';
 import { FormControlProps } from './types';
 import { Autocomplete } from '../autoComplete';
 import { Checkbox } from '../checkbox';
@@ -6,7 +6,8 @@ import { TextInput } from '../textInput';
 import type{ SizeTypes } from '../../types';
 import FormLabel from '../formLabel';
 import Textarea from '../textarea/textarea';
-import { Select } from '../select';
+import { Select, type SelectOption } from '../select';
+import { AutocompleteOption } from '../autoComplete';
 
 const FormControl: React.FC<FormControlProps> = ({
   label,
@@ -15,9 +16,6 @@ const FormControl: React.FC<FormControlProps> = ({
   size = 'sm',
   variant = 'subtle',
   required = false,
-  prefix,
-  suffix,
-  children,
   htmlId,
   ...attrs
 }) => {
@@ -35,33 +33,6 @@ const FormControl: React.FC<FormControlProps> = ({
     return `${sizeClasses} text-ink-gray-5`;
   }, [size]);
 
-  const descriptionSlot = Children.map(children, child => {
-    if (isValidElement(child) && child.props.slot === 'description') {
-      return child;
-    }
-    return null;
-  }) || (description && <p className={descriptionClasses}>{description}</p>);
-
-  const prefixSlot = Children.map(children, child => {
-    if (isValidElement(child) && child.props.slot === 'prefix') {
-      return child;
-    }
-    return null;
-  }) || prefix;
-
-  const suffixSlot = Children.map(children, child => {
-    if (isValidElement(child) && child.props.slot === 'suffix') {
-      return child;
-    }
-    return null;
-  }) || suffix;
-  
-  const itemPrefixSlot = Children.map(children, child => {
-    if (isValidElement(child) && child.props.slot === 'item-prefix') {
-      return child;
-    }
-    return null;
-  });
   
 
   const renderControl = () => {
@@ -69,18 +40,17 @@ const FormControl: React.FC<FormControlProps> = ({
       case 'select':
         return (
           <Select
-            id={htmlId}
+            htmlId={htmlId}
             {...controlAttrs}
             size={size}
             variant={variant}
-            prefix={prefixSlot}
-            options={[]}
+            options={controlAttrs.options as (string | SelectOption)[]}
           />
         );
       case 'autocomplete':
         return (
           <Autocomplete
-            options={controlAttrs.options}
+            options={controlAttrs.options as AutocompleteOption[]}
             modelValue={controlAttrs.modelValue}
             {...controlAttrs}
           />
@@ -112,8 +82,6 @@ const FormControl: React.FC<FormControlProps> = ({
             size={size}
             variant={variant}
             required={required}
-            prefix={prefixSlot}
-            suffix={suffixSlot}
           />
         );
     }
@@ -127,7 +95,7 @@ const FormControl: React.FC<FormControlProps> = ({
     <div className={`space-y-1.5 ${attrs.className || ''}`} style={attrs.style}>
       {label && <FormLabel label={label} size={size} id={htmlId} required={required} />}
       {renderControl()}
-      {descriptionSlot}
+      {(description && <p className={descriptionClasses}>{description}</p>)}
     </div>
   );
 };

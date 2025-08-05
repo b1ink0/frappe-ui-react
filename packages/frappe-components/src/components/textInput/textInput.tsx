@@ -131,7 +131,7 @@ const TextInput = forwardRef<HTMLInputElement, TextInputProps>(
       <div className={`relative flex items-center ${rest?.className || ''}`} style={rest?.style}>
         {prefix && (
           <div className={`absolute inset-y-0 left-0 flex items-center ${textColor} ${prefixClasses}`}>
-            {prefix}
+            {prefix && prefix()}
           </div>
         )}
         <input
@@ -147,7 +147,7 @@ const TextInput = forwardRef<HTMLInputElement, TextInputProps>(
         />
         {suffix && (
           <div className={`absolute inset-y-0 right-0 flex items-center ${textColor} ${suffixClasses}`}>
-            {suffix}
+            {suffix && suffix()}
           </div>
         )}
       </div>
