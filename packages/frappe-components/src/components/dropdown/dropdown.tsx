@@ -9,7 +9,7 @@ import type {
   DropdownGroupOption,
   DropdownOptions,
 } from "./types";
-import FeatherIcon from "../FeatherIcon";
+import FeatherIcon from "../featherIcon";
 
 const cssClasses = {
   dropdownContent:
