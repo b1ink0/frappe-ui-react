@@ -82,7 +82,7 @@ const CircularProgressBar: React.FC<CircularProgressBarProps> = ({
   variant = 'solid',
 }) => {
 
-  const sizeMap: Record<Size, SizeProps> = {
+  const sizeMap: Record<Size, SizeProps> = useMemo(() => ({
     xs: {
       ringSize: '30px',
       ringBarWidth: '6px',
@@ -113,9 +113,9 @@ const CircularProgressBar: React.FC<CircularProgressBarProps> = ({
       innerTextFontSize: showPercentage ? '24px' : '28px',
       checkIconSize: '48px',
     },
-  };
+  }), [showPercentage]);
 
-  const themeMap: Record<string, ThemeProps> = {
+  const themeMap: Record<string, ThemeProps> = useMemo(() => ({
     black: {
       primary: '#333',
       secondary: '#888',
@@ -136,10 +136,10 @@ const CircularProgressBar: React.FC<CircularProgressBarProps> = ({
       primary: '#FFA500',
       secondary: '#FFE5CC',
     },
-  };
+  }), []);
 
-  const currentSize = useMemo(() => sizeMap[size] || sizeMap.md, [size, showPercentage]);
-  const currentTheme = useMemo(() => (typeof theme === 'string' ? themeMap[theme] || themeMap.black : theme), [theme]);
+  const currentSize = useMemo(() => sizeMap[size] || sizeMap.md, [sizeMap, size]);
+  const currentTheme = useMemo(() => (typeof theme === 'string' ? themeMap[theme] || themeMap.black : theme), [theme, themeMap]);
   const progress = useMemo(() => (step / totalSteps) * 100, [step, totalSteps]);
   const isCompleted = useMemo(() => step >= totalSteps, [step, totalSteps]);
 

@@ -25,5 +25,6 @@ export interface ButtonProps {
   suffixIcon?: ReactNode;
   icon?: ReactNode;
   children?: ReactNode;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   [key: string]: any;
 }

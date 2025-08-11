@@ -15,7 +15,7 @@ const TextInput = forwardRef<HTMLInputElement, TextInputProps>(
       size = 'sm',
       variant = 'subtle',
       disabled = false,
-      modelValue,
+      value,
       onChange,
       debounce: debounceTime,
       prefix,
@@ -125,7 +125,7 @@ const TextInput = forwardRef<HTMLInputElement, TextInputProps>(
       [debouncedEmitChange]
     );
 
-    const inputValue = modelValue ?? (rest as InputHTMLAttributes<HTMLInputElement>).value;
+    const inputValue = value ?? (rest as InputHTMLAttributes<HTMLInputElement>).value;
 
     return (
       <div className={`relative flex items-center ${rest?.className || ''}`} style={rest?.style}>

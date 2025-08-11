@@ -8,7 +8,7 @@ export interface TextInputProps {
   placeholder?: string;
   disabled?: boolean;
   htmlId?: string;
-  modelValue?: string | number;
+  value?: string | number;
   debounce?: number;
   required?: boolean;
   onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
