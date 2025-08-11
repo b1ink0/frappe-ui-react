@@ -1,7 +1,7 @@
 import React from "react";
 
-import FeatherIcon from "../featherIcon";
-import LoadingIndicator from "../loadingIndicator";
+import FeatherIcon from "../FeatherIcon";
+import LoadingIndicator from "../LoadingIndicator";
 import { useNavigate } from "react-router";
 
 export type ButtonTheme = "gray" | "blue" | "green" | "red";

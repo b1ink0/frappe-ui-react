@@ -13,8 +13,8 @@ import {
 } from "@headlessui/react";
 import type { Placement } from "@popperjs/core";
 import { Popover } from "../popover";
-import LoadingIndicator from "../loadingIndicator";
-import FeatherIcon from "../featherIcon";
+import LoadingIndicator from "../LoadingIndicator";
+import FeatherIcon from "../FeatherIcon";
 import { Button } from "../button";
 
 type OptionValue = string | number | boolean;
