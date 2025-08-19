@@ -25,6 +25,7 @@ const FeatherIcon = ({
     console.groupEnd();
   }
 
+  // Parse the icon SVG content
   const svgContent = icon.contents;
 
   return (

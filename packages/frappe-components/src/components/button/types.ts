@@ -1,29 +1,21 @@
-import { type ReactNode } from 'react';
+export type ButtonTheme = "gray" | "blue" | "green" | "red";
+export type ButtonSize = "sm" | "md" | "lg" | "xl" | "2xl";
+export type ButtonVariant = "solid" | "subtle" | "outline" | "ghost";
+export type ButtonThemeVariant = `${ButtonTheme}-${ButtonVariant}`;
 
-
-export type ButtonTheme = 'gray' | 'blue' | 'green' | 'red';
-
-export type ButtonSize = 'sm' | 'md' | 'lg' | 'xl' | '2xl';
-
-
-export type ButtonVariant = 'solid' | 'subtle' | 'outline' | 'ghost';
-
-export type ThemeVariant = `${ButtonTheme}-${ButtonVariant}`;
-
-export interface ButtonProps {
+export interface ButtonProps
+  extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   theme?: ButtonTheme;
   size?: ButtonSize;
   variant?: ButtonVariant;
-  loading?: boolean;
-  disabled?: boolean;
-  loadingText?: string;
   label?: string;
+  icon?: string | React.ComponentType<unknown>;
+  iconLeft?: string | React.ComponentType<unknown>;
+  iconRight?: string | React.ComponentType<unknown>;
+  loading?: boolean;
+  loadingText?: string;
+  disabled?: boolean;
   route?: string;
   link?: string;
-  onClick?: (event: React.MouseEvent<HTMLButtonElement>) => void;
-  prefixIcon?: ReactNode;
-  suffixIcon?: ReactNode;
-  icon?: ReactNode;
-  children?: ReactNode;
-  [key: string]: any;
+  children?: React.ReactNode;
 }

@@ -1,2 +1,3 @@
-export * from './types'
-export { default as Button } from './button';
+export { default as Button } from "./button";
+export * from "./button";
+export * from "./types";

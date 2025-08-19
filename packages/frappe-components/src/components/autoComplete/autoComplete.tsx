@@ -13,9 +13,9 @@ import {
 } from "@headlessui/react";
 import type { Placement } from "@popperjs/core";
 import { Popover } from "../popover";
-import { Button } from "../button";
 import LoadingIndicator from "../loadingIndicator";
 import FeatherIcon from "../featherIcon";
+import { Button } from "../button";
 
 type OptionValue = string | number | boolean;
 
@@ -339,7 +339,10 @@ const Autocomplete: React.FC<AutocompleteProps> = ({
                   </span>
                   {!multiple && showPrefix && displayValue && (
                     <>
-                      <img src={selectedComboboxValue?.image ?? ''} className="ml-2 h-4 w-4 rounded-full" />
+                      <img
+                        src={selectedComboboxValue?.image ?? ""}
+                        className="ml-2 h-4 w-4 rounded-full"
+                      />
                     </>
                   )}
                 </div>
@@ -375,7 +378,10 @@ const Autocomplete: React.FC<AutocompleteProps> = ({
                             <LoadingIndicator className="h-4 w-4 text-(--ink-gray-5)" />
                           ) : (
                             <button type="button" onClick={clearAll}>
-                              <FeatherIcon name="x" className="w-4 h-4 text-(--ink-gray-8)" />
+                              <FeatherIcon
+                                name="x"
+                                className="w-4 h-4 text-(--ink-gray-8)"
+                              />
                             </button>
                           )}
                         </div>
@@ -416,7 +422,10 @@ const Autocomplete: React.FC<AutocompleteProps> = ({
                                 {
                                   <div className="flex flex-shrink-0">
                                     {isOptionSelected(option as Option) ? (
-                                      <FeatherIcon name="check" className="h-4 w-4 text-ink-gray-7" />
+                                      <FeatherIcon
+                                        name="check"
+                                        className="h-4 w-4 text-ink-gray-7"
+                                      />
                                     ) : (
                                       <></>
                                     )}

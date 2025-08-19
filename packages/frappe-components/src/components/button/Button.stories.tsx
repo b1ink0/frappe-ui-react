@@ -1,11 +1,12 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { MemoryRouter } from "react-router";
 import Button from "./button";
-import type { ButtonProps } from "./types";
+import { ButtonProps } from "./types";
 
 export default {
   title: "Components/Button",
   component: Button,
+  tags: ["autodocs"],
   argTypes: {
     label: {
       control: "text",

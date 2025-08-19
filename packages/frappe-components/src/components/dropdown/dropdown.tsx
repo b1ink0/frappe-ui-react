@@ -13,17 +13,17 @@ import FeatherIcon from "../featherIcon";
 
 const cssClasses = {
   dropdownContent:
-    'min-w-40 divide-y divide-outline-gray-modals rounded-lg bg-surface-modal shadow-2xl ring-1 ring-black focus:outline-none dropdown-content',
-  groupContainer: 'p-1.5',
-  groupLabel: 'flex h-7 items-center px-2 text-sm font-medium',
-  itemLabel: 'whitespace-nowrap',
-  itemIcon: 'mr-2 h-4 w-4 flex-shrink-0',
-  chevronIcon: 'ml-auto h-4 w-4 flex-shrink-0',
+    "min-w-40 divide-y divide-outline-gray-modals rounded-lg bg-surface-modal shadow-2xl ring-1 ring-black focus:outline-none dropdown-content",
+  groupContainer: "p-1.5",
+  groupLabel: "flex h-7 items-center px-2 text-sm font-medium",
+  itemLabel: "whitespace-nowrap",
+  itemIcon: "mr-2 h-4 w-4 flex-shrink-0",
+  chevronIcon: "ml-auto h-4 w-4 flex-shrink-0",
   itemButton:
-    'group flex h-7 w-full items-center rounded px-2 text-base focus:outline-none',
+    "group flex h-7 w-full items-center rounded px-2 text-base focus:outline-none",
   submenuTrigger:
-    'group flex h-7 w-full items-center rounded px-2 text-base text-ink-gray-6 focus:outline-none',
-}
+    "group flex h-7 w-full items-center rounded px-2 text-base text-ink-gray-6 focus:outline-none",
+};
 
 const Dropdown: React.FC<DropdownProps> = ({
   options = [],
@@ -48,20 +48,20 @@ const Dropdown: React.FC<DropdownProps> = ({
   );
 
   const getIconColor = (item: DropdownOption) =>
-  item.theme === 'red' ? 'text-(--ink-red-3)' : 'text-(--ink-gray-6)';
+    item.theme === "red" ? "text-(--ink-red-3)" : "text-(--ink-gray-6)";
 
   const getTextColor = (item: DropdownOption) =>
-  item.theme === 'red' ? 'text-(--ink-red-3)' : 'text-(--ink-gray-7)';
+    item.theme === "red" ? "text-(--ink-red-3)" : "text-(--ink-gray-7)";
 
   const getBackgroundColor = (item: DropdownOption) =>
-  item.theme === 'red'
-    ? 'focus:bg-(--surface-red-3) data-[highlighted]:bg-(--surface-red-3) data-[state=open]:bg-(--surface-red-3)'
-    : 'focus:bg-(--surface-gray-3) data-[highlighted]:bg-(--surface-gray-3) data-[state=open]:bg-(--surface-gray-3)';
+    item.theme === "red"
+      ? "focus:bg-(--surface-red-3) data-[highlighted]:bg-(--surface-red-3) data-[state=open]:bg-(--surface-red-3)"
+      : "focus:bg-(--surface-gray-3) data-[highlighted]:bg-(--surface-gray-3) data-[state=open]:bg-(--surface-gray-3)";
 
   const getSubmenuBackgroundColor = (item: DropdownOption) =>
     getBackgroundColor(item) +
-    ' data-[state=open]:bg-(--surface-' +
-      (item.theme === 'red' ? 'red-3)' : 'gray-3)')
+    " data-[state=open]:bg-(--surface-" +
+    (item.theme === "red" ? "red-3)" : "gray-3)");
 
   const normalizeDropdownItem = useCallback(
     (option: DropdownOption): DropdownOption => {
@@ -179,7 +179,9 @@ const Dropdown: React.FC<DropdownProps> = ({
                   aria-hidden="true"
                 />
               }
-              className={`${cssClasses.submenuTrigger} ${getSubmenuBackgroundColor(item)}`}
+              className={`${
+                cssClasses.submenuTrigger
+              } ${getSubmenuBackgroundColor(item)}`}
             >
               <span className={cssClasses.itemLabel}>{item.label}</span>
             </Button>
@@ -223,7 +225,9 @@ const Dropdown: React.FC<DropdownProps> = ({
               <FeatherIcon name={item.icon} className={cssClasses.itemIcon} />
             )
           }
-          className={`${cssClasses.itemButton} ${getTextColor(item)} ${getSubmenuBackgroundColor(item)}`}
+          className={`${cssClasses.itemButton} ${getTextColor(
+            item
+          )} ${getSubmenuBackgroundColor(item)}`}
         >
           <span className={cssClasses.itemLabel}>{item.label}</span>
         </Button>

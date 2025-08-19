@@ -1,5 +1,6 @@
-import type { ReactNode, ComponentType } from 'react';
-import type { ButtonProps, ButtonTheme } from '../button';
+import type { ReactNode, ComponentType } from "react";
+import { ButtonProps } from "@headlessui/react";
+import { ButtonTheme } from "../button";
 
 export interface DropdownOption {
   label: string;
@@ -25,7 +26,9 @@ export type DropdownOptions = (DropdownOption | DropdownGroupOption)[];
 
 export interface DropdownProps {
   options: DropdownOptions;
-  placement?: 'left' | 'right' | 'center';
-  button?: Omit<ButtonProps, 'children' | 'onClick' | 'active'> & { label?: string };
+  placement?: "left" | "right" | "center";
+  button?: Omit<ButtonProps, "children" | "onClick" | "active"> & {
+    label?: string;
+  };
   children?: ReactNode;
 }

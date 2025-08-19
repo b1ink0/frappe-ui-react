@@ -5,7 +5,6 @@ import Dropdown from "./dropdown";
 import { Button } from "../button";
 import { DropdownOptions } from "./types";
 
-
 export default {
   title: "Components/Dropdown",
   component: Dropdown,
@@ -34,7 +33,6 @@ export default {
   },
 } as Meta<typeof Dropdown>;
 
-
 const actions: DropdownOptions = [
   {
     label: "Edit",
@@ -44,7 +42,7 @@ const actions: DropdownOptions = [
   {
     label: "Delete",
     icon: "trash-2",
-    theme: 'red',
+    theme: "red",
     onClick: () => action("Delete clicked")(),
   },
 ];
@@ -105,7 +103,7 @@ const groupedActions: DropdownOptions = [
       {
         label: "Delete",
         icon: "trash-2",
-        theme: 'red',
+        theme: "red",
         onClick: () => action("Delete clicked")(),
       },
     ],
@@ -134,7 +132,7 @@ const submenuActions: DropdownOptions = [
           {
             label: "Delete",
             icon: "trash-2",
-            theme: 'red',
+            theme: "red",
             onClick: () => action("Delete clicked")(),
           },
         ],
@@ -206,7 +204,6 @@ const DropdownTemplate: StoryObj<typeof Dropdown> = {
   ),
 };
 
-
 export const Default: StoryObj<typeof Dropdown> = {
   ...DropdownTemplate,
   args: {
@@ -227,7 +224,7 @@ export const WithGroups: StoryObj<typeof Dropdown> = {
   ...DropdownTemplate,
   args: {
     options: groupedActions,
-    button: { label: "Grouped Options", },
+    button: { label: "Grouped Options" },
   },
 };
 
