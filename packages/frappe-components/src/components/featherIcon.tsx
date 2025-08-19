@@ -5,14 +5,12 @@ interface FeatherIconProps extends React.SVGProps<SVGSVGElement> {
   name: string;
   color?: string;
   strokeWidth?: number;
-  className?: string;
 }
 
 const FeatherIcon = ({
   name,
   color = "currentColor",
   strokeWidth = 1.5,
-  className,
   ...props
 }: FeatherIconProps) => {
   const validIcons = Object.keys(feather.icons);
@@ -41,7 +39,7 @@ const FeatherIcon = ({
       strokeWidth={strokeWidth}
       width={null}
       height={null}
-      className={`${icon.attrs.class || ""} shrink-0 ${className || ""}`}
+      className={`${icon.attrs.class || ""} shrink-0`}
       dangerouslySetInnerHTML={{ __html: svgContent }}
       {...props}
     />
