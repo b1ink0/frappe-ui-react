@@ -44,15 +44,19 @@ export default meta;
 type RatingStory = StoryObj<typeof Rating>;
 
 export const Default: RatingStory = {
-  render: (args) => (
-    <Story layout={{ type: "grid", width: 300 }}>
-      <Variant title="default">
-        <div className="p-2">
-          <Rating {...args} />
-        </div>
-      </Variant>
-    </Story>
-  ),
+  render: (args) => {
+    const [value, setValue] = React.useState(0);
+
+    return (
+      <Story layout={{ type: "grid", width: 300 }}>
+        <Variant title="default">
+          <div className="p-2">
+            <Rating {...args} value={value} onChange={setValue} />
+          </div>
+        </Variant>
+      </Story>
+    );
+  },
   args: {
     value: 0,
     size: "md",
