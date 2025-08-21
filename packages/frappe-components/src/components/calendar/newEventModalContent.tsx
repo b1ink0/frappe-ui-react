@@ -200,9 +200,9 @@ const EventFormModal = ({
         <FormControl
           type="checkbox"
           label="Full Day Event?"
-          checked={newEvent.isFullDay}
-          onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-            handleFieldChange("isFullDay", e.target.checked)
+          value={newEvent.isFullDay}
+          onChange={(value: boolean) => 
+            handleFieldChange("isFullDay", value)
           }
         />
         {errorMessage && <ErrorMessage message={errorMessage} />}

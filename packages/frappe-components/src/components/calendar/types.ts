@@ -40,7 +40,7 @@ export interface CalendarEventProps {
   date: Date;
   extraClassName?: string;
   draggable?: boolean;
-  onDragStart?: (event: React.DragEvent<HTMLDivElement>) => void;
+  onDragStart?: (event: React.DragEvent<HTMLDivElement>, id: number | string) => void;
 }
 
 export interface ColorMap {

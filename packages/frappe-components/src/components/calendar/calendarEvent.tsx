@@ -9,7 +9,8 @@ import { EventModalContent } from './eventModalContent';
 import NewEventModal from './newEventModalContent';
 import { useEventInteraction } from './hooks/useEventInteraction';
 
-export const CalendarEvent = ({ event, date, extraClassName = '' }: CalendarEventProps) => {
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+export const CalendarEvent = ({ event, date, extraClassName = '', onDragStart = (_, _e) => {} }: CalendarEventProps) => {
   const { activeView, config, calendarActions } = useContext(CalendarContext);
   const {
     updatedEvent,
@@ -82,6 +83,7 @@ export const CalendarEvent = ({ event, date, extraClassName = '' }: CalendarEven
     <>
       <div
         ref={eventRef}
+        draggable="true"
         className={clsx(
           'h-min-[18px] rounded-lg p-2 transition-all duration-75',
           extraClassName,
@@ -91,6 +93,7 @@ export const CalendarEvent = ({ event, date, extraClassName = '' }: CalendarEven
         )}
         style={eventStyles}
         onClick={handleEventClick}
+        onDragStart={(e) => onDragStart(e, event.id)}
         onMouseDown={activeView !== 'Month' && config.isEditMode ? handleRepositionMouseDown : undefined}
       >
         {EventContent}
