@@ -1,20 +1,6 @@
 import { useState } from 'react';
-import { Button, type ButtonProps } from '../button';
-
-export interface DialogActionContext {
-  close: () => void;
-}
-
-
-export type DialogAction = Omit<ButtonProps, 'onClick'> & {
-  label: string;
-  onClick?: (context: DialogActionContext) => void | Promise<void>;
-};
-
-interface DialogActionButtonProps {
-  action: DialogAction;
-  close: () => void;
-}
+import { Button, } from '../button';
+import { DialogActionButtonProps } from './types';
 
 export const DialogActionButton = ({ action, close }: DialogActionButtonProps) => {
   const [loading, setLoading] = useState(false);

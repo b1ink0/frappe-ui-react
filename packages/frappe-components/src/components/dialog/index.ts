@@ -1,1 +1,2 @@
-export { default as Avatar, type AvatarProps } from './dialog'
+export { default as Dialog } from './dialog';
+export * from './types';

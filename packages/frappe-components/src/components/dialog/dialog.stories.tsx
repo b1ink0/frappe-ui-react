@@ -1,10 +1,11 @@
 import { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import { Dialog, DialogOptions } from './dialog';
+import Dialog from './dialog';
 import { Button } from '../button';
 import { Dropdown } from '../dropdown';
 import { Autocomplete, AutocompleteOption } from '../autoComplete';
 import { MemoryRouter } from 'react-router';
+import { DialogOptions } from './types';
 
 const meta: Meta<typeof Dialog> = {
   title: 'Components/Dialog',

@@ -4,43 +4,11 @@ import { X } from "lucide-react";
 import clsx from "clsx";
 import { Button } from "../button";
 import FeatherIcon from "../featherIcon";
-import { DialogActionButton, type DialogAction } from "./dialogActionButton";
+import { DialogActionButton } from "./dialogActionButton";
 import "./dialog.css";
+import { DialogProps } from "./types";
 
-export interface DialogOptions {
-  title?: (() => React.ReactNode) | string;
-  message?: string;
-  size?:
-    | "xs"
-    | "sm"
-    | "md"
-    | "lg"
-    | "xl"
-    | "2xl"
-    | "3xl"
-    | "4xl"
-    | "5xl"
-    | "6xl"
-    | "7xl";
-  position?: "center" | "top";
-  icon?: {
-    name: string;
-    appearance?: "info" | "success" | "warning" | "danger";
-  };
-  actions?: DialogAction[];
-}
-
-export interface DialogProps {
-  open: boolean;
-  onOpenChange: (open: boolean) => void;
-  options?: DialogOptions;
-  disableOutsideClickToClose?: boolean;
-  onAfterLeave?: () => void;
-  children?: React.ReactNode;
-  actions?: React.ReactNode;
-}
-
-export const Dialog = ({
+const Dialog = ({
   open,
   onOpenChange,
   options = {},
@@ -127,7 +95,7 @@ export const Dialog = ({
     <Root open={open} onOpenChange={onOpenChange}>
       <Portal>
         <Overlay
-          className="dialog-overlay fixed inset-0 bg-black-overlay-200 backdrop-filter backdrop-blur-[12px] overflow-y-auto"
+          className="dialog-overlay fixed inset-0 bg-black-overlay-200 backdrop-filter backdrop-blur-[12px] overflow-y-auto z-[11]"
           data-dialog={'dialog'}
           onAnimationEnd={() => !open && onAfterLeave?.()}
         >
@@ -228,3 +196,5 @@ export const Dialog = ({
     </Root>
   );
 };
+
+export default Dialog
