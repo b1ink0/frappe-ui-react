@@ -88,7 +88,7 @@ export const useEventInteraction = (event: CalendarEvent, config: CalendarConfig
 
   const handleEventDelete = useCallback(() => {
     if (config?.deleteEvent) {
-      config.deleteEvent(event.id);;
+      config.deleteEvent(event.id);
     }
     setPopoverOpen(false);
   }, [config, event.id]);

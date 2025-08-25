@@ -9,12 +9,7 @@ import { ErrorMessage } from "../errorMessage";
 import { FormControl } from "../formControl";
 
 import "./eventFormModal.css";
-
-const CalendarActionsContext = React.createContext({
-  updateEventState: (event: CalendarEvent) =>
-    console.log("Update Event:", event),
-  createNewEvent: (event: CalendarEvent) => console.log("Create Event:", event),
-});
+import { CalendarContext } from "./calendarContext";
 
 interface EventFormModalProps {
   isOpen: boolean;
@@ -29,7 +24,7 @@ const EventFormModal = ({
 }: EventFormModalProps) => {
   const [newEvent, setNewEvent] = useState<Partial<CalendarEvent>>({});
   const [errorMessage, setErrorMessage] = useState("");
-  const calendarActions = useContext(CalendarActionsContext);
+  const { updateEventState, createNewEvent } = useContext(CalendarContext);
 
   useEffect(() => {
     setNewEvent({
@@ -91,14 +86,14 @@ const EventFormModal = ({
     }
 
     if (event.id) {
-      calendarActions.updateEventState(finalEvent as CalendarEvent);
+      updateEventState(finalEvent as CalendarEvent);
     } else {
       const id = "#" + Math.random().toString(36).substring(3, 9);
       finalEvent.id = id;
-      calendarActions.createNewEvent(finalEvent as CalendarEvent);
+      createNewEvent(finalEvent as CalendarEvent);
     }
     onClose();
-  }, [calendarActions, event.id, newEvent, onClose, validateFields]);
+  }, [createNewEvent, event.id, newEvent, onClose, updateEventState, validateFields]);
 
   const colorOptions = Object.keys(colorMap).map((color) => ({
     label: color,

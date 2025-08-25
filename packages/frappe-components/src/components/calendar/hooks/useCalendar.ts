@@ -48,7 +48,7 @@ export const useCalendar = (initialConfig: Partial<CalendarConfig>, initialEvent
 
   const deleteEvent = useCallback((eventId: string | number) => {
     setEvents(prev => prev.filter(e => e.id !== eventId));
-        if(config.deleteEvent){
+    if(config.deleteEvent){
       config.deleteEvent(eventId);
     }
   }, [config]);

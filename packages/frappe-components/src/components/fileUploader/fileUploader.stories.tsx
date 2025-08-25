@@ -1,4 +1,3 @@
-import React from "react";
 import { Button } from "../button";
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import FileUploader from "./fileuploader";

@@ -22,7 +22,6 @@ export const Calendar = ({ events: initialEvents = [], config: initialConfig = {
   const { state, actions } = useCalendar(initialConfig, initialEvents);
   const { activeView, currentDate, config, showEventModal, newEventInfo, weekIndex, datesInWeeks } = state;
   const { setActiveView, increment, decrement, setShowEventModal } = actions;
-
   const enabledModes = [
       { id: 'Month', label: 'Month' },
       { id: 'Week', label: 'Week' },
@@ -50,7 +49,7 @@ export const Calendar = ({ events: initialEvents = [], config: initialConfig = {
       increment,
       updateActiveView: setActiveView
   };
-  console.log(state)
+
   return (
     <CalendarContext.Provider value={{ ...state, ...actions }}>
       <div className="flex h-full flex-col overflow-hidden">
