@@ -2,9 +2,14 @@ const path = require("path");
 
 module.exports = {
   darkMode: "class",
-  content: [path.resolve(__dirname, "./packages/**/src/**/*.{stories}.{tsx,ts,js}")],
+  content: [
+    path.resolve(__dirname, "./packages/**/src/**/*.{stories}.{tsx,ts,js}"),
+  ],
   theme: {
     extend: {
+      fontFamily: {
+        sans: ["Reddit Sans", "ui-sans-serif", "system-ui", "sans-serif"],
+      },
       colors: {
         inherit: "var(--color-inherit)",
         current: "var(--color-current)",
