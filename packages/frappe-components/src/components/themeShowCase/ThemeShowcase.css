@@ -1,48 +1,116 @@
 .theme-showcase {
-  max-width: 1200px;
-  margin: 0 auto;
-  transition: background-color 0.3s ease, color 0.3s ease;
+  width: 100%;
+  font-family: var(--font-sans);
 }
 
-.color-sample {
-  width: 48px;
-  height: 48px;
-  border-radius: 0.25rem;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+/* Dark mode adjustments */
+.theme-showcase.dark {
+  background-color: #1a202c;
+  color: #e2e8f0;
 }
 
-.color-sample:hover {
-  transform: scale(1.05);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+.theme-showcase.dark .bg-white {
+  background-color: #2d3748;
 }
 
-.color-showcase {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0.5rem;
+/* Colors for overlay display */
+.bg-white-overlay-100 {
+  background-color: rgba(255, 255, 255, 0.1);
 }
 
-.hover-demo {
-  background-color: var(--color-primary-200);
-  padding: 1rem;
-  border-radius: var(--radius-md);
-  transition-property: transform, background-color;
-  transition-timing-function: var(--ease-in-out);
-  transition-duration: var(--duration-300);
+.bg-white-overlay-300 {
+  background-color: rgba(255, 255, 255, 0.3);
 }
 
-.hover-demo:hover {
-  background-color: var(--color-primary-400);
-  transform: scale(1.05);
+.bg-white-overlay-500 {
+  background-color: rgba(255, 255, 255, 0.5);
 }
 
-/* Dark mode specific styles */
-.dark .color-sample {
-  box-shadow: 0 1px 3px rgba(255, 255, 255, 0.1);
+.bg-white-overlay-700 {
+  background-color: rgba(255, 255, 255, 0.7);
 }
 
-.dark .color-sample:hover {
-  box-shadow: 0 4px 12px rgba(255, 255, 255, 0.15);
+.bg-white-overlay-900 {
+  background-color: rgba(255, 255, 255, 0.9);
+}
+
+.bg-black-overlay-100 {
+  background-color: rgba(0, 0, 0, 0.1);
+}
+
+.bg-black-overlay-300 {
+  background-color: rgba(0, 0, 0, 0.3);
+}
+
+.bg-black-overlay-500 {
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.bg-black-overlay-700 {
+  background-color: rgba(0, 0, 0, 0.7);
+}
+
+.bg-black-overlay-900 {
+  background-color: rgba(0, 0, 0, 0.9);
+}
+
+/* Semantic color classes */
+.text-ink-white {
+  color: var(--color-ink-white, #ffffff);
+}
+
+.text-ink-gray-8 {
+  color: var(--color-ink-gray-8, #27272a);
+}
+
+.text-ink-blue-3 {
+  color: var(--color-ink-blue-3, #3b82f6);
+}
+
+.text-ink-red-3 {
+  color: var(--color-ink-red-3, #ef4444);
+}
+
+.text-ink-green-3 {
+  color: var(--color-ink-green-3, #10b981);
+}
+
+.bg-surface-white {
+  background-color: var(--color-surface-white, #ffffff);
+}
+
+.bg-surface-gray-1 {
+  background-color: var(--color-surface-gray-1, #f3f4f6);
+}
+
+.bg-surface-blue-1 {
+  background-color: var(--color-surface-blue-1, #eff6ff);
+}
+
+.bg-surface-red-1 {
+  background-color: var(--color-surface-red-1, #fee2e2);
+}
+
+.bg-surface-green-1 {
+  background-color: var(--color-surface-green-1, #dcfce7);
+}
+
+.border-outline-white {
+  border-color: var(--color-outline-white, #ffffff);
+}
+
+.border-outline-gray-1 {
+  border-color: var(--color-outline-gray-1, #d1d5db);
+}
+
+.border-outline-blue-1 {
+  border-color: var(--color-outline-blue-1, #93c5fd);
+}
+
+.border-outline-red-1 {
+  border-color: var(--color-outline-red-1, #fca5a5);
+}
+
+.border-outline-green-1 {
+  border-color: var(--color-outline-green-1, #86efac);
 }

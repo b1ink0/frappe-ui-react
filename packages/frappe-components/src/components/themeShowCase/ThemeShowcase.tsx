@@ -1,14 +1,27 @@
-import React from "react";
+import React, { useState } from "react";
+import "./ThemeShowcase.css";
 
 /**
  * A component that showcases all theme tokens from the design system.
  * Uses only static Tailwind classes to ensure compatibility with purging.
  */
 const ThemeShowcase: React.FC = () => {
+  const [isDarkMode, setIsDarkMode] = useState(false);
+
+  const toggleDarkMode = () => {
+    setIsDarkMode(!isDarkMode);
+  };
+
   return (
-    <div className="theme-showcase p-8 bg-surface-white text-ink-gray-8 font-sans">
-      <div className="mb-6">
+    <div className={`theme-showcase p-8 ${isDarkMode ? 'dark bg-surface-white' : 'bg-surface-white'} text-ink-gray-8 font-sans`}>
+      <div className="mb-6 flex justify-between items-center">
         <h1 className="text-3xl font-bold">Theme Tokens</h1>
+        <button 
+          onClick={toggleDarkMode} 
+          className="px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded transition-colors"
+        >
+          {isDarkMode ? 'Light Mode' : 'Dark Mode'}
+        </button>
       </div>
 
       {/* Colors Section */}
@@ -21,11 +34,19 @@ const ThemeShowcase: React.FC = () => {
           <div className="flex flex-wrap gap-2">
             <div className="w-24 h-24 flex flex-col rounded overflow-hidden border border-outline-gray-1">
               <div className="flex-1 bg-black"></div>
-              <div className="p-1 text-center text-xs">black</div>
+              <div className="p-1 text-center text-xs text-white">black</div>
             </div>
             <div className="w-24 h-24 flex flex-col rounded overflow-hidden border border-outline-gray-1">
               <div className="flex-1 bg-white"></div>
-              <div className="p-1 text-center text-xs">white</div>
+              <div className="p-1 text-center text-xs bg-gray-100">white</div>
+            </div>
+            <div className="w-24 h-24 flex flex-col rounded overflow-hidden border border-outline-gray-1">
+              <div className="flex-1 bg-transparent"></div>
+              <div className="p-1 text-center text-xs">transparent</div>
+            </div>
+            <div className="w-24 h-24 flex flex-col rounded overflow-hidden border border-outline-gray-1">
+              <div className="flex-1 text-current">current</div>
+              <div className="p-1 text-center text-xs">currentColor</div>
             </div>
           </div>
         </div>
@@ -124,29 +145,6 @@ const ThemeShowcase: React.FC = () => {
           </div>
         </div>
 
-        {/* Red Scale */}
-        <div className="mb-6">
-          <h3 className="text-xl font-medium mb-2">Red Scale</h3>
-          <div className="flex flex-wrap gap-2">
-            <div className="w-16 h-16 flex flex-col rounded overflow-hidden border border-outline-gray-1">
-              <div className="flex-1 bg-red-50"></div>
-              <div className="p-1 text-center text-xs">red-50</div>
-            </div>
-            <div className="w-16 h-16 flex flex-col rounded overflow-hidden border border-outline-gray-1">
-              <div className="flex-1 bg-red-100"></div>
-              <div className="p-1 text-center text-xs">red-100</div>
-            </div>
-            <div className="w-16 h-16 flex flex-col rounded overflow-hidden border border-outline-gray-1">
-              <div className="flex-1 bg-red-500"></div>
-              <div className="p-1 text-center text-xs text-white">red-500</div>
-            </div>
-            <div className="w-16 h-16 flex flex-col rounded overflow-hidden border border-outline-gray-1">
-              <div className="flex-1 bg-red-900"></div>
-              <div className="p-1 text-center text-xs text-white">red-900</div>
-            </div>
-          </div>
-        </div>
-
         {/* Green Scale */}
         <div className="mb-6">
           <h3 className="text-xl font-medium mb-2">Green Scale</h3>
@@ -160,136 +158,279 @@ const ThemeShowcase: React.FC = () => {
               <div className="p-1 text-center text-xs">green-100</div>
             </div>
             <div className="w-16 h-16 flex flex-col rounded overflow-hidden border border-outline-gray-1">
+              <div className="flex-1 bg-green-200"></div>
+              <div className="p-1 text-center text-xs">green-200</div>
+            </div>
+            <div className="w-16 h-16 flex flex-col rounded overflow-hidden border border-outline-gray-1">
+              <div className="flex-1 bg-green-300"></div>
+              <div className="p-1 text-center text-xs">green-300</div>
+            </div>
+            <div className="w-16 h-16 flex flex-col rounded overflow-hidden border border-outline-gray-1">
+              <div className="flex-1 bg-green-400"></div>
+              <div className="p-1 text-center text-xs">green-400</div>
+            </div>
+            <div className="w-16 h-16 flex flex-col rounded overflow-hidden border border-outline-gray-1">
               <div className="flex-1 bg-green-500"></div>
-              <div className="p-1 text-center text-xs text-white">
-                green-500
-              </div>
+              <div className="p-1 text-center text-xs text-white">green-500</div>
+            </div>
+            <div className="w-16 h-16 flex flex-col rounded overflow-hidden border border-outline-gray-1">
+              <div className="flex-1 bg-green-600"></div>
+              <div className="p-1 text-center text-xs text-white">green-600</div>
+            </div>
+            <div className="w-16 h-16 flex flex-col rounded overflow-hidden border border-outline-gray-1">
+              <div className="flex-1 bg-green-700"></div>
+              <div className="p-1 text-center text-xs text-white">green-700</div>
+            </div>
+            <div className="w-16 h-16 flex flex-col rounded overflow-hidden border border-outline-gray-1">
+              <div className="flex-1 bg-green-800"></div>
+              <div className="p-1 text-center text-xs text-white">green-800</div>
             </div>
             <div className="w-16 h-16 flex flex-col rounded overflow-hidden border border-outline-gray-1">
               <div className="flex-1 bg-green-900"></div>
-              <div className="p-1 text-center text-xs text-white">
-                green-900
+              <div className="p-1 text-center text-xs text-white">green-900</div>
+            </div>
+          </div>
+        </div>
+
+        {/* Red Scale */}
+        <div className="mb-6">
+          <h3 className="text-xl font-medium mb-2">Red Scale</h3>
+          <div className="flex flex-wrap gap-2">
+            <div className="w-16 h-16 flex flex-col rounded overflow-hidden border border-outline-gray-1">
+              <div className="flex-1 bg-red-50"></div>
+              <div className="p-1 text-center text-xs">red-50</div>
+            </div>
+            <div className="w-16 h-16 flex flex-col rounded overflow-hidden border border-outline-gray-1">
+              <div className="flex-1 bg-red-100"></div>
+              <div className="p-1 text-center text-xs">red-100</div>
+            </div>
+            <div className="w-16 h-16 flex flex-col rounded overflow-hidden border border-outline-gray-1">
+              <div className="flex-1 bg-red-200"></div>
+              <div className="p-1 text-center text-xs">red-200</div>
+            </div>
+            <div className="w-16 h-16 flex flex-col rounded overflow-hidden border border-outline-gray-1">
+              <div className="flex-1 bg-red-300"></div>
+              <div className="p-1 text-center text-xs">red-300</div>
+            </div>
+            <div className="w-16 h-16 flex flex-col rounded overflow-hidden border border-outline-gray-1">
+              <div className="flex-1 bg-red-400"></div>
+              <div className="p-1 text-center text-xs">red-400</div>
+            </div>
+            <div className="w-16 h-16 flex flex-col rounded overflow-hidden border border-outline-gray-1">
+              <div className="flex-1 bg-red-500"></div>
+              <div className="p-1 text-center text-xs text-white">red-500</div>
+            </div>
+            <div className="w-16 h-16 flex flex-col rounded overflow-hidden border border-outline-gray-1">
+              <div className="flex-1 bg-red-600"></div>
+              <div className="p-1 text-center text-xs text-white">red-600</div>
+            </div>
+            <div className="w-16 h-16 flex flex-col rounded overflow-hidden border border-outline-gray-1">
+              <div className="flex-1 bg-red-700"></div>
+              <div className="p-1 text-center text-xs text-white">red-700</div>
+            </div>
+            <div className="w-16 h-16 flex flex-col rounded overflow-hidden border border-outline-gray-1">
+              <div className="flex-1 bg-red-800"></div>
+              <div className="p-1 text-center text-xs text-white">red-800</div>
+            </div>
+            <div className="w-16 h-16 flex flex-col rounded overflow-hidden border border-outline-gray-1">
+              <div className="flex-1 bg-red-900"></div>
+              <div className="p-1 text-center text-xs text-white">red-900</div>
+            </div>
+          </div>
+        </div>
+
+        {/* Other Color Scales */}
+        <div className="mb-6">
+          <h3 className="text-xl font-medium mb-2">Other Color Scales</h3>
+          <p className="mb-4 text-sm">Each color has a complete scale from 50-900. Here are the 500 values.</p>
+          <div className="flex flex-wrap gap-2">
+            <div className="w-24 h-24 flex flex-col rounded overflow-hidden border border-outline-gray-1">
+              <div className="flex-1 bg-orange-500"></div>
+              <div className="p-1 text-center text-xs text-white">orange-500</div>
+            </div>
+            <div className="w-24 h-24 flex flex-col rounded overflow-hidden border border-outline-gray-1">
+              <div className="flex-1 bg-yellow-500"></div>
+              <div className="p-1 text-center text-xs">yellow-500</div>
+            </div>
+            <div className="w-24 h-24 flex flex-col rounded overflow-hidden border border-outline-gray-1">
+              <div className="flex-1 bg-teal-500"></div>
+              <div className="p-1 text-center text-xs text-white">teal-500</div>
+            </div>
+            <div className="w-24 h-24 flex flex-col rounded overflow-hidden border border-outline-gray-1">
+              <div className="flex-1 bg-violet-500"></div>
+              <div className="p-1 text-center text-xs text-white">violet-500</div>
+            </div>
+            <div className="w-24 h-24 flex flex-col rounded overflow-hidden border border-outline-gray-1">
+              <div className="flex-1 bg-cyan-500"></div>
+              <div className="p-1 text-center text-xs text-white">cyan-500</div>
+            </div>
+            <div className="w-24 h-24 flex flex-col rounded overflow-hidden border border-outline-gray-1">
+              <div className="flex-1 bg-amber-500"></div>
+              <div className="p-1 text-center text-xs">amber-500</div>
+            </div>
+            <div className="w-24 h-24 flex flex-col rounded overflow-hidden border border-outline-gray-1">
+              <div className="flex-1 bg-pink-500"></div>
+              <div className="p-1 text-center text-xs text-white">pink-500</div>
+            </div>
+            <div className="w-24 h-24 flex flex-col rounded overflow-hidden border border-outline-gray-1">
+              <div className="flex-1 bg-purple-500"></div>
+              <div className="p-1 text-center text-xs text-white">purple-500</div>
+            </div>
+          </div>
+        </div>
+
+        {/* Overlay colors */}
+        <div className="mb-6">
+          <h3 className="text-xl font-medium mb-2">Overlay Colors</h3>
+          <div className="grid grid-cols-2 gap-6">
+            <div>
+              <h4 className="text-lg font-medium mb-2">White Overlay</h4>
+              <div className="bg-gray-800 p-4 rounded">
+                <div className="flex flex-wrap gap-2">
+                  <div className="w-16 h-16 flex flex-col rounded overflow-hidden border border-outline-gray-1">
+                    <div className="flex-1 bg-white-overlay-100"></div>
+                    <div className="p-1 text-center text-xs bg-white">100</div>
+                  </div>
+                  <div className="w-16 h-16 flex flex-col rounded overflow-hidden border border-outline-gray-1">
+                    <div className="flex-1 bg-white-overlay-300"></div>
+                    <div className="p-1 text-center text-xs bg-white">300</div>
+                  </div>
+                  <div className="w-16 h-16 flex flex-col rounded overflow-hidden border border-outline-gray-1">
+                    <div className="flex-1 bg-white-overlay-500"></div>
+                    <div className="p-1 text-center text-xs bg-white">500</div>
+                  </div>
+                  <div className="w-16 h-16 flex flex-col rounded overflow-hidden border border-outline-gray-1">
+                    <div className="flex-1 bg-white-overlay-700"></div>
+                    <div className="p-1 text-center text-xs bg-white">700</div>
+                  </div>
+                  <div className="w-16 h-16 flex flex-col rounded overflow-hidden border border-outline-gray-1">
+                    <div className="flex-1 bg-white-overlay-900"></div>
+                    <div className="p-1 text-center text-xs bg-white">900</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div>
+              <h4 className="text-lg font-medium mb-2">Black Overlay</h4>
+              <div className="bg-gray-100 p-4 rounded">
+                <div className="flex flex-wrap gap-2">
+                  <div className="w-16 h-16 flex flex-col rounded overflow-hidden border border-outline-gray-1">
+                    <div className="flex-1 bg-black-overlay-100"></div>
+                    <div className="p-1 text-center text-xs">100</div>
+                  </div>
+                  <div className="w-16 h-16 flex flex-col rounded overflow-hidden border border-outline-gray-1">
+                    <div className="flex-1 bg-black-overlay-300"></div>
+                    <div className="p-1 text-center text-xs">300</div>
+                  </div>
+                  <div className="w-16 h-16 flex flex-col rounded overflow-hidden border border-outline-gray-1">
+                    <div className="flex-1 bg-black-overlay-500"></div>
+                    <div className="p-1 text-center text-xs">500</div>
+                  </div>
+                  <div className="w-16 h-16 flex flex-col rounded overflow-hidden border border-outline-gray-1">
+                    <div className="flex-1 bg-black-overlay-700"></div>
+                    <div className="p-1 text-center text-xs">700</div>
+                  </div>
+                  <div className="w-16 h-16 flex flex-col rounded overflow-hidden border border-outline-gray-1">
+                    <div className="flex-1 bg-black-overlay-900"></div>
+                    <div className="p-1 text-center text-xs text-white">900</div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
         </div>
 
         {/* Semantic Colors */}
-        <div className="mt-12 mb-6">
+        <div className="mb-10">
           <h2 className="text-2xl font-semibold mb-4">Semantic Colors</h2>
-
-          {/* Text Colors (Ink) */}
-          <div className="mb-8">
-            <h3 className="text-xl font-medium mb-3">Text Colors (Ink)</h3>
+          
+          {/* Ink Colors */}
+          <div className="mb-6">
+            <h3 className="text-xl font-medium mb-2">Ink Colors (Text)</h3>
             <div className="flex flex-wrap gap-2">
-              <div className="w-28 h-16 p-2 flex flex-col justify-between rounded border border-outline-gray-1">
-                <div className="text-ink-white bg-gray-800 p-1 rounded">
-                  Text
+              <div className="w-24 h-24 flex flex-col rounded overflow-hidden border border-outline-gray-1">
+                <div className="flex-1 flex items-center justify-center bg-surface-white">
+                  <span className="text-ink-white">Text</span>
                 </div>
-                <div className="text-xs">ink-white</div>
+                <div className="p-1 text-center text-xs">ink-white</div>
               </div>
-              <div className="w-28 h-16 p-2 flex flex-col justify-between rounded border border-outline-gray-1">
-                <div className="text-ink-gray-1 p-1 rounded">Text</div>
-                <div className="text-xs">ink-gray-1</div>
+              <div className="w-24 h-24 flex flex-col rounded overflow-hidden border border-outline-gray-1">
+                <div className="flex-1 flex items-center justify-center bg-surface-white">
+                  <span className="text-ink-gray-8">Text</span>
+                </div>
+                <div className="p-1 text-center text-xs">ink-gray-8</div>
               </div>
-              <div className="w-28 h-16 p-2 flex flex-col justify-between rounded border border-outline-gray-1">
-                <div className="text-ink-gray-5 p-1 rounded">Text</div>
-                <div className="text-xs">ink-gray-5</div>
+              <div className="w-24 h-24 flex flex-col rounded overflow-hidden border border-outline-gray-1">
+                <div className="flex-1 flex items-center justify-center bg-surface-white">
+                  <span className="text-ink-blue-3">Text</span>
+                </div>
+                <div className="p-1 text-center text-xs">ink-blue-3</div>
               </div>
-              <div className="w-28 h-16 p-2 flex flex-col justify-between rounded border border-outline-gray-1">
-                <div className="text-ink-gray-9 p-1 rounded">Text</div>
-                <div className="text-xs">ink-gray-9</div>
+              <div className="w-24 h-24 flex flex-col rounded overflow-hidden border border-outline-gray-1">
+                <div className="flex-1 flex items-center justify-center bg-surface-white">
+                  <span className="text-ink-red-3">Text</span>
+                </div>
+                <div className="p-1 text-center text-xs">ink-red-3</div>
               </div>
-              <div className="w-28 h-16 p-2 flex flex-col justify-between rounded border border-outline-gray-1">
-                <div className="text-ink-red-3 p-1 rounded">Text</div>
-                <div className="text-xs">ink-red-3</div>
-              </div>
-              <div className="w-28 h-16 p-2 flex flex-col justify-between rounded border border-outline-gray-1">
-                <div className="text-ink-green-3 p-1 rounded">Text</div>
-                <div className="text-xs">ink-green-3</div>
-              </div>
-              <div className="w-28 h-16 p-2 flex flex-col justify-between rounded border border-outline-gray-1">
-                <div className="text-ink-blue-2 p-1 rounded">Text</div>
-                <div className="text-xs">ink-blue-2</div>
-              </div>
-              <div className="w-28 h-16 p-2 flex flex-col justify-between rounded border border-outline-gray-1">
-                <div className="text-ink-blue-link p-1 rounded">Link</div>
-                <div className="text-xs">ink-blue-link</div>
+              <div className="w-24 h-24 flex flex-col rounded overflow-hidden border border-outline-gray-1">
+                <div className="flex-1 flex items-center justify-center bg-surface-white">
+                  <span className="text-ink-green-3">Text</span>
+                </div>
+                <div className="p-1 text-center text-xs">ink-green-3</div>
               </div>
             </div>
           </div>
-
-          {/* Background Colors (Surface) */}
-          <div className="mb-8">
-            <h3 className="text-xl font-medium mb-3">
-              Background Colors (Surface)
-            </h3>
-            <div className="flex flex-wrap gap-3">
-              <div className="w-28 h-16 flex flex-col rounded overflow-hidden border border-outline-gray-1">
+          
+          {/* Surface Colors */}
+          <div className="mb-6">
+            <h3 className="text-xl font-medium mb-2">Surface Colors (Backgrounds)</h3>
+            <div className="flex flex-wrap gap-2">
+              <div className="w-24 h-24 flex flex-col rounded overflow-hidden border border-outline-gray-1">
                 <div className="flex-1 bg-surface-white"></div>
                 <div className="p-1 text-center text-xs">surface-white</div>
               </div>
-              <div className="w-28 h-16 flex flex-col rounded overflow-hidden border border-outline-gray-1">
+              <div className="w-24 h-24 flex flex-col rounded overflow-hidden border border-outline-gray-1">
                 <div className="flex-1 bg-surface-gray-1"></div>
                 <div className="p-1 text-center text-xs">surface-gray-1</div>
               </div>
-              <div className="w-28 h-16 flex flex-col rounded overflow-hidden border border-outline-gray-1">
-                <div className="flex-1 bg-surface-gray-3"></div>
-                <div className="p-1 text-center text-xs">surface-gray-3</div>
-              </div>
-              <div className="w-28 h-16 flex flex-col rounded overflow-hidden border border-outline-gray-1">
+              <div className="w-24 h-24 flex flex-col rounded overflow-hidden border border-outline-gray-1">
                 <div className="flex-1 bg-surface-blue-1"></div>
                 <div className="p-1 text-center text-xs">surface-blue-1</div>
               </div>
-              <div className="w-28 h-16 flex flex-col rounded overflow-hidden border border-outline-gray-1">
+              <div className="w-24 h-24 flex flex-col rounded overflow-hidden border border-outline-gray-1">
                 <div className="flex-1 bg-surface-red-1"></div>
                 <div className="p-1 text-center text-xs">surface-red-1</div>
               </div>
-              <div className="w-28 h-16 flex flex-col rounded overflow-hidden border border-outline-gray-1">
+              <div className="w-24 h-24 flex flex-col rounded overflow-hidden border border-outline-gray-1">
                 <div className="flex-1 bg-surface-green-1"></div>
                 <div className="p-1 text-center text-xs">surface-green-1</div>
               </div>
-              <div className="w-28 h-16 flex flex-col rounded overflow-hidden border border-outline-gray-1">
-                <div className="flex-1 bg-surface-cards"></div>
-                <div className="p-1 text-center text-xs">surface-cards</div>
-              </div>
-              <div className="w-28 h-16 flex flex-col rounded overflow-hidden border border-outline-gray-1">
-                <div className="flex-1 bg-surface-modal"></div>
-                <div className="p-1 text-center text-xs">surface-modal</div>
-              </div>
             </div>
           </div>
-
-          {/* Border Colors (Outline) */}
-          <div className="mb-8">
-            <h3 className="text-xl font-medium mb-3">
-              Border Colors (Outline)
-            </h3>
+          
+          {/* Outline Colors */}
+          <div className="mb-6">
+            <h3 className="text-xl font-medium mb-2">Outline Colors (Borders)</h3>
             <div className="flex flex-wrap gap-2">
-              <div className="w-28 h-16 flex items-center justify-center rounded border-2 border-outline-gray-1">
-                <div className="text-center">
-                  <div className="text-xs">outline-gray-1</div>
-                </div>
+              <div className="w-24 h-24 flex flex-col rounded overflow-hidden border border-outline-gray-1">
+                <div className="flex-1 border-4 border-outline-white bg-surface-gray-1"></div>
+                <div className="p-1 text-center text-xs">outline-white</div>
               </div>
-              <div className="w-28 h-16 flex items-center justify-center rounded border-2 border-outline-gray-3">
-                <div className="text-center">
-                  <div className="text-xs">outline-gray-3</div>
-                </div>
+              <div className="w-24 h-24 flex flex-col rounded overflow-hidden border border-outline-gray-1">
+                <div className="flex-1 border-4 border-outline-gray-1"></div>
+                <div className="p-1 text-center text-xs">outline-gray-1</div>
               </div>
-              <div className="w-28 h-16 flex items-center justify-center rounded border-2 border-outline-red-2">
-                <div className="text-center">
-                  <div className="text-xs">outline-red-2</div>
-                </div>
+              <div className="w-24 h-24 flex flex-col rounded overflow-hidden border border-outline-gray-1">
+                <div className="flex-1 border-4 border-outline-blue-1"></div>
+                <div className="p-1 text-center text-xs">outline-blue-1</div>
               </div>
-              <div className="w-28 h-16 flex items-center justify-center rounded border-2 border-outline-green-2">
-                <div className="text-center">
-                  <div className="text-xs">outline-green-2</div>
-                </div>
+              <div className="w-24 h-24 flex flex-col rounded overflow-hidden border border-outline-gray-1">
+                <div className="flex-1 border-4 border-outline-red-1"></div>
+                <div className="p-1 text-center text-xs">outline-red-1</div>
               </div>
-              <div className="w-28 h-16 flex items-center justify-center rounded border-2 border-outline-blue-1">
-                <div className="text-center">
-                  <div className="text-xs">outline-blue-1</div>
-                </div>
+              <div className="w-24 h-24 flex flex-col rounded overflow-hidden border border-outline-gray-1">
+                <div className="flex-1 border-4 border-outline-green-1"></div>
+                <div className="p-1 text-center text-xs">outline-green-1</div>
               </div>
             </div>
           </div>
@@ -299,152 +440,136 @@ const ThemeShowcase: React.FC = () => {
       {/* Typography Section */}
       <section className="mb-10">
         <h2 className="text-2xl font-semibold mb-4">Typography</h2>
-
+        
+        {/* Font Sizes */}
         <div className="mb-6">
           <h3 className="text-xl font-medium mb-2">Font Sizes</h3>
-          <div className="flex flex-col gap-3">
-            <p className="text-2xs">Text 2XS (2xs)</p>
-            <p className="text-xs">Text Extra Small (xs)</p>
-            <p className="text-sm">Text Small (sm)</p>
-            <p className="text-base">Text Base (base)</p>
-            <p className="text-lg">Text Large (lg)</p>
-            <p className="text-xl">Text Extra Large (xl)</p>
-            <p className="text-2xl">Text 2XL (2xl)</p>
-            <p className="text-3xl">Text 3XL (3xl)</p>
+          <div className="space-y-3">
+            <div>
+              <span className="text-xs">Text XS</span>
+              <div className="text-xs text-gray-500 mt-1">--text-xs-size: 12px</div>
+            </div>
+            <div>
+              <span className="text-sm">Text SM</span>
+              <div className="text-xs text-gray-500 mt-1">--text-sm-size: 13px</div>
+            </div>
+            <div>
+              <span className="text-base">Text Base</span>
+              <div className="text-xs text-gray-500 mt-1">--text-base-size: 14px</div>
+            </div>
+            <div>
+              <span className="text-lg">Text LG</span>
+              <div className="text-xs text-gray-500 mt-1">--text-lg-size: 16px</div>
+            </div>
+            <div>
+              <span className="text-xl">Text XL</span>
+              <div className="text-xs text-gray-500 mt-1">--text-xl-size: 18px</div>
+            </div>
+            <div>
+              <span className="text-2xl">Text 2XL</span>
+              <div className="text-xs text-gray-500 mt-1">--text-2xl-size: 20px</div>
+            </div>
+            <div>
+              <span className="text-3xl">Text 3XL</span>
+              <div className="text-xs text-gray-500 mt-1">--text-3xl-size: 24px</div>
+            </div>
           </div>
         </div>
 
+        {/* Font Weights */}
         <div className="mb-6">
           <h3 className="text-xl font-medium mb-2">Font Weights</h3>
-          <div className="flex flex-col gap-3">
-            <p className="font-thin">Font Thin (100)</p>
-            <p className="font-extralight">Font Extra Light (200)</p>
-            <p className="font-light">Font Light (300)</p>
-            <p className="font-normal">Font Normal (400)</p>
-            <p className="font-medium">Font Medium (500)</p>
-            <p className="font-semibold">Font Semibold (600)</p>
-            <p className="font-bold">Font Bold (700)</p>
-            <p className="font-extrabold">Font Extra Bold (800)</p>
-            <p className="font-black">Font Black (900)</p>
-          </div>
-        </div>
-
-        <div className="mb-6">
-          <h3 className="text-xl font-medium mb-2">Paragraph Sizes</h3>
-          <div className="flex flex-col gap-4">
-            <p className="text-p-2xs">
-              Text P-2XS: Reddit Sans is designed to look great in small sizes
-              while maintaining readability.
-            </p>
-            <p className="text-p-xs">
-              Text P-XS: Reddit Sans is designed for optimal legibility on
-              screens across different devices.
-            </p>
-            <p className="text-p-sm">
-              Text P-SM: Reddit Sans is a versatile font that works well for UI
-              elements and short texts.
-            </p>
-            <p className="text-p-base">
-              Text P-Base: Reddit Sans is the default font used across the
-              application for better consistency.
-            </p>
-            <p className="text-p-lg">
-              Text P-LG: Reddit Sans is great for emphasis and headers within
-              content areas.
-            </p>
-            <p className="text-p-xl">
-              Text P-XL: Reddit Sans maintains clarity at larger sizes.
-            </p>
-            <p className="text-p-2xl">
-              Text P-2XL: Reddit Sans works well for headings.
-            </p>
+          <div className="space-y-3">
+            <div>
+              <span className="font-light text-lg">Light (300)</span>
+            </div>
+            <div>
+              <span className="font-normal text-lg">Normal (400)</span>
+            </div>
+            <div>
+              <span className="font-medium text-lg">Medium (500)</span>
+            </div>
+            <div>
+              <span className="font-semibold text-lg">Semibold (600)</span>
+            </div>
+            <div>
+              <span className="font-bold text-lg">Bold (700)</span>
+            </div>
           </div>
         </div>
       </section>
 
-      {/* Border Radius Section */}
+      {/* Border Radius */}
       <section className="mb-10">
         <h2 className="text-2xl font-semibold mb-4">Border Radius</h2>
-        <div className="flex flex-wrap gap-4">
+        <div className="flex flex-wrap gap-6">
           <div className="flex flex-col items-center">
-            <div className="bg-blue-300 w-20 h-20 border border-blue-500 rounded-none"></div>
-            <span className="text-sm mt-2">rounded-none</span>
+            <div className="w-16 h-16 bg-blue-200 rounded-none"></div>
+            <span className="text-sm mt-2">radius-none</span>
           </div>
           <div className="flex flex-col items-center">
-            <div className="bg-blue-300 w-20 h-20 border border-blue-500 rounded-sm"></div>
-            <span className="text-sm mt-2">rounded-sm</span>
+            <div className="w-16 h-16 bg-blue-200 rounded-sm"></div>
+            <span className="text-sm mt-2">radius-sm</span>
           </div>
           <div className="flex flex-col items-center">
-            <div className="bg-blue-300 w-20 h-20 border border-blue-500 rounded"></div>
-            <span className="text-sm mt-2">rounded</span>
+            <div className="w-16 h-16 bg-blue-200 rounded"></div>
+            <span className="text-sm mt-2">radius-default</span>
           </div>
           <div className="flex flex-col items-center">
-            <div className="bg-blue-300 w-20 h-20 border border-blue-500 rounded-md"></div>
-            <span className="text-sm mt-2">rounded-md</span>
+            <div className="w-16 h-16 bg-blue-200 rounded-md"></div>
+            <span className="text-sm mt-2">radius-md</span>
           </div>
           <div className="flex flex-col items-center">
-            <div className="bg-blue-300 w-20 h-20 border border-blue-500 rounded-lg"></div>
-            <span className="text-sm mt-2">rounded-lg</span>
+            <div className="w-16 h-16 bg-blue-200 rounded-lg"></div>
+            <span className="text-sm mt-2">radius-lg</span>
           </div>
           <div className="flex flex-col items-center">
-            <div className="bg-blue-300 w-20 h-20 border border-blue-500 rounded-xl"></div>
-            <span className="text-sm mt-2">rounded-xl</span>
+            <div className="w-16 h-16 bg-blue-200 rounded-xl"></div>
+            <span className="text-sm mt-2">radius-xl</span>
           </div>
           <div className="flex flex-col items-center">
-            <div className="bg-blue-300 w-20 h-20 border border-blue-500 rounded-2xl"></div>
-            <span className="text-sm mt-2">rounded-2xl</span>
+            <div className="w-16 h-16 bg-blue-200 rounded-2xl"></div>
+            <span className="text-sm mt-2">radius-2xl</span>
           </div>
           <div className="flex flex-col items-center">
-            <div className="bg-blue-300 w-20 h-20 border border-blue-500 rounded-full"></div>
-            <span className="text-sm mt-2">rounded-full</span>
+            <div className="w-16 h-16 bg-blue-200 rounded-full"></div>
+            <span className="text-sm mt-2">radius-full</span>
           </div>
         </div>
       </section>
 
-      {/* Shadows Section */}
+      {/* Shadows */}
       <section className="mb-10">
-        <h2 className="text-2xl font-semibold mb-4">Shadows</h2>
+        <h2 className="text-2xl font-semibold mb-4">Box Shadows</h2>
         <div className="flex flex-wrap gap-6">
           <div className="flex flex-col items-center">
-            <div className="bg-white w-24 h-24 shadow-sm flex items-center justify-center">
-              <span className="text-xs">Content</span>
-            </div>
+            <div className="w-24 h-24 bg-white shadow-sm flex items-center justify-center">sm</div>
             <span className="text-sm mt-2">shadow-sm</span>
           </div>
           <div className="flex flex-col items-center">
-            <div className="bg-white w-24 h-24 shadow flex items-center justify-center">
-              <span className="text-xs">Content</span>
-            </div>
+            <div className="w-24 h-24 bg-white shadow flex items-center justify-center">default</div>
             <span className="text-sm mt-2">shadow</span>
           </div>
           <div className="flex flex-col items-center">
-            <div className="bg-white w-24 h-24 shadow-md flex items-center justify-center">
-              <span className="text-xs">Content</span>
-            </div>
+            <div className="w-24 h-24 bg-white shadow-md flex items-center justify-center">md</div>
             <span className="text-sm mt-2">shadow-md</span>
           </div>
           <div className="flex flex-col items-center">
-            <div className="bg-white w-24 h-24 shadow-lg flex items-center justify-center">
-              <span className="text-xs">Content</span>
-            </div>
+            <div className="w-24 h-24 bg-white shadow-lg flex items-center justify-center">lg</div>
             <span className="text-sm mt-2">shadow-lg</span>
           </div>
           <div className="flex flex-col items-center">
-            <div className="bg-white w-24 h-24 shadow-xl flex items-center justify-center">
-              <span className="text-xs">Content</span>
-            </div>
+            <div className="w-24 h-24 bg-white shadow-xl flex items-center justify-center">xl</div>
             <span className="text-sm mt-2">shadow-xl</span>
           </div>
           <div className="flex flex-col items-center">
-            <div className="bg-white w-24 h-24 shadow-2xl flex items-center justify-center">
-              <span className="text-xs">Content</span>
-            </div>
+            <div className="w-24 h-24 bg-white shadow-2xl flex items-center justify-center">2xl</div>
             <span className="text-sm mt-2">shadow-2xl</span>
           </div>
         </div>
       </section>
 
-      {/* Spacing Section */}
+      {/* Spacing */}
       <section className="mb-10">
         <h2 className="text-2xl font-semibold mb-4">Spacing</h2>
         <div className="flex flex-wrap gap-4">
