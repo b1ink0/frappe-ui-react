@@ -3,7 +3,7 @@ import SidebarHeader from "./sidebarHeader";
 import SidebarSection from "./sidebarSection";
 import SidebarItem from "./sidebarItem";
 import { LucidePanelRightOpen } from "lucide-react";
-import { useMediaQuery } from "../useMediaQuery";
+import { useMediaQuery } from "./useMediaQuery";
 
 export type SidebarHeaderProps = {
   title: string;

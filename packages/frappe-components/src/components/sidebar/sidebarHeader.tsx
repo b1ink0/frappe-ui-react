@@ -1,6 +1,6 @@
 import React from "react";
-import Dropdown from "../../dropdown/dropdown";
-import FeatherIcon from "../../featherIcon";
+import Dropdown from "../dropdown/dropdown";
+import FeatherIcon from "../featherIcon";
 
 export type SidebarHeaderProps = {
   isCollapsed: boolean;
