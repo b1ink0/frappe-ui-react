@@ -1129,7 +1129,7 @@ const ThemeShowcase: React.FC = () => {
   return (
     <div className={`theme-showcase`}>
       <header className="showcase-header">
-        <h1>Design System - Theme Showcase</h1>
+        <h1>Design System</h1>
       </header>
 
       <div className="showcase-tabs">
