@@ -1449,8 +1449,7 @@ const ThemeShowcase: React.FC = () => {
             <div className="default-token-note">
               <p>
                 This is a comprehensive list of Tailwind's default tokens that
-                are still available for use in your project. You can use them
-                alongside your custom tokens to create consistent designs.
+                are not customized in the current theme.
               </p>
             </div>
           </div>
