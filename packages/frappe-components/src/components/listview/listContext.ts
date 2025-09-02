@@ -57,7 +57,7 @@ export interface ListOptions {
     rowKey?: string;
     selectionText: (count: number) => string;
   };
-  toggleRow?: (rowId: any) => void;
+  toggleRow: (rowId: any) => void;
   allRowsSelected: boolean;
   toggleAllRows: (value: boolean) => void;
   setColumns: React.Dispatch<React.SetStateAction<any[]>>;

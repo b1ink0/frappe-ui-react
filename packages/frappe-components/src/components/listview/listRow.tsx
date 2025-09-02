@@ -9,9 +9,10 @@ import { alignmentMap, getGridTemplateColumns } from './utils';
 interface ListRowProps {
   row: any;
   isLastRow?: boolean;
+  children?: React.ReactNode;
 }
 
-const ListRow: React.FC<ListRowProps> = ({ row, isLastRow = false }) => {
+const ListRow: React.FC<ListRowProps> = ({ row, isLastRow = false, children}) => {
   const { options: list } = useContext(ListContext);
 
   if (!list) {
@@ -75,6 +76,8 @@ const ListRow: React.FC<ListRowProps> = ({ row, isLastRow = false }) => {
   const toProp = list.options.getRowRoute ? { to: list.options.getRowRoute(row) } : { to: '' };
   const clickableProps = isHoverable ? { onClick: onRowClick } : {};
 
+  const ChildTag = list.options.getRowRoute ? 'template' : 'button';
+
   return (
     <Tag
       className={`flex flex-col transition-all duration-300 ease-in-out ${roundedClass} ${
@@ -89,8 +92,9 @@ const ListRow: React.FC<ListRowProps> = ({ row, isLastRow = false }) => {
       {...toProp}
       {...clickableProps}
     >
+      <ChildTag className='[all:unset] hover:[all:unset]'>
       <div
-        className="[all:unset] hover:[all:unset] grid items-center space-x-4 px-2"
+        className="grid items-center px-2"
         style={{
           height: rowHeight,
           gridTemplateColumns: getGridTemplateColumns(list.columns, list.options.selectable),
@@ -111,12 +115,12 @@ const ListRow: React.FC<ListRowProps> = ({ row, isLastRow = false }) => {
             />
           </div>
         )}
-        {list.columns.map((column: any, i: number) => (
+        {children ? children : list.columns.map((column: any, i: number) => (
           <div
             key={column.key}
-            className={`${alignmentMap[column.align as keyof typeof alignmentMap]} ${i === 0 ? 'text-ink-gray-9' : 'text-ink-gray-7'}`}
+            className={`${alignmentMap[column.align as keyof typeof alignmentMap]} ${i === 0 ? 'ml-4 text-ink-gray-9' : 'text-ink-gray-7'}`}
           >
-            {list.slots.cell ? (
+            {list.slots?.cell ? (
               <list.slots.cell column={column} row={row} item={row[column.key]} align={column.align} />
             ) : (
               <ListRowItem column={column} row={row} item={row[column.key]} align={column.align} />
@@ -133,6 +137,7 @@ const ListRow: React.FC<ListRowProps> = ({ row, isLastRow = false }) => {
           }`}
         />
       )}
+      </ChildTag>
     </Tag>
   );
 };

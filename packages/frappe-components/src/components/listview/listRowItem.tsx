@@ -7,12 +7,13 @@ interface ListRowItemProps {
   column: any;
   row: any;
   item: string | number | object;
-  align: 'left' | 'right' | 'center';
+  align?: 'left' | 'right' | 'center';
   prefix?: ReactNode;
   suffix?: ReactNode;
+  children?: ReactNode;
 }
 
-const ListRowItem: React.FC<ListRowItemProps> = ({ column, row, item, align, prefix, suffix }) => {
+const ListRowItem: React.FC<ListRowItemProps> = ({ column, row, item, align = 'left', prefix, suffix, children }) => {
   const { options: list } = useContext(ListContext);
 
   if (!list) {
@@ -52,10 +53,10 @@ const ListRowItem: React.FC<ListRowItemProps> = ({ column, row, item, align, pre
 
   return (
     <div className={`flex items-center space-x-2 ${alignmentMap[align]}`}>
-      {renderPrefix && <div className="flex-shrink-0">{renderPrefix}</div>}
-      <Tooltip text={tooltip}>
+      {renderPrefix && renderPrefix}
+      {children ? children : <Tooltip text={tooltip}>
         <div className="truncate text-base">{label}</div>
-      </Tooltip>
+      </Tooltip>}
       {suffix && <div className="flex-shrink-0">{suffix}</div>}
     </div>
   );

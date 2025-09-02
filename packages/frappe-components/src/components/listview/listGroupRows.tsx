@@ -21,7 +21,7 @@ const ListGroupBody: React.FC<ListGroupBodyProps> = ({ group, children }) => {
     return null;
   }
 
-  const { rowKey } = list.options;
+  const { rowKey = '' } = list.options;
 
   return (
     <div className="mb-5 mt-2">

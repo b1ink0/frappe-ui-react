@@ -6,14 +6,16 @@ import { debounce } from '../../utils';
 interface ListHeaderItemProps {
   item: any;
   debounce?: number;
-  onColumnWidthUpdated: (width: number) => void;
+  onColumnWidthUpdated?: (width: number) => void;
   children?: ReactNode;
   prefix?: ReactNode;
   suffix?: ReactNode;
+  firstItem?: boolean;
 }
 
 const ListHeaderItem: React.FC<ListHeaderItemProps> = ({
   item,
+  firstItem = false,
   debounce: debounceTime = 1000,
   onColumnWidthUpdated,
   children,
@@ -89,9 +91,10 @@ const ListHeaderItem: React.FC<ListHeaderItemProps> = ({
   const rootClasses = useMemo(() => {
     return [
       'group relative flex items-center',
+      firstItem ? 'ml-4': '',
       item.align ? alignmentMap[item.align as keyof typeof alignmentMap] : 'justify-between',
     ].filter(Boolean).join(' ');
-  }, [item.align]);
+  }, [item.align, firstItem]);
 
   return (
     <div ref={columnRef} className={rootClasses}>

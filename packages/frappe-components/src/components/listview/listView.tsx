@@ -12,7 +12,7 @@ interface ListProps extends HTMLAttributes<HTMLDivElement> {
   rows: any[];
   rowKey: string;
   options?: ListOptionsProps;
-  children?: (props: { showGroupedRows: boolean; selectable: boolean }) => ReactNode;
+  children?: ReactNode;
 }
 
 const ListView: React.FC<ListProps> = ({
@@ -23,8 +23,6 @@ const ListView: React.FC<ListProps> = ({
   children,
   ...attrs
 }) => {
-  const slots = {};
-
   const showGroupedRows = useMemo(
     () => rows.every((row) => row.group && row.rows && Array.isArray(row.rows)),
     [rows]
@@ -55,12 +53,11 @@ const ListView: React.FC<ListProps> = ({
 
   return (
     <ListProvider
+      rows={rows}
+      columns={columns}
+      rowKey={rowKey}
       options={{
-        options,
-        rows: rows,
-        rowKey: rowKey,
-        columns: columns,
-        slots: slots,
+        ...options,
       }}
     >
       <div className="relative flex w-full flex-1 flex-col overflow-x-auto">
@@ -71,7 +68,7 @@ const ListView: React.FC<ListProps> = ({
           style={attrs.style}
         >
           {children
-            ? children({ showGroupedRows, selectable })
+            ? children
             : defaultContent}
         </div>
       </div>

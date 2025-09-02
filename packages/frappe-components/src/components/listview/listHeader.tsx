@@ -22,7 +22,7 @@ const ListHeader: React.FC<ListHeaderProps> = ({ children }) => {
 
   return (
     <div
-      className="mb-2 grid items-center space-x-4 rounded bg-surface-gray-2 p-2"
+      className="mb-2 grid items-center rounded bg-surface-gray-2 p-2"
       style={{ gridTemplateColumns }}
     >
       {list.options.selectable && (
@@ -32,9 +32,10 @@ const ListHeader: React.FC<ListHeaderProps> = ({ children }) => {
         />
       )}
       {children ||
-        list.columns.map((column: any) => (
+        list.columns.map((column: any, index) => (
           <ListHeaderItem
             key={column.key}
+            firstItem={index === 0}
             item={column}
             onColumnWidthUpdated={() => {
               // This is where you would update the state with the new column widths

@@ -104,7 +104,6 @@ export const ListProvider: React.FC<ListProviderProps> = ({
     [allRowsSelected, rows, showGroupedRows, rowKey]
   );
 
-  // When selections are made, clear the active row
   useMemo(() => {
     if (selections.size > 0) {
       setActiveRow(null);
