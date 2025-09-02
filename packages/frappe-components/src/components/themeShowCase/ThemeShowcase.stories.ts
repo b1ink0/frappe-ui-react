@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from "@storybook/react-vite";
 import ThemeShowcase from "./ThemeShowcase";
 
 const meta = {
-  title: "Theme/ThemeShowcase",
+  title: "Theme/DesignSystem",
   component: ThemeShowcase,
   parameters: {
     layout: "fullscreen",

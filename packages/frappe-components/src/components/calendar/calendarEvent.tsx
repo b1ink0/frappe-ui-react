@@ -11,7 +11,7 @@ import { useEventInteraction } from './hooks/useEventInteraction';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const CalendarEvent = ({ event, date, extraClassName = '', onDragStart = (_, _e) => {} }: CalendarEventProps) => {
-  const { activeView, config, calendarActions } = useContext(CalendarContext);
+  const { activeView, config, deleteEvent, updatEventState, createNewEvent } = useContext(CalendarContext)
   const {
     updatedEvent,
     isPopoverOpen,
@@ -28,7 +28,7 @@ export const CalendarEvent = ({ event, date, extraClassName = '', onDragStart = 
     handleResizeMouseDown,
     setPopoverOpen,
     handleRepositionMouseDown,
-  } = useEventInteraction(event, { ...config, activeView, calendarActions });
+  } = useEventInteraction(event, { ...config, activeView, deleteEvent, updatEventState, createNewEvent });
 
   const eventStyles = useMemo(() => {
     const commonStyles = {
@@ -85,7 +85,7 @@ export const CalendarEvent = ({ event, date, extraClassName = '', onDragStart = 
         ref={eventRef}
         draggable="true"
         className={clsx(
-          'h-min-[18px] rounded-lg p-2 transition-all duration-75',
+          'h-min-[18px] rounded-lg p-2 transition-all duration-75 cursor-pointer',
           extraClassName,
           colorMap[event?.color ?? 'blue']?.background_color || 'bg-green-100',
           activeView !== 'Month' && 'shadow-lg absolute',

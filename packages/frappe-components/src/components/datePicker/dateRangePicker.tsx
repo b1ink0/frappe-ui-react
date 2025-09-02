@@ -61,7 +61,6 @@ function useDateRangePicker({
       setFromDate(v);
       setToDate("");
     } else if (fromDate && !toDate) {
-      console.log(v, "hello");
       setToDate(v);
       swapDatesIfNecessary(fromDate, v);
     } else {

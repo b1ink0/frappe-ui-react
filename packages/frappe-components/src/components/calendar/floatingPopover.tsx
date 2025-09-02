@@ -63,7 +63,7 @@ const FloatingEventModal = ({
       document.removeEventListener('mousedown', handleClickOutside);
     };
   }, [isOpen, refs.floating, targetElement, onClose]);
-  console.log(floatingStyles)
+
   if (!isOpen) {
     return null;
   }

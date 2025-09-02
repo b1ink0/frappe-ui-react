@@ -25,7 +25,6 @@ export const CalendarMonthly = () => {
   }
 
   const handleDragStart = (e: React.DragEvent<HTMLDivElement>, eventId: string | number) => {
-        console.log('here')
     if (!eventId || !config.isEditMode){
       return;
     }
@@ -94,7 +93,6 @@ export const CalendarMonthly = () => {
                         date={date}
                         draggable={config.isEditMode}
                         onDragStart={(e) => {
-                          console.log(e)
                           handleDragStart(e, event.id)
                         }}
                       />
