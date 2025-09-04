@@ -12,7 +12,6 @@ module.exports = {
       },
       colors: {
         inherit: "var(--color-inherit)",
-        current: "var(--color-current)",
         transparent: "var(--color-transparent)",
         black: "var(--color-black)",
         white: "var(--color-white)",
@@ -615,6 +614,26 @@ module.exports = {
           selected: "var(--surface-selected)",
         },
       },
+			borderColor: {
+				outline: {
+          white: "var(--outline-white)",
+          "gray-1": "var(--outline-gray-1)",
+          "gray-2": "var(--outline-gray-2)",
+          "gray-3": "var(--outline-gray-3)",
+          "gray-4": "var(--outline-gray-4)",
+          "gray-5": "var(--outline-gray-5)",
+          "red-1": "var(--outline-red-1)",
+          "red-2": "var(--outline-red-2)",
+          "red-3": "var(--outline-red-3)",
+          "green-1": "var(--outline-green-1)",
+          "green-2": "var(--outline-green-2)",
+          "amber-1": "var(--outline-amber-1)",
+          "amber-2": "var(--outline-amber-2)",
+          "blue-1": "var(--outline-blue-1)",
+          "orange-1": "var(--outline-orange-1)",
+          "gray-modals": "var(--outline-gray-modals)",
+        },
+			},
       fill: {
         ink: {
           white: "var(--ink-white)",
