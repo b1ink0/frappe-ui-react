@@ -11,7 +11,7 @@ const config: StorybookConfig = {
     "@storybook/addon-docs",
     "@storybook/addon-onboarding",
     "@storybook/addon-a11y",
-		'storybook-dark-mode'
+    "storybook-dark-mode",
     // "@storybook/addon-vitest",
   ],
   framework: {
