@@ -68,7 +68,7 @@ const NumberChart: React.FC<NumberChartProps> = ({
 
   return (
     <div
-      className={`flex max-h-[140px] items-center gap-2 overflow-hidden bg-white px-6 pt-5 text-gray-800 ${
+      className={`flex max-h-[140px] items-center gap-2 overflow-hidden bg-surface-gray-1 px-6 pt-5 text-gray-800 ${
         hasDelta ? 'pb-6' : 'pb-3'
       }`}
     >

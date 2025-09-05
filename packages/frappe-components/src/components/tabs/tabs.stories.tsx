@@ -59,7 +59,7 @@ export const WithoutIcon: Story = {
     tabs: tabsWithoutIcon,
     tabIndex: 0,
     onTabChange: () => {},
-    className: "border border-gray-200 rounded",
+    className: "border border-outline-gray-1 rounded",
   },
   render: (args) => (
     <Story layout={{ width: 900 }}>
@@ -91,7 +91,7 @@ export const WithIcon: Story = {
     tabs: tabsWithIcon,
     tabIndex: 0,
     onTabChange: () => {},
-    className: "border border-gray-200 rounded",
+    className: "border border-outline-gray-1 rounded",
   },
   render: (args) => (
     <Story layout={{ width: 900 }}>
@@ -127,7 +127,7 @@ export const VerticalWithIcon: Story = {
     tabIndex: 0,
     onTabChange: () => {},
     vertical: true,
-    className: "border border-gray-200 rounded",
+    className: "border border-outline-gray-1 rounded",
   },
   render: (args) => (
     <Story layout={{ width: 900 }}>

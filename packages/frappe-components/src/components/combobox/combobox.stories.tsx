@@ -107,7 +107,7 @@ export const SimpleStringOptions: Story = {
       <Story layout={{ type: "grid", width: 400 }}>
         <Variant title="Simple String Options">
           <div className="flex flex-col w-full">
-            <label className="block text-sm font-medium mb-2">
+            <label className="block text-sm font-medium mb-2 text-ink-gray-9">
               Simple Options
             </label>
             <Combobox {...args} value={val} onChange={setVal} />
@@ -134,7 +134,7 @@ export const ObjectOptions: Story = {
       <Story layout={{ type: "grid", width: 400 }}>
         <Variant title="Object Options">
           <div className="flex flex-col w-full">
-            <label className="block text-sm font-medium mb-2">
+            <label className="block text-sm font-medium mb-2 text-ink-gray-9">
               Object Options
             </label>
             <Combobox {...args} value={val} onChange={setVal} />
@@ -162,7 +162,7 @@ export const WithIcons: Story = {
       <Story layout={{ type: "grid", width: 400 }}>
         <Variant title="Options with Icons">
           <div className="flex flex-col w-full">
-            <label className="block text-sm font-medium mb-2">
+            <label className="block text-sm font-medium mb-2 text-ink-gray-9">
               Options with Icons
             </label>
             <Combobox {...args} value={val} onChange={setVal} />
@@ -190,7 +190,7 @@ export const Grouped: Story = {
       <Story layout={{ type: "grid", width: 400 }}>
         <Variant title="Grouped Options">
           <div className="flex flex-col w-full">
-            <label className="block text-sm font-medium mb-2">
+            <label className="block text-sm font-medium mb-2 text-ink-gray-9">
               Grouped Options
             </label>
             <Combobox {...args} value={val} onChange={setVal} />
@@ -216,7 +216,7 @@ export const DisabledState: Story = {
     <Story layout={{ type: "grid", width: 400 }}>
       <Variant title="Disabled State">
         <div className="flex flex-col w-full">
-          <label className="block text-sm font-medium mb-2">
+          <label className="block text-sm font-medium mb-2 text-ink-gray-9">
             Disabled Combobox
           </label>
           <Combobox {...args} />
@@ -240,7 +240,7 @@ export const PreselectedValue: Story = {
       <Story layout={{ type: "grid", width: 400 }}>
         <Variant title="Pre-selected Value">
           <div className="flex flex-col w-full">
-            <label className="block text-sm font-medium mb-2">
+            <label className="block text-sm font-medium mb-2 text-ink-gray-9">
               Pre-selected Value
             </label>
             <Combobox {...args} value={val} onChange={setVal} />
@@ -262,7 +262,7 @@ export const MultipleSelection: Story = {
     <Story layout={{ type: "grid", width: 400 }}>
       <Variant title="Multiple Selection - Simple">
         <div className="p-4">
-          <label className="block text-sm font-medium mb-2">
+          <label className="block text-sm font-medium mb-2 text-ink-gray-9">
             Multiple Simple Options
           </label>
           <div className="text-sm text-gray-600">
@@ -289,7 +289,7 @@ export const ComplexObject: Story = {
       <Story layout={{ type: "grid", width: 400 }}>
         <Variant title="Complex Objects (Display Value Demo)">
           <div className="flex flex-col w-full">
-            <label className="block text-sm font-medium mb-2">
+            <label className="block text-sm font-medium mb-2 text-ink-gray-9">
               Complex Objects
             </label>
             <Combobox {...args} value={val} onChange={setVal} />

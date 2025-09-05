@@ -611,7 +611,7 @@ button, label, input {
     --color-gray-900: var(--color-dark-gray-100);
 
     /* Override semantic colors for dark theme */
-    --ink-white: var(--color-white);
+    --ink-white: var(--color-dark-gray-900);
     --ink-gray-1: var(--color-dark-gray-100);
     --ink-gray-2: var(--color-dark-gray-200);
     --ink-gray-3: var(--color-dark-gray-300);

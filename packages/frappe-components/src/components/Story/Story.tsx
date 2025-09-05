@@ -65,33 +65,11 @@ export const Story: React.FC<StoryProps> = ({
     <div style={{ fontFamily: "system-ui, sans-serif" }}>
       <div style={getLayoutStyles()}>{children}</div>
       {controls && (
-        <div
-          style={{
-            borderTop: "1px solid #e5e7eb",
-            padding: "16px",
-            backgroundColor: "#f9fafb",
-            marginTop: "16px",
-          }}
-        >
-          <h4
-            style={{
-              margin: "0 0 12px 0",
-              fontSize: "14px",
-              fontWeight: "600",
-              color: "#374151",
-            }}
-          >
+        <div className="border border-outline-gray-2 p-4 bg-surface-gray-1 mt-4 rounded">
+          <h4 className="mb-3 text-lg font-semibold text-ink-gray-9">
             Controls
           </h4>
-          <div
-            style={{
-              display: "flex",
-              flexWrap: "wrap",
-              gap: "16px",
-            }}
-          >
-            {controls}
-          </div>
+          <div className="flex flex-wrap gap-4">{controls}</div>
         </div>
       )}
     </div>
