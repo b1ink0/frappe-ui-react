@@ -11,7 +11,7 @@ import { useCalendarData } from './hooks/useCalendarData';
 export const CalendarDaily = () => {
   const { handleCellDblClick } = useContext(CalendarContext);
   const { events, config, currentDate } = useContext(CalendarContext);
-  const { timedEvents, fullDayEvents } = useCalendarData(events);
+  const { timedEvents, fullDayEvents } = useCalendarData(events, 'Day');
   const gridRef = useRef<HTMLDivElement>(null);
 
   const hourHeight = config.hourHeight || 72;
@@ -26,7 +26,6 @@ export const CalendarDaily = () => {
   }, [hourHeight]);
 
   const parsedCurrentDate = parseDate(currentDate);
-  console.log(timeArray, timedEvents[parsedCurrentDate])
 
   return (
     <div className="h-[90%] min-h-[500px] min-w-[600px]">

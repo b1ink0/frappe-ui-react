@@ -12,7 +12,7 @@ export const CalendarMonthly = () => {
   const { events, currentMonthDates, currentDate, config } = useContext(CalendarContext);
   const { updateEventState, handleCellDblClick, setActiveView, setCurrentDate } = useContext(CalendarContext);
   
-  const { timedEvents } = useCalendarData(events);
+  const { timedEvents } = useCalendarData(events, 'Month');
 
   const maxEventsInCell = useMemo(() => (currentMonthDates.length > 35 ? 1 : 2), [currentMonthDates]);
 
