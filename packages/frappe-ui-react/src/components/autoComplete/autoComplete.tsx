@@ -190,6 +190,8 @@ const Autocomplete: React.FC<AutocompleteProps> = ({
 
   const handleComboboxChange = useCallback(
     (val: Option | Option[] | null) => {
+      if (!val) return;
+
       setQuery("");
 
       if (!multiple) {
