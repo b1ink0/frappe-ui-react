@@ -17,6 +17,7 @@ import FeatherIcon from "../featherIcon";
 import type {
   AutocompleteOption,
   AutocompleteOptionGroup,
+  AutocompleteOptions,
   AutocompleteProps,
   Option,
 } from "./types";
@@ -97,19 +98,32 @@ const Autocomplete: React.FC<AutocompleteProps> = ({
     [query]
   );
 
+  const processOptions = useCallback(
+    (opts: AutocompleteOptions) => {
+      if (!opts) {
+        return [];
+      }
+
+      let processedOptions: AutocompleteOptionGroup[];
+      if (opts.length > 0 && isOptionGroup(opts[0])) {
+        processedOptions = opts as AutocompleteOptionGroup[];
+      } else {
+        processedOptions = [
+          { group: "", items: opts as AutocompleteOption[], hideLabel: false },
+        ];
+      }
+
+      return processedOptions;
+    },
+    [isOptionGroup]
+  );
+
   const groups = useMemo<AutocompleteOptionGroup[]>(() => {
     if (!options?.length) {
       return [];
     }
 
-    let processedGroups: AutocompleteOptionGroup[];
-    if (options.length > 0 && isOptionGroup(options[0])) {
-      processedGroups = options as AutocompleteOptionGroup[];
-    } else {
-      processedGroups = [
-        { group: "", items: options as AutocompleteOption[], hideLabel: false },
-      ];
-    }
+    const processedGroups = processOptions(options);
 
     return processedGroups
       .map((group, i) => {
@@ -121,11 +135,11 @@ const Autocomplete: React.FC<AutocompleteProps> = ({
         };
       })
       .filter((group) => group.items.length > 0);
-  }, [options, filterOptions, sanitizeOptions, isOptionGroup]);
+  }, [options, processOptions, filterOptions, sanitizeOptions]);
 
   const allOptions = useMemo<Option[]>(() => {
-    return groups.flatMap((group) => group.items) as Option[];
-  }, [groups]);
+    return processOptions(options).flatMap((group) => group.items) as Option[];
+  }, [options, processOptions]);
 
   const findOption = useCallback(
     (option: AutocompleteOption): Option | undefined => {
