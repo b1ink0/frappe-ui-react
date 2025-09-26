@@ -1,5 +1,6 @@
 import React from "react";
 import feather from "feather-icons";
+import { htmlAttrsToJsx } from "../utils";
 
 interface FeatherIconProps extends React.SVGProps<SVGSVGElement> {
   name: string;
@@ -30,7 +31,7 @@ const FeatherIcon = ({
 
   return (
     <svg
-      {...icon.attrs}
+      {...htmlAttrsToJsx(icon.attrs)}
       fill="none"
       stroke="currentColor"
       color={color}
