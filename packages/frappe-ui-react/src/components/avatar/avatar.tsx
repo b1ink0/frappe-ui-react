@@ -7,6 +7,7 @@ export interface AvatarProps {
   label?: string;
   children?: ReactNode;
   indicator?: ReactNode;
+  alt?: string;
 }
 
 const getShapeClasses = (shape: string, size: string): string => {
@@ -100,6 +101,7 @@ const Avatar: React.FC<AvatarProps> = ({
   label,
   children,
   indicator,
+  alt = 'Avatar',
 }) => {
   const [imgFetchError, setImgFetchError] = useState<boolean>(false);
 
@@ -124,7 +126,7 @@ const Avatar: React.FC<AvatarProps> = ({
       {image && !imgFetchError ? (
         <img
           src={image}
-          alt={label}
+          alt={alt}
           className={`${shapeClasses} h-full w-full object-cover`}
           onError={handleImageError}
         />

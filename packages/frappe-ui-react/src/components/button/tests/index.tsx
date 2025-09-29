@@ -1,7 +1,7 @@
 import { render, screen, fireEvent } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import { BrowserRouter } from 'react-router';
-import Button from '../Button';
+import Button from '../button';
 
 describe('Button Component', () => {
     const renderButton = (props = {}) => {

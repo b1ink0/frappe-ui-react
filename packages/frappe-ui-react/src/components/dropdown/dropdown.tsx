@@ -9,7 +9,7 @@ import type {
   DropdownGroupOption,
   DropdownOptions,
 } from "./types";
-import FeatherIcon from "../featherIcon";
+import FeatherIcon, { type FeatherIconProps } from "../featherIcon";
 
 const cssClasses = {
   dropdownContent:
@@ -169,7 +169,7 @@ const Dropdown: React.FC<DropdownProps> = ({
                 item.icon &&
                 (typeof item.icon === "string" ? (
                   <FeatherIcon
-                    name={item.icon}
+                    name={item.icon as FeatherIconProps['name']}
                     className={`${cssClasses.itemIcon} ${getIconColor(item)}`}
                   />
                 ) : React.isValidElement(item.icon) ? (
@@ -229,7 +229,7 @@ const Dropdown: React.FC<DropdownProps> = ({
         >
           {item.icon &&
             (typeof item.icon === "string" ? (
-              <FeatherIcon name={item.icon} className={cssClasses.itemIcon} />
+              <FeatherIcon name={item.icon as FeatherIconProps['name']} className={cssClasses.itemIcon} />
             ) : React.isValidElement(item.icon) ? (
               item.icon
             ) : null)}

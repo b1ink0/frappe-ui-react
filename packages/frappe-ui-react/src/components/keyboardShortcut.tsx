@@ -1,5 +1,6 @@
 import React, { useMemo, ReactNode } from 'react';
 import FeatherIcon from './featherIcon';
+import { LucideOption } from 'lucide-react';
 
 interface KeyboardShortcutProps {
   meta?: boolean;
@@ -41,7 +42,7 @@ const KeyboardShortcut: React.FC<KeyboardShortcutProps> = ({
       {(ctrl || meta) && (
         <span className="flex items-center">
           {isMac ? (
-            <FeatherIcon name="Command" className="w-3 h-3" />
+            <FeatherIcon name="command" className="w-3 h-3" />
           ) : (
             <span>Ctrl</span>
           )}
@@ -54,7 +55,7 @@ const KeyboardShortcut: React.FC<KeyboardShortcutProps> = ({
       )}
       {alt && (
         <span className="flex items-center">
-          <FeatherIcon name="Option"  className="w-3 h-3" />
+          <LucideOption className="w-3 h-3" />
         </span>
       )}
       {children}

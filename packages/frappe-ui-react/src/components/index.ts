@@ -26,7 +26,7 @@ export * from './select';
 export * from './sidebar';
 export * from './spinner';
 export * from './switch';
-export * from './TabButtons';
+export { default as TabButtons } from './tabButtons';
 export * from './tabs';
 export * from './textInput';
 export * from './textarea';

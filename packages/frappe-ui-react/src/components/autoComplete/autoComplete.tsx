@@ -37,7 +37,8 @@ const Autocomplete: React.FC<AutocompleteProps> = ({
   itemPrefix,
   itemSuffix,
   maxOptions = 50,
-  compareFn = (a: Option, b: Option) => a?.value === b?.value,
+  //@ts-expect-error -- this is fine since we have specified object type in docuementation
+  compareFn = (a: NoInfer<Option | null> | object, b: NoInfer<Option | null> | object) => a?.value === b?.value,
   placement = "bottom-start",
   bodyClasses,
   onChange,

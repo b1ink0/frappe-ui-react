@@ -39,7 +39,7 @@ export interface AutocompleteProps {
   hideSearch?: boolean;
   showFooter?: boolean;
   maxOptions?: number;
-  compareFn?: (a: Option, b: Option) => boolean;
+  compareFn?: (a: NoInfer<Option | null> | object, b: NoInfer<Option | null> | object) => boolean;
   placement?: Placement;
   bodyClasses?: string | string[] | { [key: string]: boolean };
   onChange?: (
