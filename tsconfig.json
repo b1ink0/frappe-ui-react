@@ -2,7 +2,7 @@
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
-      "@frappe-ui-react/*": ["packages/frappe-ui-react/src/*"]
+      "@rtcamp/*": ["packages/frappe-ui-react/src/*"]
     }
   },
   "files": [],

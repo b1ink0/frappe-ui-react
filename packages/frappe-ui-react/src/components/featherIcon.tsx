@@ -1,8 +1,9 @@
 import React from "react";
 import feather from "feather-icons";
+import { htmlAttrsToJsx } from "../utils";
 
-interface FeatherIconProps extends React.SVGProps<SVGSVGElement> {
-  name: string;
+export interface FeatherIconProps extends React.SVGProps<SVGSVGElement> {
+  name: keyof typeof feather.icons;
   color?: string;
   strokeWidth?: number;
 }
@@ -14,7 +15,7 @@ const FeatherIcon = ({
   ...props
 }: FeatherIconProps) => {
   const validIcons = Object.keys(feather.icons);
-  const iconName = validIcons.includes(name) ? name : "circle";
+  const iconName: keyof typeof feather.icons = validIcons.includes(name) ? name : "circle";
   const icon = feather.icons[iconName];
 
   if (!validIcons.includes(name)) {
@@ -30,15 +31,13 @@ const FeatherIcon = ({
 
   return (
     <svg
-      {...icon.attrs}
+      {...htmlAttrsToJsx(icon.attrs)}
       fill="none"
       stroke="currentColor"
       color={color}
       strokeLinecap="round"
       strokeLinejoin="round"
       strokeWidth={strokeWidth}
-      width={null}
-      height={null}
       className={`${icon.attrs.class || ""} shrink-0`}
       dangerouslySetInnerHTML={{ __html: svgContent }}
       {...props}

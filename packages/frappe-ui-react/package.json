@@ -13,6 +13,10 @@
     },
     "./theme.css": "./src/theme.css"
   },
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc -b"
+  },
   "dependencies": {
     "@floating-ui/react": "^0.27.13",
     "@headlessui/react": "^2.2.6",

@@ -1,5 +1,5 @@
 import React from "react";
-import Button from "../button/Button";
+import Button from "../button/button";
 import { Tooltip } from "../tooltip";
 
 export type SidebarItemProps = {
