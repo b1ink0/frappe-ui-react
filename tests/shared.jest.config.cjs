@@ -42,7 +42,6 @@ module.exports = {
     '<rootDir>/node_modules',
     '<rootDir>/tests',
     '.mock.ts',
-    'mockData.ts',
   ],
   coveragePathIgnorePatterns: [
     '<rootDir>/node_modules',
