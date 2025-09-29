@@ -3,4 +3,5 @@ export interface AlertProps {
   type?: 'warning';
   actions?: React.ReactNode;
   children: React.ReactNode;
+  [key: string]: any;
 }

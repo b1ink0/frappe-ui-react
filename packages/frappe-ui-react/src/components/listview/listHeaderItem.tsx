@@ -32,6 +32,10 @@ const ListHeaderItem: React.FC<ListHeaderItemProps> = ({
   const [isResizing, setIsResizing] = useState(false);
 
   const updateWidth = debounce((width: number) => {
+    if(!onColumnWidthUpdated){
+      return
+    }
+
     onColumnWidthUpdated(width);
   }, debounceTime);
 

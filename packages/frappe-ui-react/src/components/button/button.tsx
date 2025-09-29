@@ -1,7 +1,7 @@
 import React from "react";
 import { useNavigate } from "react-router";
 
-import FeatherIcon from "../featherIcon";
+import FeatherIcon, { FeatherIconProps } from "../featherIcon";
 import LoadingIndicator from "../loadingIndicator";
 import { ButtonProps, ButtonThemeVariant } from "./types";
 
@@ -167,15 +167,17 @@ const Button = ({
     if (typeof iconProp === "string") {
       return (
         <FeatherIcon
-          name={iconProp}
+          name={iconProp as FeatherIconProps['name']}
           className={slotClasses}
           aria-label={ariaLabel}
           aria-hidden={!ariaLabel}
+          role="svg"
         />
       );
     }
 
     const IconComponent = iconProp;
+    //@ts-expect-error - React component
     return <IconComponent className={slotClasses} />;
   };
 

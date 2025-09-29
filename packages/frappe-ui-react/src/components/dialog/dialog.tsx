@@ -3,7 +3,7 @@ import { Root, Portal, Overlay, Content, Close, Description, Title} from "@radix
 import { X } from "lucide-react";
 import clsx from "clsx";
 import { Button } from "../button";
-import FeatherIcon from "../featherIcon";
+import FeatherIcon, { FeatherIconProps } from "../featherIcon";
 import { DialogActionButton } from "./dialogActionButton";
 import "./dialog.css";
 import { DialogProps } from "./types";
@@ -138,7 +138,7 @@ const Dialog = ({
                             )}
                           >
                             <FeatherIcon
-                              name={icon.name}
+                              name={icon.name as FeatherIconProps['name']}
                               className={clsx("h-4 w-4", dialogIconClasses)}
                               aria-hidden="true"
                             />

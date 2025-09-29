@@ -37,7 +37,8 @@ const Autocomplete: React.FC<AutocompleteProps> = ({
   itemPrefix,
   itemSuffix,
   maxOptions = 50,
-  compareFn = (a: Option, b: Option) => a?.value === b?.value,
+  //@ts-expect-error -- this is fine since we have specified object type in docuementation
+  compareFn = (a: NoInfer<Option | null> | object, b: NoInfer<Option | null> | object) => a?.value === b?.value,
   placement = "bottom-start",
   bodyClasses,
   onChange,
@@ -190,7 +191,9 @@ const Autocomplete: React.FC<AutocompleteProps> = ({
 
   const handleComboboxChange = useCallback(
     (val: Option | Option[] | null) => {
-      if (!val) return;
+      if (!val){
+        return;
+      }
 
       setQuery("");
 
@@ -305,6 +308,8 @@ const Autocomplete: React.FC<AutocompleteProps> = ({
                   isComboboxOpen ? "bg-surface-gray-3" : ""
                 }`}
                 onClick={popoverToggle}
+                role="button"
+                aria-label="Toggle options"
               >
                 <FeatherIcon
                   name="chevron-down"
@@ -336,6 +341,7 @@ const Autocomplete: React.FC<AutocompleteProps> = ({
                         ref={searchInputRef}
                         className=" h-7 w-full py-1.5 pl-2 pr-2 outline-none"
                         type="text"
+                        data-testid="combobox-input"
                         displayValue={() => query}
                         onChange={(
                           event: React.ChangeEvent<HTMLInputElement>
@@ -345,9 +351,9 @@ const Autocomplete: React.FC<AutocompleteProps> = ({
                       />
                       <div className="inline-flex h-7 w-7 items-center justify-center">
                         {loading ? (
-                          <LoadingIndicator className="h-4 w-4 text-ink-gray-5" />
+                          <LoadingIndicator data-testid="loading-indicator" className="h-4 w-4 text-ink-gray-5" />
                         ) : (
-                          <button type="button" onClick={clearAll}>
+                          <button type="button" aria-label="Clear" onClick={clearAll}>
                             <FeatherIcon
                               name="x"
                               className="w-4 h-4 text-ink-gray-8"

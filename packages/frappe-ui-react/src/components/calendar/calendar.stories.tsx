@@ -4,7 +4,7 @@ import { action } from "storybook/actions";
 
 import type { CalendarConfig, CalendarEvent } from "./types";
 import { Calendar } from "./calendar";
-import TabButtons from "../TabButtons";
+import TabButtons from "../tabButtons";
 
 const meta: Meta<typeof Calendar> = {
   title: "Components/Calendar",
