@@ -41,7 +41,7 @@ export default defineConfig({
   },
   resolve: {
     alias: {
-      "@frappe-ui-react": path.resolve(
+      "@rtcamp/frappe-ui-react": path.resolve(
         __dirname,
         "packages/frappe-ui-react/src"
       ),
