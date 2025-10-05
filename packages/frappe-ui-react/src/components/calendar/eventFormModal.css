@@ -1,0 +1,4 @@
+.form-control-prefix select {
+  padding-left: 2.2rem !important;
+  text-transform: capitalize !important;
+}

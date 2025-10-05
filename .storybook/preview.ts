@@ -1,12 +1,14 @@
-import type { Preview } from '@storybook/react-vite';
-import '@frappe-components/design-system/theme.css';
+import type { Preview } from "@storybook/react-vite";
+import {decorators} from "./modeDecorator";
+import "@rtcamp/frappe-ui-react/theme.css";
 
 const preview: Preview = {
+  decorators,
   parameters: {
     controls: {
       matchers: {
-       color: /(background|color)$/i,
-       date: /Date$/i,
+        color: /(background|color)$/i,
+        date: /Date$/i,
       },
     },
 
@@ -14,8 +16,13 @@ const preview: Preview = {
       // 'todo' - show a11y violations in the test UI only
       // 'error' - fail CI on a11y violations
       // 'off' - skip a11y checks entirely
-      test: 'todo'
-    }
+      test: "todo",
+    },
+    options: {
+      storySort: {
+        order: ["Theme", "Components"],
+      },
+    },
   },
 };
 
