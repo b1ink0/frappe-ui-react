@@ -4,8 +4,15 @@
   "main": "dist/index.js",
   "module": "dist/index.js",
   "types": "dist-types/index.d.ts",
+  "description": "Package for Frappe UI Components created in react.",
+  "author": {
+    "name": "rtCamp"
+  },
+  "license": "MIT",
   "private": false,
   "sideEffects": false,
+  "readme": "https://github.com/rtCamp/frappe-ui-react/blob/main/packages/frappe-ui-react/README.md",
+  "homepage": "https://rtcamp.github.io/frappe-ui-react",
   "exports": {
     ".": {
       "import": "./dist/index.js",
