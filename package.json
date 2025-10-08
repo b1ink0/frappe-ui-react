@@ -17,8 +17,10 @@
     "lint:js": "eslint .",
     "lint:types": "tsc ",
     "lint:js:fix": "eslint --fix .",
-    "publish:locally": "npm run publish:locally -w @rtcamp/frappe-ui-react",
+    "publish:local": "npm run publish:local -w @rtcamp/frappe-ui-react",
+    "build:publish:local": "npm run build && npm run publish:local",
     "publish:remote": "npm run publish:remote -w @rtcamp/frappe-ui-react",
+    "build:publish:remote": "npm run build && npm run publish:remote",
     "local-registry:start": "bash ./bin/setup-local-registry.sh",
     "local-registry:stop": "bash ./bin/stop-local-registry.sh"
   },

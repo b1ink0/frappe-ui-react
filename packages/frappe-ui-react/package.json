@@ -22,8 +22,8 @@
   },
   "scripts": {
     "build": "tsc -b",
-    "publish:locally": "npm run build && npm publish --registry http://localhost:4873 --access public",
-    "publish:remote": "npm run build && npm publish --access public"
+    "publish:local": "npm publish --registry http://localhost:4873",
+    "publish:remote": "npm publish"
   },
   "dependencies": {
     "@floating-ui/react": "^0.27.13",
