@@ -3,8 +3,6 @@ name: Publish To Github Pages
 on:
   push:
     branches: ["main"]
-  pull_request:
-    branches: ["main"]
 
 env:
   CI: false
@@ -25,7 +23,7 @@ jobs:
       deployments: "write"
     strategy:
       matrix:
-        node-version: [18.x]
+        node-version: [20.x]
 
     steps:
       - name: Checkout
