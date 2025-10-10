@@ -1,18 +1,14 @@
-import React, { useMemo } from 'react';
-import * as Toast from '@radix-ui/react-toast';
-import {
-  CircleCheck,
-  AlertTriangle,
-  Info,
-  X,
-} from 'lucide-react';
-import type { ToastProps } from './types';
+import React, { useMemo } from "react";
+import * as Toast from "@radix-ui/react-toast";
+import { CircleCheck, AlertTriangle, Info, X } from "lucide-react";
+
+import type { ToastProps } from "./types";
 
 const ToastComponent: React.FC<ToastProps> = ({
   open,
   onOpenChange,
   message,
-  type = 'success',
+  type = "success",
   icon,
   closable = true,
   duration = 5000,
@@ -21,11 +17,15 @@ const ToastComponent: React.FC<ToastProps> = ({
   const iconComponent = useMemo(() => {
     if (icon) return icon;
     switch (type) {
-      case 'success':
-        return <CircleCheck className="flex-shrink-0 size-4 text-ink-green-2" />;
-      case 'warning':
-        return <AlertTriangle className="flex-shrink-0 size-4 text-ink-amber-2" />;
-      case 'error':
+      case "success":
+        return (
+          <CircleCheck className="flex-shrink-0 size-4 text-ink-green-2" />
+        );
+      case "warning":
+        return (
+          <AlertTriangle className="flex-shrink-0 size-4 text-ink-amber-2" />
+        );
+      case "error":
         return <Info className="flex-shrink-0 size-4 text-ink-red-2" />;
       default:
         return null;

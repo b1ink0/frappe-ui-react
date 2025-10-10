@@ -1,4 +1,5 @@
 import { Radio, RadioGroup } from "@headlessui/react";
+
 import { Button } from "../button";
 
 interface TabButtonItem {
@@ -10,7 +11,6 @@ interface TabButtonItem {
   // Allow additional props to be passed to Button
   [key: string]: unknown;
 }
-
 
 interface TabButtonsProps {
   buttons: TabButtonItem[];

@@ -11,9 +11,11 @@ import {
   ComboboxOption,
   ComboboxOptions,
 } from "@headlessui/react";
+
 import { Popover } from "../popover";
 import LoadingIndicator from "../loadingIndicator";
 import FeatherIcon from "../featherIcon";
+import { Button } from "../button";
 import type {
   AutocompleteOption,
   AutocompleteOptionGroup,
@@ -22,7 +24,6 @@ import type {
   Option,
   OptionValue,
 } from "./types";
-import { Button } from "../button";
 
 const Autocomplete: React.FC<AutocompleteProps> = ({
   value,

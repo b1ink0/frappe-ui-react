@@ -6,10 +6,10 @@ import {
   Trash2,
   User,
   X,
-} from 'lucide-react';
+} from "lucide-react";
 
-import type { CalendarEvent } from './types';
-import { parseDateEventPopupFormat } from './calendarUtils';
+import type { CalendarEvent } from "./types";
+import { parseDateEventPopupFormat } from "./calendarUtils";
 
 // Define the component's props interface
 interface EventModalContentProps {
@@ -48,7 +48,7 @@ export const EventModalContent = ({
       </div>
       <div className="mt-2 flex flex-col gap-5">
         <div className="flex justify-between text-xl font-semibold">
-          <span>{calendarEvent.title || 'New Event'}</span>
+          <span>{calendarEvent.title || "New Event"}</span>
         </div>
 
         <div className="flex flex-col gap-4">

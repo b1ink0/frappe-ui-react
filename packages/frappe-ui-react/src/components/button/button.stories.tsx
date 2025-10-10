@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
+
 import Button from "./button";
 import { ButtonProps } from "./types";
 
@@ -77,9 +78,9 @@ export default {
 
 const ButtonTemplate: StoryObj<ButtonProps> = {
   render: (args) => (
-      <div className="p-4">
-        <Button {...args} />
-      </div>
+    <div className="p-4">
+      <Button {...args} />
+    </div>
   ),
 };
 

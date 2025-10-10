@@ -1,5 +1,6 @@
 import React from "react";
 import type { Meta, StoryObj } from "@storybook/react-vite";
+
 import Rating from "./rating";
 
 const meta: Meta<typeof Rating> = {
@@ -50,10 +51,9 @@ export const Default: RatingStory = {
     const [value, setValue] = React.useState(0);
 
     return (
-          <div className="p-2">
-            <Rating {...args} value={value} onChange={setValue} />
-          </div>
-        
+      <div className="p-2">
+        <Rating {...args} value={value} onChange={setValue} />
+      </div>
     );
   },
   args: {

@@ -1,6 +1,7 @@
 import { Meta, StoryObj } from "@storybook/react-vite";
-import { DatePicker, DateTimePicker, DateRangePicker } from "./index";
 import { useState } from "react";
+
+import { DatePicker, DateTimePicker, DateRangePicker } from "./index";
 
 const meta: Meta = {
   title: "Components/DatePicker",
@@ -30,13 +31,13 @@ export const Date: DatePickerStory = {
   render: (args) => {
     const [dateValue, setDateValue] = useState("");
     return (
-			<DatePicker
-				{...args}
-				value={dateValue}
-				onChange={(val) =>
-					setDateValue(Array.isArray(val) ? val[0] || "" : val)
-				}
-			/>
+      <DatePicker
+        {...args}
+        value={dateValue}
+        onChange={(val) =>
+          setDateValue(Array.isArray(val) ? val[0] || "" : val)
+        }
+      />
     );
   },
   argTypes: {
@@ -64,13 +65,13 @@ export const DateTime: DateTimePickerStory = {
   render: (args) => {
     const [dateTimeValue, setDateTimeValue] = useState("");
     return (
-			<DateTimePicker
-				{...args}
-				value={dateTimeValue}
-				onChange={(val) =>
-					setDateTimeValue(Array.isArray(val) ? val[0] || "" : val)
-				}
-			/>
+      <DateTimePicker
+        {...args}
+        value={dateTimeValue}
+        onChange={(val) =>
+          setDateTimeValue(Array.isArray(val) ? val[0] || "" : val)
+        }
+      />
     );
   },
   argTypes: {
@@ -99,13 +100,13 @@ export const DateRange: DateRangePickerStory = {
   render: (args) => {
     const [dateRangeValue, setDateRangeValue] = useState(["", ""]);
     return (
-			<DateRangePicker
-				{...args}
-				value={dateRangeValue}
-				onChange={(val) =>
-					setDateRangeValue(Array.isArray(val) ? val : [val, ""])
-				}
-			/>
+      <DateRangePicker
+        {...args}
+        value={dateRangeValue}
+        onChange={(val) =>
+          setDateRangeValue(Array.isArray(val) ? val : [val, ""])
+        }
+      />
     );
   },
   argTypes: {

@@ -632,8 +632,8 @@ module.exports = {
           "cyan-2": "var(--surface-cyan-2)",
         },
       },
-			borderColor: {
-				outline: {
+      borderColor: {
+        outline: {
           white: "var(--outline-white)",
           "gray-1": "var(--outline-gray-1)",
           "gray-2": "var(--outline-gray-2)",
@@ -651,7 +651,7 @@ module.exports = {
           "orange-1": "var(--outline-orange-1)",
           "gray-modals": "var(--outline-gray-modals)",
         },
-			},
+      },
       fill: {
         ink: {
           white: "var(--ink-white)",

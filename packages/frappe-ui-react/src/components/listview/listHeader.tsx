@@ -1,8 +1,8 @@
-import React, { useContext, useMemo } from 'react';
-import { ListContext } from './listContext';
-import { Checkbox } from '../checkbox';
-import ListHeaderItem from './listHeaderItem';
-import { getGridTemplateColumns } from './utils';
+import React, { useContext, useMemo } from "react";
+import { ListContext } from "./listContext";
+import { Checkbox } from "../checkbox";
+import ListHeaderItem from "./listHeaderItem";
+import { getGridTemplateColumns } from "./utils";
 
 interface ListHeaderProps {
   children?: React.ReactNode;
@@ -12,7 +12,7 @@ const ListHeader: React.FC<ListHeaderProps> = ({ children }) => {
   const { options: list } = useContext(ListContext);
 
   if (!list) {
-    throw new Error('ListHeader must be used within a ListProvider');
+    throw new Error("ListHeader must be used within a ListProvider");
   }
 
   const gridTemplateColumns = useMemo(
@@ -26,10 +26,7 @@ const ListHeader: React.FC<ListHeaderProps> = ({ children }) => {
       style={{ gridTemplateColumns }}
     >
       {list.options.selectable && (
-        <Checkbox
-          value={list.allRowsSelected}
-          onChange={list.toggleAllRows}
-        />
+        <Checkbox value={list.allRowsSelected} onChange={list.toggleAllRows} />
       )}
       {children ||
         list.columns.map((column: any, index) => (

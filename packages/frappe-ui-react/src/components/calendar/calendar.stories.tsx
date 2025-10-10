@@ -132,9 +132,9 @@ export const Default: Story = {
     events,
   },
   render: (args) => (
-      <div className="flex h-screen flex-col overflow-hidden p-5">
-        <Calendar {...args} />
-      </div>
+    <div className="flex h-screen flex-col overflow-hidden p-5">
+      <Calendar {...args} />
+    </div>
   ),
 };
 
@@ -183,9 +183,9 @@ export const CustomHeader: Story = {
     ),
   },
   render: (args) => (
-		<div className="flex h-screen flex-col overflow-hidden p-5">
-			<Calendar {...args} />
-		</div>
+    <div className="flex h-screen flex-col overflow-hidden p-5">
+      <Calendar {...args} />
+    </div>
   ),
 };
 
@@ -207,8 +207,8 @@ export const CustomClickEvents: Story = {
     events,
   },
   render: (args) => (
-		<div className="flex h-screen flex-col overflow-hidden p-5">
-			<Calendar {...args} />
-		</div>
+    <div className="flex h-screen flex-col overflow-hidden p-5">
+      <Calendar {...args} />
+    </div>
   ),
 };

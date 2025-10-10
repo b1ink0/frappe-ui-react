@@ -14,7 +14,6 @@ import { CalendarEvent } from "./calendarEvent";
 import { CalendarTimeMarker } from "./calendarTimeMarker";
 import { ShowMoreCalendarEvent } from "./showMoreCalendarEvent";
 import { useCalendarData } from "./hooks/useCalendarData";
-
 import "./calendarWeekly.css";
 
 interface CalendarWeeklyProps {
@@ -24,7 +23,7 @@ interface CalendarWeeklyProps {
 export const CalendarWeekly = ({ weeklyDates }: CalendarWeeklyProps) => {
   const { handleCellDblClick } = useContext(CalendarContext);
   const { events, config } = useContext(CalendarContext);
-  const { timedEvents, fullDayEvents } = useCalendarData(events, 'Week');
+  const { timedEvents, fullDayEvents } = useCalendarData(events, "Week");
 
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [showCollapsable, setShowCollapsable] = useState(false);
@@ -118,7 +117,7 @@ export const CalendarWeekly = ({ weeklyDates }: CalendarWeeklyProps) => {
                 <Button
                   onClick={() => setIsCollapsed(!isCollapsed)}
                   className="absolute -left-10 bottom-1 z-10"
-                  icon={ () =>
+                  icon={() =>
                     isCollapsed ? (
                       <ChevronDown size={16} />
                     ) : (
@@ -173,9 +172,7 @@ export const CalendarWeekly = ({ weeklyDates }: CalendarWeeklyProps) => {
                     <div
                       key={time}
                       className="cell relative flex cursor-pointer"
-                      onDoubleClick={(e) =>
-                        handleCellDblClick(e, date, time)
-                      }
+                      onDoubleClick={(e) => handleCellDblClick(e, date, time)}
                     >
                       <div
                         className={clsx(

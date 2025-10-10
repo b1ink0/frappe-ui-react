@@ -1,8 +1,9 @@
-import { Meta, StoryObj } from "@storybook/react-vite";
-import Checkbox from "./checkbox";
-import { CheckboxProps } from "./types";
 import { action } from "storybook/actions";
 import { useState } from "react";
+import { Meta, StoryObj } from "@storybook/react-vite";
+
+import Checkbox from "./checkbox";
+import { CheckboxProps } from "./types";
 
 export default {
   title: "Components/Checkbox",
@@ -40,10 +41,10 @@ export default {
       control: "boolean",
       description: "Whether the checkbox is checked",
     },
-		htmlId: {
-			control: "text",
-			description: "The HTML id attribute for the checkbox input",
-		}
+    htmlId: {
+      control: "text",
+      description: "The HTML id attribute for the checkbox input",
+    },
   },
   tags: ["autodocs"],
 } as Meta<typeof Checkbox>;

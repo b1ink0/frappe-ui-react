@@ -34,14 +34,14 @@ export const TabButtonsExample: Story = {
     const [currentTab, setCurrentTab] = useState<string>("mytasks");
 
     return (
-        <TabButtons
-          buttons={[
-            { label: "Tasks assigned to me", value: "mytasks" },
-            { label: "Tasks created by me", value: "created" },
-          ]}
-          value={currentTab}
-          onChange={(value) => setCurrentTab(value as string)}
-        />
+      <TabButtons
+        buttons={[
+          { label: "Tasks assigned to me", value: "mytasks" },
+          { label: "Tasks created by me", value: "created" },
+        ]}
+        value={currentTab}
+        onChange={(value) => setCurrentTab(value as string)}
+      />
     );
   },
 };
