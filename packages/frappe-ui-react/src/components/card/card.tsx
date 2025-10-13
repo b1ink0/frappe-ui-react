@@ -6,7 +6,7 @@ export const Card = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <div
     ref={ref}
-    className={`rounded-lg border bg-card text-card-foreground shadow-sm ${className}`}
+    className={`rounded-lg border bg-card text-black shadow-sm ${className}`}
     {...props}
   />
 ));
@@ -42,7 +42,7 @@ export const CardDescription = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <div
     ref={ref}
-    className={`text-sm text-muted-foreground ${className}`}
+    className={`text-sm text-slate-500 ${className}`}
     {...props}
   />
 ));
