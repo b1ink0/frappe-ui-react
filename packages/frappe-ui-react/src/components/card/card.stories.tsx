@@ -8,7 +8,6 @@ import {
   CardFooter,
 } from "./card";
 import { Button } from "../button";
-import { MemoryRouter } from "react-router";
 
 export default {
   title: "Components/Card",
@@ -25,18 +24,16 @@ export default {
 };
 
 export const Basic = () => (
-  <MemoryRouter>
-    <Card>
-      <CardHeader>
-        <CardTitle>Card Title</CardTitle>
-        <CardDescription>This is a card description.</CardDescription>
-      </CardHeader>
-      <CardContent>
-        <p>This is the main content of the card.</p>
-      </CardContent>
-      <CardFooter>
-        <Button>Action</Button>
-      </CardFooter>
-    </Card>
-  </MemoryRouter>
+  <Card>
+    <CardHeader>
+      <CardTitle>Card Title</CardTitle>
+      <CardDescription>This is a card description.</CardDescription>
+    </CardHeader>
+    <CardContent>
+      <p>This is the main content of the card.</p>
+    </CardContent>
+    <CardFooter>
+      <Button>Action</Button>
+    </CardFooter>
+  </Card>
 );
