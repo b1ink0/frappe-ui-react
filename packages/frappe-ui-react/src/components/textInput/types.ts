@@ -1,10 +1,10 @@
 import type { ReactNode } from "react";
-import { TextInputTypes } from "../../types";
+import { TextInputTypes } from "../../common/types";
 
 export interface TextInputProps {
   type?: TextInputTypes;
-  size?: 'sm' | 'md' | 'lg' | 'xl';
-  variant?: 'subtle' | 'outline';
+  size?: "sm" | "md" | "lg" | "xl";
+  variant?: "subtle" | "outline";
   placeholder?: string;
   disabled?: boolean;
   htmlId?: string;
@@ -18,4 +18,4 @@ export interface TextInputProps {
   suffix?: (args?: any) => ReactNode;
   className?: string;
   style?: Record<string, string | number | boolean>;
-};
+}

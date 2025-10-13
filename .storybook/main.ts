@@ -6,6 +6,7 @@ const require = createRequire(import.meta.url);
 
 const config: StorybookConfig = {
   stories: [
+    "../*.mdx",
     "../**/src/**/*.mdx",
     "../**/src/**/*.stories.@(js|jsx|mjs|ts|tsx)",
   ],
@@ -14,7 +15,7 @@ const config: StorybookConfig = {
     getAbsolutePath("@storybook/addon-docs"),
     getAbsolutePath("@storybook/addon-onboarding"),
     getAbsolutePath("@storybook/addon-a11y"),
-		getAbsolutePath("storybook-dark-mode"),
+    getAbsolutePath('@storybook/addon-themes'),
   ],
   framework: {
     name: getAbsolutePath("@storybook/react-vite"),

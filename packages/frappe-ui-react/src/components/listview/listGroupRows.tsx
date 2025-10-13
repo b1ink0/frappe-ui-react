@@ -13,7 +13,7 @@ interface ListGroupBodyProps {
 const ListGroupBody: React.FC<ListGroupBodyProps> = ({ group, children }) => {
   const list = useContext(ListContext);
 
-  if (!list) {
+  if (!list.options) {
     throw new Error('ListGroupBody must be used within a ListContext.Provider');
   }
 

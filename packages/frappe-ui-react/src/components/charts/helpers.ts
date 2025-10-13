@@ -7,10 +7,10 @@ export function formatLabel(name: string) {
     .join(' ')
 }
 
-export function formatValue(value: number, precision = 0, shorten = false) {
+export function formatValue(value: number, precision = 0, shorten = false, locale?: string) {
   if (isNaN(value)) return value.toString()
 
-  const locale = 'en-US'
+  locale = locale || 'en-US'
 
   if (shorten) {
     let formatted = new Intl.NumberFormat(locale, {

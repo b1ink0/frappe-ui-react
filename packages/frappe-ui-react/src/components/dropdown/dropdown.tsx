@@ -1,5 +1,4 @@
 import React, { useMemo, useCallback } from "react";
-import { useNavigate } from "react-router";
 import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
 
 import { Button, ButtonProps } from "../button";
@@ -9,7 +8,7 @@ import type {
   DropdownGroupOption,
   DropdownOptions,
 } from "./types";
-import FeatherIcon from "../featherIcon";
+import FeatherIcon, { type FeatherIconProps } from "../featherIcon";
 
 const cssClasses = {
   dropdownContent:
@@ -32,20 +31,13 @@ const Dropdown: React.FC<DropdownProps> = ({
   children,
   ...attrs
 }) => {
-  const navigate = useNavigate();
-
-  const handleItemClick = useCallback(
-    (item: DropdownOption) => {
-      if (item.route) {
-        navigate(item.route);
-      } else if (item.link) {
-        window.open(item.link, "_blank");
-      } else if (item.onClick) {
-        item.onClick();
-      }
-    },
-    [navigate]
-  );
+  const handleItemClick = useCallback((item: DropdownOption) => {
+    if (item.link) {
+      window.open(item.link, "_blank");
+    } else if (item.onClick) {
+      item.onClick();
+    }
+  }, []);
 
   const getIconColor = (item: DropdownOption) =>
     item.theme === "red" ? "text-ink-red-3" : "text-ink-gray-6";
@@ -169,7 +161,7 @@ const Dropdown: React.FC<DropdownProps> = ({
                 item.icon &&
                 (typeof item.icon === "string" ? (
                   <FeatherIcon
-                    name={item.icon}
+                    name={item.icon as FeatherIconProps["name"]}
                     className={`${cssClasses.itemIcon} ${getIconColor(item)}`}
                   />
                 ) : React.isValidElement(item.icon) ? (
@@ -229,7 +221,10 @@ const Dropdown: React.FC<DropdownProps> = ({
         >
           {item.icon &&
             (typeof item.icon === "string" ? (
-              <FeatherIcon name={item.icon} className={cssClasses.itemIcon} />
+              <FeatherIcon
+                name={item.icon as FeatherIconProps["name"]}
+                className={cssClasses.itemIcon}
+              />
             ) : React.isValidElement(item.icon) ? (
               item.icon
             ) : null)}
@@ -272,13 +267,11 @@ const Dropdown: React.FC<DropdownProps> = ({
                 </DropdownMenu.Label>
               )}
               {group.items.map((item) => (
-                <DropdownMenu.Item
-                  key={item.label}
-                  asChild
-                  onSelect={item.onClick}
-                >
-                  {renderDropdownItem(item)}
-                </DropdownMenu.Item>
+                <div data-testid="dropdown-item" key={item.label}>
+                  <DropdownMenu.Item asChild onSelect={item.onClick}>
+                    {renderDropdownItem(item)}
+                  </DropdownMenu.Item>
+                </div>
               ))}
             </div>
           ))}

@@ -73,6 +73,7 @@ export const Combobox: React.FC<ComboboxProps> = ({
       const selected = val
         ? allOptionsFlat.find((opt) => getValue(opt) === val) || null
         : null;
+
       onChange?.(val, selected);
       setQuery(val || "");
     },

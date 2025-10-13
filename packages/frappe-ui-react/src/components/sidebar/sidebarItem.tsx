@@ -1,5 +1,5 @@
 import React from "react";
-import Button from "../button/Button";
+import Button from "../button/button";
 import { Tooltip } from "../tooltip";
 
 export type SidebarItemProps = {
@@ -27,7 +27,6 @@ const SidebarItem: React.FC<SidebarItemProps> = ({
     if (onClick) {
       onClick();
     } else if (to) {
-      // Use react-router for navigation if needed
       window.location.href = to;
     }
   }

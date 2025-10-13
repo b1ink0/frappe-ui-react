@@ -1,7 +1,6 @@
 import React from "react";
-import { useNavigate } from "react-router";
 
-import FeatherIcon from "../featherIcon";
+import FeatherIcon, { FeatherIconProps } from "../featherIcon";
 import LoadingIndicator from "../loadingIndicator";
 import { ButtonProps, ButtonThemeVariant } from "./types";
 
@@ -16,15 +15,12 @@ const Button = ({
   loading = false,
   loadingText,
   disabled = false,
-  route,
   link,
   children,
   onClick,
   className,
   ...props
 }: ButtonProps) => {
-  const navigate = useNavigate();
-
   const isIconButton = Boolean(icon);
   const isDisabled = disabled || loading;
 
@@ -147,14 +143,11 @@ const Button = ({
     .join(" ");
 
   const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
-    if (route) {
-      navigate(route);
-      return;
-    }
     if (link) {
       window.open(link, "_blank");
       return;
     }
+
     onClick?.(e);
   };
 
@@ -167,15 +160,17 @@ const Button = ({
     if (typeof iconProp === "string") {
       return (
         <FeatherIcon
-          name={iconProp}
+          name={iconProp as FeatherIconProps["name"]}
           className={slotClasses}
           aria-label={ariaLabel}
           aria-hidden={!ariaLabel}
+          role="svg"
         />
       );
     }
 
     const IconComponent = iconProp;
+    //@ts-expect-error - React component
     return <IconComponent className={slotClasses} />;
   };
 

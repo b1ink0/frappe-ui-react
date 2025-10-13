@@ -4,8 +4,8 @@ import type { ReactNode } from "react";
 export type OptionValue = string | number | boolean;
 
 export type Option = {
-  label: string;
-  value: OptionValue;
+  label?: string;
+  value?: OptionValue;
   description?: string;
   disabled?: boolean;
   image?: string;
@@ -39,10 +39,10 @@ export interface AutocompleteProps {
   hideSearch?: boolean;
   showFooter?: boolean;
   maxOptions?: number;
-  compareFn?: (a: Option, b: Option) => boolean;
+  compareFn?: (a: NoInfer<Option | null> | object, b: NoInfer<Option | null> | object) => boolean;
   placement?: Placement;
   bodyClasses?: string | string[] | { [key: string]: boolean };
   onChange?: (
-    value: AutocompleteOption | AutocompleteOption[] | null | undefined
+    value: AutocompleteOption | AutocompleteOption[] | null
   ) => void;
 }
