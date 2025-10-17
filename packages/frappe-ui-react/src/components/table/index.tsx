@@ -1,103 +1,128 @@
-import { forwardRef } from "react";
+import {
+  ColumnDef,
+  flexRender,
+  getCoreRowModel,
+  getPaginationRowModel,
+  OnChangeFn,
+  useReactTable,
+} from "@tanstack/react-table";
 import classNames from "classnames";
 
-const Table = forwardRef<
-  HTMLTableElement,
-  React.HTMLAttributes<HTMLTableElement>
->(({ className, ...props }, ref) => (
-  <div className="relative w-full overflow-auto">
-    <table
-      ref={ref}
-      className={classNames("w-full caption-bottom text-sm", className)}
-      {...props}
-    />
-  </div>
-));
-
-const TableHeader = forwardRef<
-  HTMLTableSectionElement,
-  React.HTMLAttributes<HTMLTableSectionElement>
->(({ className, ...props }, ref) => (
-  <thead
-    ref={ref}
-    className={classNames("[&_tr]:border-b bg-slate-50 dark:bg-slate-500 border-t", className)}
-    {...props}
-  />
-));
-
-const TableBody = forwardRef<
-  HTMLTableSectionElement,
-  React.HTMLAttributes<HTMLTableSectionElement>
->(({ className, ...props }, ref) => (
-  <tbody
-    ref={ref}
-    className={classNames("[&_tr:last-child]:border-0", className)}
-    {...props}
-  />
-));
-
-const TableFooter = forwardRef<
-  HTMLTableSectionElement,
-  React.HTMLAttributes<HTMLTableSectionElement>
->(({ className, ...props }, ref) => (
-  <tfoot
-    ref={ref}
-    className={classNames("border-t bg-slate-500/50 font-medium [&>tr]:last:border-b-0", className)}
-    {...props}
-  />
-));
-
-const TableRow = forwardRef<
-  HTMLTableRowElement,
-  React.HTMLAttributes<HTMLTableRowElement>
->(({ className, ...props }, ref) => (
-  <tr
-    ref={ref}
-    className={classNames("border-b transition-colors hover:bg-slate-500/50 data-[state=selected]:bg-slate-500", className)}
-    {...props}
-  />
-));
-
-const TableHead = forwardRef<
-  HTMLTableCellElement,
-  React.ThHTMLAttributes<HTMLTableCellElement>
->(({ className, ...props }, ref) => (
-  <th
-    ref={ref}
-    className={classNames("h-12 px-4 text-left align-middle font-medium text-gray-900 [&:has([role=checkbox])]:pr-0", className)}
-    {...props}
-  />
-));
-
-const TableCell = forwardRef<
-  HTMLTableCellElement,
-  React.TdHTMLAttributes<HTMLTableCellElement>
->(({ className, ...props }, ref) => (
-  <td
-    ref={ref}
-    className={classNames("px-4 py-2 align-middle [&:has([role=checkbox])]:pr-0", className)}
-    {...props}
-  />
-));
-
-const TableCaption = forwardRef<
-  HTMLTableCaptionElement,
-  React.HTMLAttributes<HTMLTableCaptionElement>
->(({ className, ...props }, ref) => (
-  <caption
-    ref={ref}
-    className={classNames("mt-4 text-sm text-slate-400", className)}
-    {...props}
-  />
-));
-
-export {
-  Table,
-  TableHeader,
+import {
   TableBody,
+  TableCaption,
+  TableCell,
   TableFooter,
   TableHead,
+  TableHeader,
   TableRow,
-  TableCell,
-  TableCaption,
-};
+} from "./components";
+
+interface TableProps<TData> {
+  className?: string;
+  columns: ColumnDef<TData>[];
+  data: TData[];
+  enablePagination?: boolean;
+  paginationState?: {
+    pageIndex: number;
+    pageSize: number;
+  };
+  onPaginationChange?: OnChangeFn<{
+    pageIndex: number;
+    pageSize: number;
+  }>;
+  componentClassNames?: {
+    caption?: string;
+    header?: string;
+    body?: string;
+    footer?: string;
+    head?: string;
+    row?: string;
+    cell?: string;
+  };
+}
+
+function Table<TData>({
+  className,
+  columns,
+  data,
+  enablePagination = false,
+  paginationState = { pageIndex: 0, pageSize: 10 },
+  onPaginationChange,
+  componentClassNames,
+}: TableProps<TData>) {
+  const table = useReactTable<TData>({
+    columns,
+    data,
+    getCoreRowModel: getCoreRowModel(),
+    manualPagination: enablePagination,
+    getPaginationRowModel: enablePagination
+      ? getPaginationRowModel()
+      : undefined,
+    onPaginationChange: enablePagination ? onPaginationChange : undefined,
+    state: {
+      pagination:
+        enablePagination ? paginationState : undefined,
+    },
+  });
+
+  return (
+    <div className="relative w-full overflow-auto">
+      <table className={classNames("w-full caption-bottom text-sm", className)}>
+        <TableCaption className={componentClassNames?.caption} />
+
+        <TableHeader className={componentClassNames?.header}>
+          {table.getHeaderGroups().map((headerGroup) => (
+            <TableRow key={headerGroup.id} className={componentClassNames?.row}>
+              {headerGroup.headers.map((header) => (
+                <TableHead
+                  key={header.id}
+                  className={componentClassNames?.head}
+                  colSpan={header.colSpan}
+                  rowSpan={header.rowSpan}
+                >
+                  {flexRender(
+                    header.column.columnDef.header,
+                    header.getContext()
+                  )}
+                </TableHead>
+              ))}
+            </TableRow>
+          ))}
+        </TableHeader>
+
+        <TableBody className={componentClassNames?.body}>
+          {table.getRowModel().rows.map((row) => (
+            <TableRow key={row.id} className={componentClassNames?.row}>
+              {row.getVisibleCells().map((cell) => (
+                <TableCell key={cell.id} className={componentClassNames?.cell}>
+                  {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                </TableCell>
+              ))}
+            </TableRow>
+          ))}
+        </TableBody>
+
+        <TableFooter className={componentClassNames?.footer}>
+          {table.getFooterGroups().map((footerGroup) => (
+            <TableRow key={footerGroup.id} className={componentClassNames?.row}>
+              {footerGroup.headers.map((header) => (
+                <TableCell
+                  key={header.id}
+                  className={componentClassNames?.cell}
+                >
+                  {flexRender(
+                    header.column.columnDef.footer,
+                    header.getContext()
+                  )}
+                </TableCell>
+              ))}
+            </TableRow>
+          ))}
+        </TableFooter>
+      </table>
+    </div>
+  );
+}
+
+export default Table;
