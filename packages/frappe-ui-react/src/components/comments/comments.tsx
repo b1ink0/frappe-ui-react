@@ -80,7 +80,7 @@ function Comments({ initialComments = [] }: CommentsProp) {
               }`}
             >
               <div className="flex h-8 w-7 items-center justify-center bg-gray-100 rounded-full">
-                <MessageCircle className="text-ink-gray-8 w-4 h-4" />
+                <MessageCircle className="text-ink-gray-5 w-4 h-4" />
               </div>
             </div>
             <Comment

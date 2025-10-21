@@ -45,9 +45,8 @@ function Comment({ comment, onAddReply }: CommentProps) {
               image={comment.author.avatarUrl}
               label={comment.author.name}
             />
-            <span className="ml-2">{comment.author.name}&nbsp;</span>
-            <span className="text-muted">commented</span>
-            <span className="text-gray-500 text-xs">· {comment.timestamp}</span>
+            <span className="text-base ml-2 text-ink-gray-5">{comment.author.name} commented</span>
+            <span className="text-ink-gray-5 text-xs">&nbsp;· {comment.timestamp}</span>
           </span>
           <span className="flex flex-shrink-0">
             <div className="mt-2 flex items-center gap-1">
@@ -71,7 +70,7 @@ function Comment({ comment, onAddReply }: CommentProps) {
         <hr className="mt-1 mb-3.5 ml-9.5 border-t border-outline-gray-modals"/>
         <div className="flex items-start">
           <div className="flex-1">
-            <div className="text-[15px] leading-relaxed whitespace-pre-wrap">
+            <div className="text-[15px] text-gray-900 leading-relaxed whitespace-pre-wrap">
               {parseMentions(comment.text)}
             </div>
           </div>
@@ -94,7 +93,7 @@ function Comment({ comment, onAddReply }: CommentProps) {
               }`}
             >
               <div className="flex h-8 w-7 items-center justify-center bg-gray-100 rounded-full">
-                <MessageSquareText className="text-ink-gray-8 w-4 h-4" />
+                <MessageSquareText className="text-ink-gray-5 w-4 h-4" />
               </div>
             </div>
 
