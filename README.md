@@ -15,15 +15,15 @@ npm install @frappe-ui-react/frappe-ui-react
 yarn add @frappe-ui-react/frappe-ui-react
 ```
 
-Now, you can use the package in the following page:
+### Now, you can use the package in the following page
 
-index.css:
+#### index.css
 
 ```css
 @import @frappe-ui-react/theme.css
 ```
 
-app.tsx:
+#### app.tsx
 
 ```js
 import './index.css';
