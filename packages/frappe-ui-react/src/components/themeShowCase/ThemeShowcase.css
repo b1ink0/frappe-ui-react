@@ -10,7 +10,8 @@
   --showcase-tab-active-border: var(--outline-blue-1);
 
   padding: var(--showcase-padding);
-  font-family: "Reddit Sans", sans-serif;
+  font-family: "Inter", sans-serif;
+  font-optical-sizing: auto;
   color: var(--showcase-font-color);
   max-width: var(--showcase-max-width);
   margin: 0 auto;
