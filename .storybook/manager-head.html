@@ -33,8 +33,10 @@
 
   #root .sidebar-container {
     background-color: rgb(243, 243, 243);
-    border-color: rgba(226, 226, 226, 0.3);
-    border-right-width: 1px;
+  }
+
+  #root > div > div {
+    border-right: 1px solid rgba(226, 226, 226, 0.3);
   }
 
   #storybook-explorer-tree .sidebar-item > button > div > svg {
@@ -49,6 +51,7 @@
     height: 14px;
     vertical-align: middle;
     transform: translate(34px, 0px);
+    opacity: 0.5;
   }
 
 </style>
