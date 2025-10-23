@@ -1,7 +1,6 @@
 /**
  * External dependencies.
  */
-import { Description } from "@headlessui/react";
 import { LoaderCircle, Trash2, X } from "lucide-react";
 /**
  * External dependencies.
@@ -21,7 +20,7 @@ import { Dialog } from "../dialog";
  * @param props.onCancel The function to cancel the dialog.
  * @returns React.FC
  */
-export const DeleteConfirmationDialog = ({
+export const ConfirmationDialog = ({
   onDelete,
   isOpen,
   isLoading,
@@ -39,30 +38,33 @@ export const DeleteConfirmationDialog = ({
   description: string;
 }) => {
   return (
-    <Dialog open={isOpen} onOpenChange={(open: boolean) => !open && onCancel()}>
-      <div className="z-[1000] relative grid w-full max-w-lg gap-4 bg-background p-6 shadow-lg duration-200 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 sm:rounded-lg md:w-full sm:max-w-[425px] z-[1000]">
-        <div className="flex flex-col space-y-1.5 text-center sm:text-left">
-          <Description>
-            <p className="text-xl mb-2 mt-3 font-semibold">{title}</p>
-            <p className="text-sm">{description}</p>
-          </Description>
-        </div>
-
-        <div className="flex flex-col-reverse sm:flex-row justify-start sm:space-x-2">
-          <Button className="outline-none" variant="solid" onClick={onDelete}>
-            {isLoading ? (
+    <Dialog
+      open={isOpen}
+      onOpenChange={(open: boolean) => !open && onCancel()}
+      options={{
+        title,
+        message: description,
+      }}
+      actions={
+        <div className="flex w-full gap-3 justify-end flex-row sm:flex-row sm:space-x-2">
+          <Button iconLeft={() => isLoading ? (
               <LoaderCircle className="animate-spin w-4 h-4 outline-none" />
             ) : (
               <Trash2 className="w-4 h-4" />
-            )}
+            )} variant="solid" onClick={onDelete}>
             Delete
           </Button>
-          <Button type="button" className="outline-none" variant="solid" onClick={onCancel}>
-            <X className="w-4 h-4" />
+          <Button
+            iconLeft={() => <X className="w-4 h-4" />}
+            type="button"
+            variant="subtle"
+            onClick={onCancel}
+          >
             Cancel
           </Button>
         </div>
-      </div>
+      }
+    >
     </Dialog>
   );
 };
