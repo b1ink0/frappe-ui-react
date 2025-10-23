@@ -1,3 +1,17 @@
+/**
+ * Theme Showcase Component Styles
+ * 
+ * This CSS file contains all styles for the ThemeShowcase component, which is used
+ * to display and demonstrate the Frappe UI React component library.
+ * 
+ * - Used primarily in Storybook documentation and component demos
+ */
+
+ #storybook-docs, #storybook-docs .sbdocs-title {
+  font-family: "Inter", sans-serif;
+  font-optical-sizing: auto;
+ }
+
 .theme-showcase {
   --showcase-max-width: 1200px;
   --showcase-padding: 2rem;
@@ -10,7 +24,7 @@
   --showcase-tab-active-border: var(--outline-blue-1);
 
   padding: var(--showcase-padding);
-  font-family: "Inter", sans-serif;
+  font-family: inherit;
   font-optical-sizing: auto;
   color: var(--showcase-font-color);
   max-width: var(--showcase-max-width);
