@@ -50,7 +50,3 @@ export default App;
 - [Radix UI](https://github.com/radix-ui/themes): Unstyled and accessible UI components.
 - [TipTap](https://github.com/ueberdosis/tiptap): ProseMirror based rich-text editor with a Vue API.
 - [dayjs](https://github.com/iamkun/dayjs): Minimal javascript library for working with dates.
-
-## Does this interest you?
-
-<a href="https://rtcamp.com/"><img src="https://rtcamp.com/wp-content/uploads/sites/2/2019/04/github-banner@2x.png" alt="Join us at rtCamp, we specialize in providing high performance enterprise WordPress solutions"></a>
