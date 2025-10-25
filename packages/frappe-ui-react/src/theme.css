@@ -12,6 +12,7 @@ p,
 span,
 div {
   -webkit-font-smoothing: antialiased;
+  font-variation-settings: 'opsz';
 }
 
 button,
