@@ -19,14 +19,14 @@ const ToastComponent: React.FC<ToastProps> = ({
     switch (type) {
       case "success":
         return (
-          <CircleCheck className="flex-shrink-0 size-4 text-ink-green-2" />
+          <CircleCheck className="flex-shrink-0 size-4 text-ink-green-3" />
         );
       case "warning":
         return (
-          <AlertTriangle className="flex-shrink-0 size-4 text-ink-amber-2" />
+          <AlertTriangle className="flex-shrink-0 size-4 text-ink-amber-3" />
         );
       case "error":
-        return <Info className="flex-shrink-0 size-4 text-ink-red-2" />;
+        return <Info className="flex-shrink-0 size-4 text-ink-red-4" />;
       default:
         return null;
     }
