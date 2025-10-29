@@ -36,6 +36,13 @@ const config: StorybookConfig = {
       },
     };
   },
+  typescript: {
+    check: true,
+    skipCompiler: true,
+    reactDocgenTypescriptOptions: {
+      propFilter: (prop) => (prop.parent ? !/node_modules/.test(prop.parent.fileName) : true),
+    },
+  },
 };
 export default config;
 

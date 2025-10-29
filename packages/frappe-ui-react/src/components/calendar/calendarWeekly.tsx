@@ -171,8 +171,8 @@ export const CalendarWeekly = ({ weeklyDates }: CalendarWeeklyProps) => {
                     <div
                       key={time}
                       className="cell relative flex flex-col cursor-pointer calendar-column"
-                      onDoubleClick={(e) => handleCellDblClick(e, date, time)}
-                      onClick={(e) => handleCellDblClick(e, date, time)}
+                      onDoubleClick={(e) => handleCellDblClick(e, date.toLocaleDateString("en-CA"), time)}
+                      onClick={(e) => handleCellDblClick(e, date.toLocaleDateString("en-CA"), time)}
                     >
                       <div
                         className={clsx(

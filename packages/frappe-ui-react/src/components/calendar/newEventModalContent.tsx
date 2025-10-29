@@ -24,7 +24,7 @@ const EventFormModal = ({ isOpen, onClose, event }: EventFormModalProps) => {
   useEffect(() => {
     setNewEvent({
       title: event?.title || "",
-      date: event?.date || new Date(),
+      date: event?.date || new Date().toLocaleDateString("en-CA"),
       participant: event?.participant || "",
       from_time: event?.from_time || "",
       to_time: event?.to_time || "",
@@ -36,7 +36,6 @@ const EventFormModal = ({ isOpen, onClose, event }: EventFormModalProps) => {
     setErrorMessage("");
   }, [isOpen, event]);
 
-   
   const handleFieldChange = useCallback(
     (field: keyof CalendarEvent, value: any) => {
       setNewEvent((prev) => ({ ...prev, [field]: value }));
@@ -133,8 +132,8 @@ const EventFormModal = ({ isOpen, onClose, event }: EventFormModalProps) => {
         <FormControl
           type="date"
           value={newEvent.date}
-          onChange={(val: React.ChangeEvent<HTMLInputElement>) =>
-            handleFieldChange("date", val)
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+            handleFieldChange("date", e.target.value)
           }
           label="Date"
           required={true}
@@ -183,9 +182,7 @@ const EventFormModal = ({ isOpen, onClose, event }: EventFormModalProps) => {
         <FormControl
           type="select"
           value={newEvent.color}
-          onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-            handleFieldChange("color", e.target.value)
-          }
+          onChange={(value: string) => handleFieldChange("color", value)}
           options={colorOptions}
           label="Color"
           className="form-control-prefix"
