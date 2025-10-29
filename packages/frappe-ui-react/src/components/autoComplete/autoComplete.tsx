@@ -350,6 +350,7 @@ const Autocomplete: React.FC<AutocompleteProps> = ({
             isPopoverOpen && (
               <div className="relative mt-1 rounded-lg bg-surface-modal text-base shadow-2xl">
                 {!hideSearch && (
+                  <div>
                   <div className="sticky top-0 z-[100] flex items-stretch space-x-1.5 bg-surface-modal py-1.5 rounded-lg">
                     <div className="relative w-full rounded flex mx-2 border border-surface-gray-2 bg-surface-gray-2 text-base text-ink-gray-8 placeholder-ink-gray-4 transition-colors hover:border-outline-gray-modals hover:bg-surface-gray-3 focus:border-outline-gray-4 focus:bg-surface-white focus:shadow-sm focus:ring-0 focus-visible:ring-2 focus-visible:ring-outline-gray-3 focus:bg-surface-gray-3 hover:bg-surface-gray-4 text-ink-gray-8 cursor-pointer">
                       <ComboboxInput
@@ -400,6 +401,7 @@ const Autocomplete: React.FC<AutocompleteProps> = ({
                         )}
                       </div>
                     </div>
+                  </div>
                   </div>
                 )}
 

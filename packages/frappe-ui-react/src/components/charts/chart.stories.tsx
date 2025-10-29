@@ -1,10 +1,10 @@
 import React from "react";
 import type { Meta, StoryObj } from "@storybook/react-vite";
 
-import AxisChart, { AxisChartProps } from "./axisChart";
-import DonutChart, { DonutChartProps } from "./donutChart";
-import FunnelChart, { FunnelChartProps } from "./funnelChart";
-import NumberChart, { NumberChartProps } from "./numberChart";
+import AxisChart, { type AxisChartProps } from "./axisChart";
+import DonutChart, { type DonutChartProps } from "./donutChart";
+import FunnelChart, { type FunnelChartProps } from "./funnelChart";
+import NumberChart, { type NumberChartProps } from "./numberChart";
 import type {
   AxisChartConfig,
   DonutChartConfig,
@@ -215,7 +215,7 @@ const meta: Meta<typeof NumberChart> = {
 export default meta;
 
 export const NumberCharts: StoryObj<NumberChartProps> = {
-  render: () => (
+  render: (_args) => (
     <div className="flex gap-2 p-4">
       <NumberChart config={numberChart1Config} />
       <NumberChart config={numberChart2Config} />

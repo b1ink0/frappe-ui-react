@@ -51,26 +51,28 @@ export const Combobox: React.FC<ComboboxProps> = ({
   }, [value, allOptionsFlat]);
 
   const filteredOptions = useMemo(() => {
-    if (!query) return options;
-    const match = (opt: SimpleOption) =>
-      getLabel(opt).toLowerCase().includes(query.toLowerCase());
+    if (!query) {
+      return options;
+    }
+
     return options
       .map((opt) =>
         typeof opt === "object" && "group" in opt
           ? {
               ...opt,
-              options: opt.options.filter(match),
+              options: opt.options,
             }
           : opt
       )
       .filter((opt) =>
         typeof opt === "string"
-          ? match(opt)
+          ? opt
           : "group" in opt
           ? opt.options.length
-          : match(opt)
+          : opt
       );
   }, [options, query]);
+
 
   const handleChange = useCallback(
     (val: string | null) => {
