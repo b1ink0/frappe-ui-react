@@ -17,30 +17,25 @@ const preview: Preview = {
       },
     },
     docs: {
-            theme: themes.light,
-            inlineStories: false,
-            renderer: () => {
-                const renderer = new DocsRenderer();
-                const oldRender = renderer.render;
+      theme: themes.light,
+      renderer: () => {
+        const renderer = new DocsRenderer();
+        const oldRender = renderer.render;
 
-                renderer.render = async (context: DocsContextProps<Renderer>, docsParameter: Parameters, element: HTMLElement) => {
-                    const theme = (context as any).store.userGlobals.globals.theme;
+        renderer.render = async (context: DocsContextProps<Renderer>, docsParameter: Parameters, element: HTMLElement) => {
+          const theme = (context as any).store.userGlobals.globals.theme;
 
-                    docsParameter.theme = theme === 'dark' ? themes.dark : themes.light;
+          docsParameter.theme = theme === 'dark' ? themes.dark : themes.light;
 
-                    const result = await oldRender.call(renderer, context, docsParameter, element);
+          const result = await oldRender.call(renderer, context, docsParameter, element);
 
-                    return result;
-                };
+          return result;
+        };
 
-                return renderer;
-            },
-        },
-
+        return renderer;
+      },
+    },
     a11y: {
-      // 'todo' - show a11y violations in the test UI only
-      // 'error' - fail CI on a11y violations
-      // 'off' - skip a11y checks entirely
       test: "todo",
     },
     options: {
