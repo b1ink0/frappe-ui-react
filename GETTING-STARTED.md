@@ -26,16 +26,15 @@ cd apps/frappe-app
 npx degit rtCamp/frappe-ui-react-starter frontend
 ```
 
-### Step 2: Start dev server
+### Step 2: Setup
 
 ```bash
 cd frontend
-nvm use # To insure you have correct node version.
+nvm use # To ensure you have correct node version.
 pnpm install
-pnpm dev
 ```
 
-This will start the server on http://localhost:5174/
+This will set up your development environment.
 
 ## Under the Hood
 
