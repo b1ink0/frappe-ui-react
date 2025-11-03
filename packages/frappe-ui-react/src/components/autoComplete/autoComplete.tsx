@@ -320,7 +320,7 @@ const Autocomplete: React.FC<AutocompleteProps> = ({
               )}
               <button
                 type="button"
-                className={`flex h-7 w-full items-center justify-between gap-2 rounded bg-surface-gray-2 px-2 py-1 transition-colors hover:bg-surface-gray-3 border border-transparent focus:border-outline-gray-4 focus:ring-2 focus:ring-outline-gray-3 focus:outline-none ${
+                className={`flex h-7 w-full max-w-md items-center justify-between gap-2 rounded bg-surface-gray-2 px-2 py-1 transition-colors hover:bg-surface-gray-3 border border-transparent focus:border-outline-gray-4 focus:ring-2 focus:ring-outline-gray-3 focus:outline-none ${
                   isComboboxOpen ? "bg-surface-gray-3" : ""
                 }`}
                 onClick={popoverToggle}
@@ -348,7 +348,7 @@ const Autocomplete: React.FC<AutocompleteProps> = ({
           )}
           body={({ isOpen: isPopoverOpen }) =>
             isPopoverOpen && (
-              <div className="relative mt-1 rounded-lg bg-surface-modal text-base shadow-2xl">
+              <div className="relative mt-1 w-fit max-w-md rounded-lg bg-surface-modal text-base shadow-2xl">
                 {!hideSearch && (
                   <div>
                   <div className="sticky top-0 z-[100] flex items-stretch space-x-1.5 bg-surface-modal py-1.5 rounded-lg">
