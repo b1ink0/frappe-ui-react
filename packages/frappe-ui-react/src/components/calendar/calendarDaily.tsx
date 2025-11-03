@@ -79,10 +79,10 @@ export const CalendarDaily = () => {
                 className="relative flex text-ink-gray-8 cursor-pointer"
                 data-time-attr={timeIndex !== 0 ? time : undefined}
                 onClick={(e) =>
-                  handleCellDblClick(e, currentDate.toLocaleDateString("en-CA"), time)
+                  handleCellDblClick(e, currentDate.toDate().toLocaleDateString("en-CA"), twentyFourHoursFormat[timeIndex])
                 }
                 onDoubleClick={(e) =>
-                  handleCellDblClick(e, currentDate.toLocaleDateString("en-CA"), time)
+                  handleCellDblClick(e, currentDate.toDate().toLocaleDateString("en-CA"), twentyFourHoursFormat[timeIndex])
                 }
               >
                 <div

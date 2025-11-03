@@ -33,7 +33,7 @@ const config = {
   isEditMode: true,
   eventIcons: {},
   allowCustomClickEvents: true,
-  redundantCellHeight: 100,
+  redundantCellHeight: 0,
   hourHeight: 50,
   enableShortcuts: false,
   timeFormat: "12h",
