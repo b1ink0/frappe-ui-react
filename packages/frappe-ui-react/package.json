@@ -19,8 +19,8 @@
       "require": "./dist/index.js",
       "types": "./dist-types/index.d.ts"
     },
-    "./theme.css": "./src/theme.css",
-    "./tailwind/preset": "./src/utils/tailwind.config.js"
+    "./theme.css": "./dist/theme.css",
+    "./tailwind/preset": "./dist/utils/tailwind.config.js"
   },
   "scripts": {
     "build": "tsc -b && npm run copy-assets",
