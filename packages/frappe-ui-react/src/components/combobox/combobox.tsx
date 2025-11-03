@@ -51,8 +51,8 @@ export const Combobox: React.FC<ComboboxProps> = ({
   }, [value, allOptionsFlat]);
 
   const filteredOptions = useMemo(() => {
-    if (!query) {
-      return options;
+		if (!query) {
+			return options;
     }
 
     return options
@@ -66,10 +66,12 @@ export const Combobox: React.FC<ComboboxProps> = ({
       )
       .filter((opt) =>
         typeof opt === "string"
-          ? opt
+          ? opt.toLowerCase().includes(query.toLowerCase())
           : "group" in opt
-          ? opt.options.length
-          : opt
+          ? opt.options.some((o) =>
+							getLabel(o).toLowerCase().includes(query.toLowerCase())
+						)
+          : opt.label.toLowerCase().includes(query.toLowerCase())
       );
   }, [options, query]);
 
@@ -138,8 +140,7 @@ export const Combobox: React.FC<ComboboxProps> = ({
         </ComboboxButton>
         <ComboboxOptions
           className={`
-            absolute z-[100] mt-1 w-full bg-surface-white border border-surface-gray-2 rounded shadow-xl min-w-[160px]
-            animate-fade-in
+            absolute z-[100] mt-1 w-full bg-surface-white border border-surface-gray-2 rounded shadow-xl min-w-[160px] max-h-50 animate-fade-in overflow-auto
           `}
         >
           {filteredOptions.length === 0 && (
