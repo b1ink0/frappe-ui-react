@@ -35,6 +35,8 @@ pnpm install
 pnpm dev
 ```
 
+This will start the server on http://localhost:5174/
+
 ## Under the Hood
 
 This library is built on top of several excellent open-source projects:
