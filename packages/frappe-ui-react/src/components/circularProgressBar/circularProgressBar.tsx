@@ -176,7 +176,7 @@ const CircularProgressBar: React.FC<CircularProgressBarProps> = ({
 
   return (
     <div
-      className={`progressbar ${completedClass} ${variantClass} text-ink-gray-3`}
+      className={`progressbar ${completedClass} ${variantClass} dark:text-ink-gray-3`}
       role="progressbar"
       aria-valuenow={progress}
       aria-valuemin={0}
