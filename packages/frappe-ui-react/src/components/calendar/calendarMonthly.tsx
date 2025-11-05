@@ -43,6 +43,18 @@ export const CalendarMonthly = () => {
     e.dataTransfer.setData("calendarEventID", String(eventId));
   };
 
+  const handleDragEnd = (
+    e: React.DragEvent<HTMLDivElement>,
+    eventId: string | number
+  ) => {
+    if (!eventId || !config.isEditMode) {
+      return;
+    }
+    const target = e.target as HTMLDivElement;
+    target.style.opacity = "1";
+    e.dataTransfer.clearData();
+  };
+
   const handleDrop = (e: React.DragEvent<HTMLDivElement>, date: Date) => {
     e.preventDefault();
     const eventId = e.dataTransfer.getData("calendarEventID");
@@ -114,6 +126,9 @@ export const CalendarMonthly = () => {
                         draggable={config.isEditMode}
                         onDragStart={(e) => {
                           handleDragStart(e, event.id);
+                        }}
+                        onDragEnd={(e) => {
+                          handleDragEnd(e, event.id);
                         }}
                       />
                     ))
