@@ -30,13 +30,11 @@ export const useCalendar = (
 
   const parsedEvents = useMemo(() => {
     return (initialEvents || []).map((event) => {
-      const { fromDate, toDate, ...rest } = event;
+      const { fromDate, fromTime, toTime, ...rest } = event;
       const date = parseDate(fromDate);
-      const from_time = dayjs(fromDate).format("HH:mm:ss");
-      const to_time = dayjs(toDate).format("HH:mm:ss");
       return event.isFullDay
         ? { ...rest, date }
-        : { ...rest, date, from_time, to_time };
+        : { ...rest, date, from_time: fromTime, to_time: toTime };
     });
   }, [initialEvents]);
 
