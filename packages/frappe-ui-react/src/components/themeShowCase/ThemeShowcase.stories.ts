@@ -1,8 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 
 import ThemeShowcase from "./ThemeShowcase";
-// @ts-expect-error - Json import
-import tailwindExtend from "../../../../../tailwindExtend.json";
+import tailwindExtend from "../../utils/tailwindExtend.json";
 
 const meta = {
   title: "Theme/DesignSystem",
