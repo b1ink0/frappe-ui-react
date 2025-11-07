@@ -2,6 +2,7 @@
 @import "tailwindcss";
 
 @config './utils/tailwind.config.cjs';
+@source './components';
 
 @custom-variant dark (&:is(.dark *));
 
