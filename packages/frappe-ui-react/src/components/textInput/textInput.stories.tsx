@@ -192,7 +192,7 @@ export const PrefixSlotIcon = {
   args: {
     type: "url",
     placeholder: "Placeholder",
-    prefix: (size) => <FeatherIcon className={`w-${size === "sm" ? "4" : "5"}`} name="search" />,
+    prefix: (size) => <FeatherIcon className={size === "sm" ? "w-4" : "w-5"} name="search" />,
     value: "",
   },
 };
