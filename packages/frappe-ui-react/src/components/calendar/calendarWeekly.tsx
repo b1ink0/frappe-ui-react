@@ -57,7 +57,7 @@ export const CalendarWeekly = ({ weeklyDates }: CalendarWeeklyProps) => {
       gridRef.current.scrollTop = currentHour * hourHeight;
     }
   }, [hourHeight]);
-  console.log(timedEvents)
+
   return (
     <div className="flex flex-col overflow-y-auto">
       <div className="flex border-b border-gray-200">

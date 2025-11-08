@@ -1223,7 +1223,7 @@ const ThemeShowcase: React.FC = () => {
                   className="swatch"
                   style={{
                     backgroundColor: "var(--color-white)",
-                    border: "1px solid var(--outline-gray-1)",
+                    border: "1px solid var(--color-outline-gray-1)",
                   }}
                 ></div>
                 <div className="swatch-info">
@@ -1244,7 +1244,7 @@ const ThemeShowcase: React.FC = () => {
                         className="swatch"
                         style={{
                           backgroundColor: `var(--color-${variant.value})`,
-                          border: "1px solid var(--outline-gray-1)",
+                          border: "1px solid var(--color-outline-gray-1)",
                         }}
                       ></div>
                       <div className="swatch-info">
@@ -1270,7 +1270,7 @@ const ThemeShowcase: React.FC = () => {
                         className="swatch"
                         style={{
                           backgroundColor: `var(--color-${variant.value})`,
-                          border: "1px solid var(--outline-gray-1)",
+                          border: "1px solid var(--color-outline-gray-1)",
                         }}
                       ></div>
                       <div className="swatch-info">
@@ -1300,7 +1300,7 @@ const ThemeShowcase: React.FC = () => {
                         className="swatch"
                         style={{
                           backgroundColor: `var(--${color.value})`,
-                          border: "1px solid var(--outline-gray-1)",
+                          border: "1px solid var(--color-outline-gray-1)",
                         }}
                       ></div>
                       <div className="swatch-info">
