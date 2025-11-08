@@ -138,7 +138,7 @@ const Avatar: React.FC<AvatarProps> = ({
         />
       ) : (
         <div
-          className={`flex h-full w-full items-center justify-center bg-(--surface-gray-2) uppercase text-(--ink-gray-5) select-none ${labelClasses} ${shapeClasses}`}
+          className={`flex h-full w-full items-center justify-center bg-surface-gray-2 uppercase text-ink-gray-5 select-none ${labelClasses} ${shapeClasses}`}
         >
           {hasDefaultSlot ? (
             <div className={iconClasses}>{children}</div>
@@ -149,7 +149,7 @@ const Avatar: React.FC<AvatarProps> = ({
       )}
       {hasIndicatorSlot && (
         <div
-          className={`absolute bottom-0 right-0 grid place-items-center rounded-full bg-(--surface-white) ${indicatorContainerClasses}`}
+          className={`absolute bottom-0 right-0 grid place-items-center rounded-full bg-surface-white ${indicatorContainerClasses}`}
         >
           <div className={indicatorClasses}>{indicator}</div>
         </div>
