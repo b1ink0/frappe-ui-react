@@ -115,7 +115,7 @@ export const Combobox: React.FC<ComboboxProps> = ({
             className={`
               w-full bg-surface-gray-2 border border-surface-gray-2 rounded
               ${selectedOption && getIcon(selectedOption) ? "pl-8" : "pl-2"}
-              pr-2 py-1 min-h-[25px] text-base
+              pr-6 py-1 min-h-[25px] text-base
               placeholder-ink-gray-4 text-ink-gray-8
               outline-none focus:border-outline-gray-4 focus:ring-2 focus:ring-outline-gray-3
               transition-colors
