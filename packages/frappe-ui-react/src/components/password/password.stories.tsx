@@ -22,10 +22,10 @@ export default {
 } as Meta<typeof Password>;
 
 const Template: StoryObj<PasswordProps> = {
-	args: {
-		value: "",
-		placeholder: "",
-	},
+  args: {
+    value: "",
+    placeholder: "",
+  },
   render: (args) => {
     const [value, setValue] = useState(args.value || "");
 
