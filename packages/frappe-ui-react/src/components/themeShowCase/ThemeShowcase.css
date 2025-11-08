@@ -152,7 +152,7 @@
 .swatch-value {
   display: block;
   font-size: var(--text-2xs-size);
-  color: var(--ink-gray-5);
+  color: var(--color-ink-gray-5);
   font-family: monospace;
 }
 
