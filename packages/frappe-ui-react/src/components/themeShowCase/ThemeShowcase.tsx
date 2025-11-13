@@ -1299,7 +1299,7 @@ const ThemeShowcase: React.FC = () => {
                       <div
                         className="swatch"
                         style={{
-                          backgroundColor: `var(--${color.value})`,
+                          backgroundColor: `var(--color-${color.value})`,
                           border: "1px solid var(--color-outline-gray-1)",
                         }}
                       ></div>
