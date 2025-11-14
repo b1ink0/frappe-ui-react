@@ -28,7 +28,7 @@ const meta: Meta<typeof Calendar> = {
 export default meta;
 type Story = StoryObj<typeof Calendar>;
 
-const config = {
+const config: Partial<CalendarConfig> = {
   defaultMode: "Month" as CalendarConfig["defaultMode"],
   isEditMode: true,
   eventIcons: {},
