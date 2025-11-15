@@ -1,6 +1,12 @@
+/**
+ * External dependencies.
+ */
 import { Meta, StoryObj } from "@storybook/react-vite";
 import { useState } from "react";
 
+/**
+ * Internal dependencies.
+ */
 import { DatePicker, DateTimePicker, DateRangePicker } from "./index";
 
 const meta: Meta = {
@@ -8,9 +14,11 @@ const meta: Meta = {
   tags: ["autodocs"],
   component: DatePicker,
   parameters: {
-    docs: { source: { type: "dynamic" } },
     layout: "centered",
-    docs: { autodocs: true },
+    docs: { 
+      source: { type: "dynamic" },
+      autodocs: true 
+    },
   },
 };
 export default meta;
