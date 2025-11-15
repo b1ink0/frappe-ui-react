@@ -68,7 +68,9 @@ function useDateRangePicker({
   function swapDatesIfNecessary(a: string, b: string) {
     if (!a || !b) return;
     const from = getDate(a);
+    from.setHours(0, 0, 0, 0);
     const to = getDate(b);
+    to.setHours(0, 0, 0, 0);
 
     if (from > to) {
       setFromDate(getDateValue(to));

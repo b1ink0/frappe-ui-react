@@ -57,15 +57,15 @@ export const WithPrefixSlot: StoryObj<BreadcrumbsProps> = {
     items: [
       {
         label: "Home",
-        suffixIcon: "🏡",
+        prefixIcon: "🏡",
       },
       {
         label: "Views",
-        suffixIcon: "🏞️",
+        prefixIcon: "🏞️",
       },
       {
         label: "List",
-        suffixIcon: "📃",
+        prefixIcon: "📃",
       },
     ],
   },
