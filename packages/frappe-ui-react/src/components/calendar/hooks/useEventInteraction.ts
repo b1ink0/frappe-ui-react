@@ -31,7 +31,6 @@ export const useEventInteraction = (
   event: CalendarEvent,
   config: CalendarConfig
 ) => {
-  const [updatedEvent, setUpdatedEvent] = useState(event);
   const [isPopoverOpen, setPopoverOpen] = useState(false);
   const [isEditModalOpen, setEditModalOpen] = useState(false);
   const [isResizing, setIsResizing] = useState(false);
@@ -40,13 +39,20 @@ export const useEventInteraction = (
     xAxis: 0,
     yAxis: 0,
   });
+  const [eventTime, setEventTime] = useState<{
+    from_time: string;
+    to_time: string;
+  }>();
+
+  useEffect(() => {
+    setEventTime({
+      from_time: event.from_time || "00:00",
+      to_time: event.to_time || "00:00",
+    });
+  }, [event]);
 
   const preventClickRef = useRef(false);
   const eventRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    setUpdatedEvent(event);
-  }, [event]);
 
   const { refs, floatingStyles } = useFloating({
     open: isPopoverOpen,
@@ -117,15 +123,18 @@ export const useEventInteraction = (
 
   const handleResizeMouseDown = useCallback(
     (_event: React.MouseEvent<HTMLDivElement>) => {
+      _event.stopPropagation();
+
       if (!eventRef.current) {
         return;
       }
 
       const startY = _event.clientY;
       const initialHeight = eventRef.current.offsetHeight;
-      let finalEndTime = updatedEvent.to_time;
+      let finalEndTime = event.to_time;
 
       const resize = (moveEvent: MouseEvent) => {
+        moveEvent.stopPropagation();
         if (!eventRef.current || !event.from_time) {
           return;
         }
@@ -143,10 +152,14 @@ export const useEventInteraction = (
         const newEndTimeMinutes =
           calculateMinutes(event.from_time) + snappedHeight / minuteHeight;
         finalEndTime = convertMinutesToHours(Math.min(1440, newEndTimeMinutes));
-        setUpdatedEvent((prev) => ({ ...prev, to_time: finalEndTime }));
+        config.updateEventState?.({
+          ...event,
+          to_time: finalEndTime,
+        });
       };
 
-      const stopResize = () => {
+      const stopResize = (e: MouseEvent) => {
+        e.stopPropagation();
         setIsResizing(false);
         if (config?.updateEventState) {
           config.updateEventState({ ...event, to_time: finalEndTime });
@@ -158,14 +171,14 @@ export const useEventInteraction = (
       window.addEventListener("mousemove", resize);
       window.addEventListener("mouseup", stopResize, { once: true });
     },
-    [event, config, updatedEvent.to_time]
+    [event, config]
   );
 
   const handleRepositionMouseDown = useCallback(
     (e: React.MouseEvent) => {
       e.preventDefault();
       const startY = e.clientY;
-      let finalEventState = { ...updatedEvent };
+      let finalEventState = { ...event };
 
       const mousemove = (moveEvent: MouseEvent) => {
         if (!event.from_time || !event.to_time) {
@@ -179,7 +192,7 @@ export const useEventInteraction = (
         const height_15_min = minuteHeight * 15;
         const deltaY = moveEvent.clientY - startY;
         const snappedY = Math.round(deltaY / height_15_min) * height_15_min;
-        dispatchReposition({ type: "MOVE", payload: { x: 0, y: snappedY } });
+        dispatchReposition({ type: "MOVE", payload: { x: 0, y: deltaY } });
 
         const minuteDelta = Math.round(snappedY / minuteHeight);
         const fromMinutes = calculateMinutes(event.from_time) + minuteDelta;
@@ -190,7 +203,11 @@ export const useEventInteraction = (
           from_time: convertMinutesToHours(fromMinutes),
           to_time: convertMinutesToHours(toMinutes),
         };
-        setUpdatedEvent(finalEventState);
+
+        setEventTime({
+          from_time: finalEventState.from_time || "00:00",
+          to_time: finalEventState.to_time || "00:00",
+        });
       };
 
       const mouseup = () => {
@@ -206,11 +223,11 @@ export const useEventInteraction = (
       window.addEventListener("mousemove", mousemove);
       window.addEventListener("mouseup", mouseup, { once: true });
     },
-    [updatedEvent, event.from_time, event.to_time, config]
+    [event, config]
   );
 
   return {
-    updatedEvent,
+    eventTime,
     isPopoverOpen,
     isEditModalOpen,
     isResizing,

@@ -14,7 +14,6 @@ import { EventModalContent } from "./eventModalContent";
 import NewEventModal from "./newEventModalContent";
 import { useEventInteraction } from "./hooks/useEventInteraction";
 
- 
 export const CalendarEvent = ({
   event,
   date,
@@ -22,10 +21,10 @@ export const CalendarEvent = ({
   onDragStart = () => {},
   onDragEnd = () => {},
 }: CalendarEventProps) => {
-  const { activeView, config, deleteEvent, updatEventState, createNewEvent } =
+  const { activeView, config, deleteEvent, updateEventState, createNewEvent } =
     useContext(CalendarContext);
   const {
-    updatedEvent,
+    eventTime,
     isPopoverOpen,
     isEditModalOpen,
     isResizing,
@@ -44,7 +43,7 @@ export const CalendarEvent = ({
     ...config,
     activeView,
     deleteEvent,
-    updatEventState,
+    updateEventState,
     createNewEvent,
   });
 
@@ -58,14 +57,14 @@ export const CalendarEvent = ({
       return commonStyles;
     }
 
-    if (!updatedEvent.from_time || !updatedEvent.to_time) {
+    if (!event.from_time || !event.to_time) {
       return;
     }
 
     const minuteHeight = config.hourHeight / 60;
-    const diff = calculateDiff(updatedEvent.from_time, updatedEvent.to_time);
+    const diff = calculateDiff(event.from_time, event.to_time);
     const height = Math.max(32.5, diff * minuteHeight);
-    let top = calculateMinutes(updatedEvent.from_time) * minuteHeight;
+    let top = calculateMinutes(event.from_time) * minuteHeight;
 
     if (activeView === "Day") {
       top += config.redundantCellHeight;
@@ -86,13 +85,18 @@ export const CalendarEvent = ({
       left,
     };
   }, [
-    event,
-    updatedEvent,
-    activeView,
-    isResizing,
+    repositionState.xAxis,
+    repositionState.yAxis,
     isRepositioning,
-    repositionState,
-    config,
+    event.idx,
+    event.isFullDay,
+    event.from_time,
+    event.to_time,
+    event.hallNumber,
+    activeView,
+    config.hourHeight,
+    config.redundantCellHeight,
+    isResizing,
   ]);
 
   const EventContent = (
@@ -116,11 +120,11 @@ export const CalendarEvent = ({
         </p>
         {!event.isFullDay && (
           <p className="text-ellipsis text-xs font-normal">
-            {updatedEvent.from_time &&
-              updatedEvent.to_time &&
+            {	eventTime?.from_time &&
+              eventTime?.to_time &&
               formattedDuration(
-                updatedEvent.from_time,
-                updatedEvent.to_time,
+                eventTime.from_time,
+                eventTime.to_time,
                 config.timeFormat
               )}
           </p>
@@ -133,7 +137,7 @@ export const CalendarEvent = ({
     <>
       <div
         ref={eventRef}
-        draggable="true"
+        draggable={isResizing ? false : true}
         className={clsx(
           "mx-px shadow rounded h-min-[6px] rounded-lg p-2 transition-all duration-75 cursor-pointer shrink-0 w-[90%]",
           extraClassName,
@@ -187,7 +191,7 @@ export const CalendarEvent = ({
         <NewEventModal
           isOpen={isEditModalOpen}
           onClose={() => setEditModalOpen(false)}
-          event={updatedEvent}
+          event={event}
         />
       )}
     </>
