@@ -12,7 +12,7 @@ Frappe UI React is a modern component library designed for building frontend app
 
 ## Usage
 
-You can set up frappe-ui-react in the following simple steps, or you can quickly setup frappe-ui-react using [frappe-ui-react-starter](https://github.com/rtCamp/frappe-ui-react-starter).
+You can set up `frappe-ui-react` in your existing Frappe app with the following simple steps. You can also spin up a new project instantly using the [frappe-ui-react-starter](https://github.com/rtCamp/frappe-ui-react-starter) template.
 
 ### Step 1: Installation
 
@@ -24,16 +24,19 @@ npm install @rtcamp/frappe-ui-react
 
 ### Step 2: Configuration
 
-Import the theme CSS directly into your project (e.g., in `index.css`) and provide the source of the frappe-ui-react package so that it picks the styles automatically.
+Import the theme CSS directly into your project (e.g., in `index.css`) and provide the source of the frappe-ui-react or the package where it is imported so that it picks the styles automatically.
 
 ```css
 @import '@rtcamp/frappe-ui-react/theme';
 @source "../../node_modules/@rtcamp/frappe-ui-react/dist";
 ```
 
+[Tailwind @source directive](https://tailwindcss.com/docs/functions-and-directives#source-directive) explicitly specifies source files that aren't picked up by Tailwind's automatic content detection.
+
+
 **(Tailwind v3 usage):** 
 
-If you are already using a Tailwind v3 configuration, you should take two steps:
+If you are using a Tailwind v3 configuration, you should take two steps:
 
 - Import the `theme-v3` CSS into your index.css file, and ensure that `index.css` is then imported in your `index.tsx`.
 
