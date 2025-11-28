@@ -11,9 +11,11 @@ import {
   ComboboxOption,
   ComboboxOptions,
 } from "@headlessui/react";
+
 import { Popover } from "../popover";
 import LoadingIndicator from "../loadingIndicator";
 import FeatherIcon from "../featherIcon";
+import { Button } from "../button";
 import type {
   AutocompleteOption,
   AutocompleteOptionGroup,
@@ -22,7 +24,6 @@ import type {
   Option,
   OptionValue,
 } from "./types";
-import { Button } from "../button";
 
 const Autocomplete: React.FC<AutocompleteProps> = ({
   value,
@@ -49,7 +50,9 @@ const Autocomplete: React.FC<AutocompleteProps> = ({
 }) => {
   const [query, setQuery] = useState<string>("");
   const [showOptions, setShowOptions] = useState<boolean>(false);
+
   const searchInputRef = useRef<HTMLInputElement>(null);
+  const cancelRef = useRef<HTMLDivElement>(null);
 
   const isOption = useCallback(
     (option: AutocompleteOption): option is Option => {
@@ -269,7 +272,11 @@ const Autocomplete: React.FC<AutocompleteProps> = ({
   const clearAll = useCallback(
     (e: React.MouseEvent) => {
       e.stopPropagation();
-      handleComboboxChange(multiple ? [] : null);
+      if(multiple){
+        handleComboboxChange([]);
+      }else{
+        setQuery("");
+      }
     },
     [multiple, handleComboboxChange]
   );
@@ -313,7 +320,7 @@ const Autocomplete: React.FC<AutocompleteProps> = ({
               )}
               <button
                 type="button"
-                className={`flex h-7 w-full items-center justify-between gap-2 rounded bg-surface-gray-2 px-2 py-1 transition-colors hover:bg-surface-gray-3 border border-transparent focus:border-outline-gray-4 focus:ring-2 focus:ring-outline-gray-3 focus:outline-none ${
+                className={`flex h-7 w-full max-w-md items-center justify-between gap-2 rounded bg-surface-gray-2 px-2 py-1 transition-colors hover:bg-surface-gray-3 border border-transparent focus:border-outline-gray-4 focus:ring-2 focus:ring-outline-gray-3 focus:outline-none ${
                   isComboboxOpen ? "bg-surface-gray-3" : ""
                 }`}
                 onClick={popoverToggle}
@@ -322,7 +329,7 @@ const Autocomplete: React.FC<AutocompleteProps> = ({
               >
                 <FeatherIcon
                   name="chevron-down"
-                  className="h-4 w-4 text-ink-gray-5"
+                  className="h-4 w-4 text-ink-gray-5 shrink-0"
                   aria-hidden="true"
                 />
                 <div className="flex items-center overflow-hidden">
@@ -341,8 +348,9 @@ const Autocomplete: React.FC<AutocompleteProps> = ({
           )}
           body={({ isOpen: isPopoverOpen }) =>
             isPopoverOpen && (
-              <div className="relative mt-1 rounded-lg bg-surface-modal text-base shadow-2xl">
+              <div className="relative mt-1 w-fit max-w-md rounded-lg bg-surface-modal text-base shadow-2xl">
                 {!hideSearch && (
+                  <div>
                   <div className="sticky top-0 z-[100] flex items-stretch space-x-1.5 bg-surface-modal py-1.5 rounded-lg">
                     <div className="relative w-full rounded flex mx-2 border border-surface-gray-2 bg-surface-gray-2 text-base text-ink-gray-8 placeholder-ink-gray-4 transition-colors hover:border-outline-gray-modals hover:bg-surface-gray-3 focus:border-outline-gray-4 focus:bg-surface-white focus:shadow-sm focus:ring-0 focus-visible:ring-2 focus-visible:ring-outline-gray-3 focus:bg-surface-gray-3 hover:bg-surface-gray-4 text-ink-gray-8 cursor-pointer">
                       <ComboboxInput
@@ -354,11 +362,26 @@ const Autocomplete: React.FC<AutocompleteProps> = ({
                         displayValue={() => query}
                         onChange={(
                           event: React.ChangeEvent<HTMLInputElement>
-                        ) => setQuery(event.target.value)}
+                        ) => {
+                          cancelRef.current?.removeAttribute("inert");
+                          cancelRef.current?.removeAttribute("aria-hidden");
+                          setQuery(event.target.value);
+                        }}
                         autoComplete="off"
+                        onBlur={() => {
+                          cancelRef.current?.removeAttribute("inert");
+                          cancelRef.current?.removeAttribute("aria-hidden");
+                        }}
                         placeholder="Search"
                       />
-                      <div className="inline-flex h-7 w-7 items-center justify-center">
+                      <div
+                        ref={cancelRef}
+                        className="inline-flex h-7 w-7 items-center justify-center"
+                        onMouseEnter={() => {
+                          cancelRef.current?.removeAttribute("inert");
+                          cancelRef.current?.removeAttribute("aria-hidden");
+                        }}
+                      >
                         {loading ? (
                           <LoadingIndicator
                             data-testid="loading-indicator"
@@ -378,6 +401,7 @@ const Autocomplete: React.FC<AutocompleteProps> = ({
                         )}
                       </div>
                     </div>
+                  </div>
                   </div>
                 )}
 
@@ -455,7 +479,7 @@ const Autocomplete: React.FC<AutocompleteProps> = ({
                 </ComboboxOptions>
 
                 {showFooter && multiple && (
-                  <div className="border-t p-1">
+                  <div className="border-t p-1 border-outline-gray-2">
                     {multiple ? (
                       <div className="flex items-center justify-end">
                         {!areAllOptionsSelected && (
