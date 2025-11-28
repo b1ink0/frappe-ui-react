@@ -11,6 +11,7 @@ const meta: Meta<typeof Separator> = {
         component:
           "A configurable separator component based on Radix UI with support for different sizes, variants, colors, and orientations.",
       },
+      source: { type: "dynamic" },
     },
   },
   tags: ["autodocs"],
@@ -297,46 +298,6 @@ export const InContent: Story = {
     docs: {
       description: {
         story: "Examples of separators used in real content scenarios.",
-      },
-    },
-  },
-};
-
-export const Combinations: Story = {
-  render: () => (
-    <div className="space-y-8 w-80">
-      <div>
-        <p className="text-sm text-ink-gray-6 mb-2">Large Brand Gradient</p>
-        <div className="space-y-2">
-          <div>Premium content above</div>
-          <Separator size="lg" variant="gradient" color="brand" />
-          <div>Premium content below</div>
-        </div>
-      </div>
-
-      <div>
-        <p className="text-sm text-ink-gray-6 mb-2">Medium Dashed Warning</p>
-        <div className="space-y-2">
-          <div>Warning section above</div>
-          <Separator size="md" variant="dashed" color="warning" />
-          <div>Warning section below</div>
-        </div>
-      </div>
-
-      <div>
-        <p className="text-sm text-ink-gray-6 mb-2">Small Dotted Success</p>
-        <div className="space-y-2">
-          <div>Success message above</div>
-          <Separator size="sm" variant="dotted" color="success" />
-          <div>Success message below</div>
-        </div>
-      </div>
-    </div>
-  ),
-  parameters: {
-    docs: {
-      description: {
-        story: "Various combinations of size, variant, and color properties.",
       },
     },
   },

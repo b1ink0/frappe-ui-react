@@ -13,6 +13,7 @@ const meta: Meta<typeof Label> = {
         component:
           "A configurable label component based on Radix UI with support for different sizes, weights, variants, and states.",
       },
+      source: { type: "dynamic" },
     },
   },
   tags: ["autodocs"],

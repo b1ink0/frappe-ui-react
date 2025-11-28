@@ -29,7 +29,7 @@ const meta: Meta<typeof RadioGroup> = {
       description: "Disable all options",
     },
   },
-  parameters: { layout: "centered" },
+  parameters: { layout: "centered", source: { type: "dynamic" } },
 };
 
 export default meta;
