@@ -7,6 +7,7 @@ const Select: React.FC<SelectProps> = ({
   variant = "subtle",
   disabled = false,
   value,
+  defaultValue,
   placeholder,
   options,
   onChange,
@@ -122,13 +123,13 @@ const Select: React.FC<SelectProps> = ({
         disabled={disabled}
         id={htmlId}
         value={value}
+        defaultValue={defaultValue}
         onChange={handleChange}
         data-testid="select"
       >
         {placeholder && !value && <option />}
         {selectOptions.map((option) => (
           <option
-            selected={option.value === value}
             key={option.value}
             value={option.value}
             disabled={option.disabled}
