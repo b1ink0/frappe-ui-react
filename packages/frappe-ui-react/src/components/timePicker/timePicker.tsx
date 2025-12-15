@@ -41,14 +41,18 @@ const TimePicker: React.FC<TimePickerProps> = ({
     displayedOptions,
     isTyping,
     selectedAndNearest,
+    highlightIndex,
     panelRef,
     inputRef,
+    handleArrowDown,
+    handleArrowUp,
     handleEnter,
     handleClickInput,
     handleFocus,
     handleBlur,
     handleEscape,
     handleDisplayValueChange,
+    handleMouseEnter,
     select,
     optionId,
   } = useTimePicker({
@@ -68,7 +72,9 @@ const TimePicker: React.FC<TimePickerProps> = ({
     maxTime,
   });
 
-  const getButtonClasses = (opt: Option): string => {
+  const getButtonClasses = (opt: Option, idx: number): string => {
+    if (idx === highlightIndex)
+      return "bg-surface-gray-3 text-ink-gray-8";
     const { selected, nearest } = selectedAndNearest;
     if (isTyping && !selected) {
       if (nearest && nearest.value === opt.value)
@@ -102,6 +108,8 @@ const TimePicker: React.FC<TimePickerProps> = ({
           onKeyDown={(e: React.KeyboardEvent<HTMLInputElement>) => {
             if (e.key === "Enter") handleEnter(e);
             else if (e.key === "Escape") handleEscape(e);
+            else if (e.key === "ArrowDown") handleArrowDown(e, togglePopover, isOpen);
+            else if (e.key === "ArrowUp") handleArrowUp(e, togglePopover, isOpen);
           }}
           onBlur={handleBlur}
           prefix={prefix}
@@ -141,9 +149,11 @@ const TimePicker: React.FC<TimePickerProps> = ({
               data-index={idx}
               type="button"
               className={`group flex h-7 w-full items-center rounded px-2 text-left ${getButtonClasses(
-                opt
+                opt,
+                idx
               )}`}
               onClick={() => select(opt.value)}
+              onMouseEnter={() => handleMouseEnter(idx)}
               role="option"
               id={optionId(idx)}
             >

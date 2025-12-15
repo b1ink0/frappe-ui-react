@@ -39,19 +39,17 @@ export default {
       description: "Disable the input",
     },
     placement: {
-      control: {
-        type: "select",
-        options: [
-          "bottom-start",
-          "bottom-end",
-          "top-start",
-          "top-end",
-          "right-start",
-          "right-end",
-          "left-start",
-          "left-end",
-        ],
-      },
+      control: "select",
+      options: [
+        "bottom-start",
+        "bottom-end",
+        "top-start",
+        "top-end",
+        "right-start",
+        "right-end",
+        "left-start",
+        "left-end",
+      ],
       description: "Popover placement",
     },
     scrollMode: {
@@ -115,6 +113,7 @@ export const Basic: Story = {
     autoClose: true,
     use12Hour: true,
     variant: "subtle",
+    placement: "bottom-start",
     scrollMode: "center",
   },
 };
@@ -137,6 +136,8 @@ export const TwentyFourHourFormat: Story = {
     allowCustom: true,
     autoClose: true,
     variant: "subtle",
+    placement: "bottom-start",
+    scrollMode: "center",
   },
 };
 
@@ -171,6 +172,8 @@ export const CustomOptions: Story = {
     autoClose: true,
     use12Hour: true,
     variant: "subtle",
+    placement: "bottom-start",
+    scrollMode: "center",
   },
 };
 
@@ -193,5 +196,7 @@ export const MinMaxRange: Story = {
     autoClose: true,
     use12Hour: true,
     variant: "subtle",
+    placement: "bottom-start",
+    scrollMode: "center",
   },
 };

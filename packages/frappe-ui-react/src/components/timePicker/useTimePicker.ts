@@ -39,6 +39,9 @@ export function useTimePicker({
 
   const panelRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
+  const navUpdatingRef = useRef(false);
+  const initHighlightRef = useRef<() => void>(() => {});
+  const scheduleScrollRef = useRef<(targetIndex?: number) => void>(() => {});
   const uid = useMemo(() => Math.random().toString(36).slice(2, 9), []);
 
   const minMinutes = useMemo(() => minutesFromHHMM(minTime), [minTime]);
@@ -190,31 +193,138 @@ export function useTimePicker({
     return { selected: null, nearest: idx > -1 ? list[idx] : null };
   }, [displayedOptions, displayValue, isTyping, internalValue]);
 
+  const initHighlight = useCallback(() => {
+    const { selected, nearest } = selectedAndNearest;
+    const target = selected || nearest;
+    if (!target) {
+      setHighlightIndex(-1);
+      return;
+    }
+    const idx = displayedOptions.findIndex((o) => o.value === target.value);
+    setHighlightIndex(idx);
+  }, [selectedAndNearest, displayedOptions]);
+
+  useEffect(() => {
+    initHighlightRef.current = initHighlight;
+  }, [initHighlight]);
+
+  const scheduleScroll = useCallback((targetIndex?: number) => {
+    requestAnimationFrame(() => {
+      if (!panelRef.current || !showOptions) return;
+      const indexToUse = targetIndex !== undefined ? targetIndex : highlightIndex;
+      let targetEl: HTMLElement | null = null;
+      if (indexToUse > -1) {
+        targetEl = panelRef.current.querySelector(
+          `[data-index="${indexToUse}"]`
+        ) as HTMLElement | null;
+      } else {
+        const { selected, nearest } = selectedAndNearest;
+        const target = selected || nearest;
+        if (target)
+          targetEl = panelRef.current.querySelector(
+            `[data-value="${target.value}"]`
+          ) as HTMLElement | null;
+      }
+      if (!targetEl) return;
+      
+      targetEl.scrollIntoView({
+        block: scrollMode === 'center' ? 'center' : scrollMode === 'start' ? 'start' : 'nearest',
+      });
+    });
+  }, [highlightIndex, selectedAndNearest, showOptions, scrollMode]);
+
+  useEffect(() => {
+    scheduleScrollRef.current = scheduleScroll;
+  }, [scheduleScroll]);
+
+  const moveHighlight = useCallback(
+    (delta: number) => {
+      const list = displayedOptions;
+      if (!list.length) return;
+      let newIndex = highlightIndex;
+      if (newIndex === -1) {
+        initHighlight();
+        return;
+      } else {
+        newIndex = (newIndex + delta + list.length) % list.length;
+        setHighlightIndex(newIndex);
+      }
+      const opt = list[newIndex];
+      if (opt) {
+        navUpdatingRef.current = true;
+        navUpdatingRef.current = true;
+        const val =
+          internalValue.length === 8 && opt.value.length === 5
+            ? `${opt.value}${internalValue.slice(5)}`
+            : opt.value;
+        applyValue(val, false);
+        onChange?.(val);
+        setTimeout(() => {
+          navUpdatingRef.current = false;
+        }, 0);
+      }
+      setIsTyping(false);
+      scheduleScroll(newIndex);
+    },
+    [displayedOptions, highlightIndex, internalValue, applyValue, initHighlight, scheduleScroll, onChange]
+  );
+
   const handleArrowDown = useCallback(
-    (togglePopover: () => void, isOpen?: boolean) => {
+    (e: React.KeyboardEvent, togglePopover: () => void, isOpen?: boolean) => {
+      e.preventDefault();
       if (!isOpen) {
         togglePopover();
+      } else {
+        moveHighlight(1);
       }
     },
-    []
+    [moveHighlight]
   );
 
   const handleArrowUp = useCallback(
-    (togglePopover: () => void, isOpen?: boolean) => {
+    (e: React.KeyboardEvent, togglePopover: () => void, isOpen?: boolean) => {
+      e.preventDefault();
       if (!isOpen) {
         togglePopover();
+      } else {
+        moveHighlight(-1);
       }
     },
-    []
+    [moveHighlight]
   );
 
   const handleEnter = useCallback(
     (e: React.KeyboardEvent) => {
       e.preventDefault();
-      commitInput();
+      if (!showOptions) {
+        commitInput();
+        inputRef.current?.blur();
+        return;
+      }
+      const normalized = normalize24(displayValue);
+      const exists = normalized
+        ? displayedOptions.some((o) => {
+            const base =
+              normalized.length === 8 ? normalized.slice(0, 5) : normalized;
+            return o.value === base;
+          })
+        : false;
+      if (normalized && (!exists || isTyping)) {
+        commitInput();
+        if (autoClose) setShowOptions(false);
+        inputRef.current?.blur();
+        return;
+      }
+      if (highlightIndex > -1) {
+        const opt = displayedOptions[highlightIndex];
+        if (opt) select(opt.value);
+      } else {
+        commitInput();
+        if (autoClose) setShowOptions(false);
+      }
       inputRef.current?.blur();
     },
-    [commitInput]
+    [showOptions, commitInput, displayValue, displayedOptions, isTyping, autoClose, highlightIndex, select]
   );
 
   const handleClickInput = useCallback(
@@ -257,14 +367,29 @@ export function useTimePicker({
 
   const handleDisplayValueChange = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
-      setDisplayValue(e.target.value);
+      const newValue = e.target.value;
+      
+      if (navUpdatingRef.current) {
+        setDisplayValue(newValue);
+        return;
+      }
+      setDisplayValue(newValue);
+      if (showOptions) scheduleScroll();
       setIsTyping(true);
+      setHighlightIndex(-1);
     },
-    []
+    [showOptions, scheduleScroll]
   );
+
+  const handleMouseEnter = useCallback((idx: number) => {
+    setHighlightIndex(idx);
+  }, []);
 
   useEffect(() => {
     const normalized = normalize24(value);
+    if (navUpdatingRef.current) {
+      return;
+    }
     if (normalized !== internalValue) {
       setInternalValue(normalized);
       setDisplayValue(formatDisplay(normalized, use12Hour));
@@ -274,24 +399,12 @@ export function useTimePicker({
   useEffect(() => {
     if (showOptions) {
       onOpen?.();
-      requestAnimationFrame(() => {
-        const { selected, nearest } = selectedAndNearest;
-        const target = selected || nearest;
-        if (target && panelRef.current) {
-          const targetEl = panelRef.current.querySelector(
-            `[data-value="${target.value}"]`
-          ) as HTMLElement;
-          if (targetEl) {
-            targetEl.scrollIntoView({
-              block: scrollMode === "center" ? "center" : scrollMode === "start" ? "start" : "nearest",
-            });
-          }
-        }
-      });
+      initHighlightRef.current();
+      scheduleScrollRef.current();
     } else {
       onClose?.();
     }
-  }, [showOptions, onOpen, onClose, selectedAndNearest, scrollMode]);
+  }, [showOptions, onOpen, onClose]);
 
   const optionId = useCallback((idx: number): string => `tp-${uid}-${idx}`, [uid]);
 
@@ -315,6 +428,7 @@ export function useTimePicker({
     handleBlur,
     handleEscape,
     handleDisplayValueChange,
+    handleMouseEnter,
     select,
     optionId,
   };
