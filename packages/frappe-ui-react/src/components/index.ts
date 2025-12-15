@@ -34,6 +34,7 @@ export * from "./tabs";
 export * from "./textInput";
 export * from "./textarea";
 export { default as TextEditor } from "./textEditor";
+export * from "./timePicker";
 export * from "./toast";
 export * from "./tooltip";
 export * from "./tree";
