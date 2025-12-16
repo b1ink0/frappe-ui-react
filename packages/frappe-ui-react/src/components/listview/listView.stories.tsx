@@ -333,7 +333,7 @@ export const CustomList: Story = {
               {custom_rows.map((row) => (
                 <ListRow key={row.id} row={row}>
                   {columns.map((column, index) => {
-                    //@ts-expects-error
+                    //@ts-expect-error item type
                     const item = row[column.key];
                     return (
                       <div className={`${index === 0 ? "ml-4" : ""}`}>
@@ -439,7 +439,7 @@ export const GroupedRows: Story = {
 
 export const CellSlot: Story = {
   render: (args) => {
-    //@ts-expects-error
+    //@ts-expect-error
     const CustomCell = ({ item, column }) => {
       if (column.key === "status") {
         return <Badge>{item}</Badge>;

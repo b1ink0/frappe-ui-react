@@ -101,7 +101,7 @@ const Select: React.FC<SelectProps> = ({
       xl: "pl-3",
     }[size];
   }, [size]);
-  
+
   return (
     <div className="relative flex items-center">
       {prefix && (
@@ -122,8 +122,7 @@ const Select: React.FC<SelectProps> = ({
         className={selectClasses}
         disabled={disabled}
         id={htmlId}
-        value={value}
-        defaultValue={defaultValue}
+        {...(value !== undefined ? { value } : { defaultValue })}
         onChange={handleChange}
         data-testid="select"
       >
