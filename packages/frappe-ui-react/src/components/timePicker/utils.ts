@@ -1,5 +1,10 @@
+import { dayjs } from "../../utils/dayjs";
 import { TimePickerOption } from "./types";
 import { ParsedTime } from "./types";
+
+const isValid24HourFormat = (timeString: string): boolean => {
+  return /^\d{2}:\d{2}(:\d{2})?$/.test(timeString);
+};
 
 /**
  * Parses flexible time input strings (12-hour or 24-hour format) and converts them to a structured time object.
@@ -9,82 +14,141 @@ import { ParsedTime } from "./types";
  * @returns ParsedTime object with valid flag, 24-hour components (hh24, mm, ss), and total minutes from midnight
  */
 export const parseFlexibleTimeHelper = (input: string): ParsedTime => {
-  if (!input) return { valid: false };
-  let s = input.trim().toLowerCase();
-  s = s.replace(/\./g, "");
-  s = s.replace(/(\d)(am|pm)$/, "$1 $2");
-  const re = /^(\d{1,2})(?::(\d{1,2}))?(?::(\d{1,2}))?\s*([ap]m)?$/;
-  const m = s.match(re);
-  if (!m) return { valid: false };
-  const [, hhStr, mmStr, ssStr, ap] = m;
-  let hh = parseInt(hhStr);
-  if (isNaN(hh) || hh < 0 || hh > 23) return { valid: false };
-  if (ssStr && !mmStr) return { valid: false };
-  const mm = mmStr != null && mmStr !== "" ? parseInt(mmStr) : 0;
-  if (isNaN(mm) || mm < 0 || mm > 59) return { valid: false };
-  let ss: number | undefined;
-  if (ssStr) {
-    ss = parseInt(ssStr);
-    if (isNaN(ss) || ss < 0 || ss > 59) return { valid: false };
+  if (!input) {
+    return { valid: false };
   }
-  if (ap) {
-    if (hh < 1 || hh > 12) return { valid: false };
-    if (hh === 12 && ap === "am") hh = 0;
-    else if (hh < 12 && ap === "pm") hh += 12;
+
+  // Normalize input: lowercase, remove dots, ensure space before am/pm
+  let sanitizedInput = input.trim().toLowerCase();
+  sanitizedInput = sanitizedInput.replace(/\./g, "");
+  sanitizedInput = sanitizedInput.replace(/(\d)(am|pm)$/, "$1 $2");
+
+  // Match pattern: HH[:MM][:SS] [am/pm]
+  const timePattern = /^(\d{1,2})(?::(\d{1,2}))?(?::(\d{1,2}))?\s*([ap]m)?$/;
+  const match = sanitizedInput.match(timePattern);
+
+  if (!match) {
+    return { valid: false };
   }
+
+  const [, hourString, minuteString, secondString, amPmMarker] = match;
+  let hours = parseInt(hourString);
+
+  if (isNaN(hours)) {
+    return { valid: false };
+  }
+
+  // Validate hour range based on format (12h vs 24h)
+  if (amPmMarker) {
+    // 12-hour format with am/pm
+    if (hours < 1 || hours > 12) {
+      return { valid: false };
+    }
+  } else {
+    // 24-hour format
+    if (hours < 0 || hours > 23) {
+      return { valid: false };
+    }
+  }
+
+  // Cannot have seconds without minutes (e.g., "14::30" is invalid)
+  if (secondString && !minuteString) {
+    return { valid: false };
+  }
+
+  // Parse and validate minutes (default to 0 if not provided)
+  const minutes =
+    minuteString != null && minuteString !== "" ? parseInt(minuteString) : 0;
+
+  if (isNaN(minutes) || minutes < 0 || minutes > 59) {
+    return { valid: false };
+  }
+
+  // Parse and validate seconds
+  let seconds: number | undefined;
+  if (secondString) {
+    seconds = parseInt(secondString);
+    if (isNaN(seconds) || seconds < 0 || seconds > 59) {
+      return { valid: false };
+    }
+  }
+
+  // Convert 12-hour to 24-hour format
+  if (amPmMarker) {
+    if (hours === 12 && amPmMarker === "am") {
+      hours = 0; // 12am = 00:00
+    } else if (hours < 12 && amPmMarker === "pm") {
+      hours += 12; // 1pm-11pm = 13:00-23:00
+    }
+    // 12pm stays as 12
+  }
+
   return {
     valid: true,
-    hh24: hh.toString().padStart(2, "0"),
-    mm: mm.toString().padStart(2, "0"),
-    ss: ss != null ? ss.toString().padStart(2, "0") : undefined,
-    total: hh * 60 + mm,
+    hh24: hours.toString().padStart(2, "0"),
+    mm: minutes.toString().padStart(2, "0"),
+    ss: seconds != null ? seconds.toString().padStart(2, "0") : undefined,
+    total: hours * 60 + minutes,
   };
 };
 
 /**
- * Normalizes time strings to standard 24-hour format (HH:MM or HH:MM:SS) during initialization.
+ * Normalizes time strings to standard 24-hour format (HH:MM or HH:MM:SS).
  * If already in correct format, returns as-is otherwise uses flexible parser.
  *
  * @param raw - Raw time string from external source
  * @returns Normalized time string in HH:MM or HH:MM:SS format, or empty string if invalid
  */
-export const normalize24Initial = (raw: string): string => {
-  if (!raw) return "";
-  if (/^\d{2}:\d{2}$/.test(raw)) return raw;
-  if (/^\d{2}:\d{2}:\d{2}$/.test(raw)) return raw;
-  const parsed = parseFlexibleTimeHelper(raw);
-  if (!parsed.valid) return "";
-  return parsed.ss
-    ? `${parsed.hh24}:${parsed.mm}:${parsed.ss}`
-    : `${parsed.hh24}:${parsed.mm}`;
+export const normalize24 = (raw: string): string => {
+  if (!raw) {
+    return "";
+  }
+
+  if (isValid24HourFormat(raw)) {
+    return raw;
+  }
+
+  const parsedTime = parseFlexibleTimeHelper(raw);
+  if (!parsedTime.valid) {
+    return "";
+  }
+
+  const hasSeconds = parsedTime.ss !== undefined;
+  return hasSeconds
+    ? `${parsedTime.hh24}:${parsedTime.mm}:${parsedTime.ss}`
+    : `${parsedTime.hh24}:${parsedTime.mm}`;
 };
 
 /**
- * Formats a 24-hour time string for display during component initialization.
+ * Formats a 24-hour time string for display to the user based on their preference.
  * Converts from internal 24-hour storage format to user-friendly display format (12-hour with am/pm or 24-hour).
  *
  * @param val24 - Time string in 24-hour format (HH:MM or HH:MM:SS)
  * @param use12Hr - Whether to display in 12-hour format with am/pm
  * @returns Formatted time string for display
  */
-export const formatDisplayInitial = (
-  val24: string,
-  use12Hr: boolean
-): string => {
-  if (!val24) return "";
-  const segs = val24.split(":");
-  const h = parseInt(segs[0]);
-  const m = parseInt(segs[1]);
-  const s = segs[2];
-  const base24 = `${h.toString().padStart(2, "0")}:${m
-    .toString()
-    .padStart(2, "0")}${s ? `:${s}` : ""}`;
-  if (!use12Hr) return base24;
-  const am = h < 12;
-  const hour12 = h % 12 === 0 ? 12 : h % 12;
-  return `${hour12}:${m.toString().padStart(2, "0")}${s ? `:${s}` : ""} ${
-    am ? "am" : "pm"
-  }`;
+export const formatDisplay = (val24: string, use12Hr: boolean): string => {
+  if (!val24) {
+    return "";
+  }
+
+  // Parse the time string with dayjs
+  const timeDate = dayjs(`2000-01-01 ${val24}`);
+
+  if (!timeDate.isValid()) {
+    return "";
+  }
+
+  const hasSeconds = val24.split(":").length === 3;
+
+  // Format based on preference
+  if (use12Hr) {
+    const format = hasSeconds ? "h:mm:ss a" : "h:mm a";
+    return timeDate.format(format);
+  }
+
+  const format = hasSeconds ? "HH:mm:ss" : "HH:mm";
+  return timeDate.format(format);
 };
 
 /**
@@ -95,54 +159,21 @@ export const formatDisplayInitial = (
  * @returns Total minutes from midnight (0-1439), or null if invalid format or out of range
  */
 export const minutesFromHHMM = (str: string): number | null => {
-  if (!str) return null;
-  if (!/^\d{2}:\d{2}(:\d{2})?$/.test(str)) return null;
-  const [h, m] = str.split(":").map((n) => parseInt(n));
-  if (h > 23 || m > 59) return null;
-  return h * 60 + m;
-};
+  if (!str) {
+    return null;
+  }
 
-/**
- * Normalizes time strings to standard 24-hour format (HH:MM or HH:MM:SS).
- * Primary normalization function used throughout component lifecycle to ensure consistent internal time storage.
- *
- * @param raw - Time string in any supported format
- * @returns Normalized time string in HH:MM or HH:MM:SS format, or empty string if invalid
- */
-export const normalize24 = (raw: string): string => {
-  if (!raw) return "";
-  if (/^\d{2}:\d{2}$/.test(raw)) return raw;
-  if (/^\d{2}:\d{2}:\d{2}$/.test(raw)) return raw;
-  const parsed = parseFlexibleTimeHelper(raw);
-  if (!parsed.valid) return "";
-  return parsed.ss
-    ? `${parsed.hh24}:${parsed.mm}:${parsed.ss}`
-    : `${parsed.hh24}:${parsed.mm}`;
-};
+  if (!isValid24HourFormat(str)) {
+    return null;
+  }
 
-/**
- * Formats a 24-hour time string for display to the user based on their preference.
- * Primary display formatting function used when updating the displayed value as user types or navigates.
- *
- * @param val24 - Time string in 24-hour format (HH:MM or HH:MM:SS)
- * @param use12Hr - Whether to use 12-hour format with am/pm
- * @returns User-facing formatted time string
- */
-export const formatDisplay = (val24: string, use12Hr: boolean): string => {
-  if (!val24) return "";
-  const segs = val24.split(":");
-  const h = parseInt(segs[0]);
-  const m = parseInt(segs[1]);
-  const s = segs[2];
-  const base24 = `${h.toString().padStart(2, "0")}:${m
-    .toString()
-    .padStart(2, "0")}${s ? `:${s}` : ""}`;
-  if (!use12Hr) return base24;
-  const am = h < 12;
-  const hour12 = h % 12 === 0 ? 12 : h % 12;
-  return `${hour12}:${m.toString().padStart(2, "0")}${s ? `:${s}` : ""} ${
-    am ? "am" : "pm"
-  }`;
+  const timeDate = dayjs(`2000-01-01 ${str}`);
+
+  if (!timeDate.isValid()) {
+    return null;
+  }
+
+  return timeDate.hour() * 60 + timeDate.minute();
 };
 
 /**
@@ -157,27 +188,55 @@ export function findNearestIndex(
   targetMinutes: number,
   list: TimePickerOption[]
 ): number {
-  if (!list.length) return -1;
-  const minutesArr = list.map((o) => {
-    const [hh, mm] = o.value.split(":").map(Number);
-    return hh * 60 + mm;
-  });
-  let lo = 0,
-    hi = minutesArr.length - 1;
-  while (lo <= hi) {
-    const mid = (lo + hi) >> 1;
-    const val = minutesArr[mid];
-    if (val === targetMinutes) return mid;
-    if (val < targetMinutes) lo = mid + 1;
-    else hi = mid - 1;
+  if (!list.length) {
+    return -1;
   }
-  const candidates: number[] = [];
-  if (lo < minutesArr.length) candidates.push(lo);
-  if (lo - 1 >= 0) candidates.push(lo - 1);
-  if (!candidates.length) return -1;
-  return candidates.sort(
-    (a, b) =>
-      Math.abs(minutesArr[a] - targetMinutes) -
-      Math.abs(minutesArr[b] - targetMinutes)
-  )[0];
+
+  // Convert all options to minutes for comparison using dayjs
+  const optionMinutes = list.map((option) => {
+    const timeDate = dayjs(`2000-01-01 ${option.value}`);
+    return timeDate.hour() * 60 + timeDate.minute();
+  });
+
+  // Binary search for exact match or insertion point
+  let leftIndex = 0;
+  let rightIndex = optionMinutes.length - 1;
+
+  while (leftIndex <= rightIndex) {
+    const midIndex = (leftIndex + rightIndex) >> 1;
+    const midValue = optionMinutes[midIndex];
+
+    if (midValue === targetMinutes) {
+      return midIndex; // Exact match found
+    }
+
+    if (midValue < targetMinutes) {
+      leftIndex = midIndex + 1;
+    } else {
+      rightIndex = midIndex - 1;
+    }
+  }
+
+  // No exact match - find nearest neighbor
+  const candidateIndices: number[] = [];
+
+  if (leftIndex < optionMinutes.length) {
+    candidateIndices.push(leftIndex);
+  }
+  if (leftIndex - 1 >= 0) {
+    candidateIndices.push(leftIndex - 1);
+  }
+
+  if (!candidateIndices.length) {
+    return -1;
+  }
+
+  // Return the index with minimum distance to target
+  const nearestIndex = candidateIndices.sort((indexA, indexB) => {
+    const distanceA = Math.abs(optionMinutes[indexA] - targetMinutes);
+    const distanceB = Math.abs(optionMinutes[indexB] - targetMinutes);
+    return distanceA - distanceB;
+  })[0];
+
+  return nearestIndex;
 }

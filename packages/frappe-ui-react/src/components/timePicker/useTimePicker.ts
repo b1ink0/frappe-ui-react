@@ -10,10 +10,8 @@ import type { TimePickerOption, TimePickerProps } from "./types";
 import {
   findNearestIndex,
   formatDisplay,
-  formatDisplayInitial,
   minutesFromHHMM,
   normalize24,
-  normalize24Initial,
   parseFlexibleTimeHelper,
 } from "./utils";
 
@@ -33,9 +31,9 @@ export function useTimePicker({
   minTime = "",
   maxTime = "",
 }: Omit<TimePickerProps, "variant" | "placement" | "disabled" | "placeholder" | "suffix" | "prefix">) {
-  const [internalValue, setInternalValue] = useState(normalize24Initial(value));
+  const [internalValue, setInternalValue] = useState(normalize24(value));
   const [displayValue, setDisplayValue] = useState(
-    formatDisplayInitial(normalize24Initial(value), use12Hour)
+    formatDisplay(normalize24(value), use12Hour)
   );
   const [showOptions, setShowOptions] = useState(false);
   const [highlightIndex, setHighlightIndex] = useState(-1);
