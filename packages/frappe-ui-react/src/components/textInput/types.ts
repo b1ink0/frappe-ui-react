@@ -4,7 +4,7 @@ import { TextInputTypes } from "../../common/types";
 export interface TextInputProps extends Omit<React.InputHTMLAttributes<HTMLInputElement>, 'size' | 'prefix' | 'onChange'> {
   type?: TextInputTypes;
   size?: "sm" | "md" | "lg" | "xl";
-  variant?: "subtle" | "outline";
+  variant?: "subtle" | "outline" | "ghost";
   placeholder?: string;
   disabled?: boolean;
   htmlId?: string;
