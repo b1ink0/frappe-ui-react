@@ -1,13 +1,22 @@
+/**
+ * External dependencies.
+ */
 import { Extension } from '@tiptap/core'
 import { Plugin, PluginKey } from '@tiptap/pm/state'
 import { DOMParser } from '@tiptap/pm/model'
 import { EditorView } from '@tiptap/pm/view'
+
+/**
+ * Internal dependencies.
+ */
 import { detectMarkdown, markdownToHTML } from '../../../../utils/markdown'
 import { processMultipleImages } from '../image'
+import { UploadedFile } from '../../types'
 
 export interface ContentPasteOptions {
   enabled: boolean
-  uploadFunction: Function | null
+  uploadFunction: ((file: File) => Promise<UploadedFile>) | null
+  [key: string]: unknown
 }
 
 export const ContentPasteExtension = Extension.create<ContentPasteOptions>({
@@ -21,7 +30,6 @@ export const ContentPasteExtension = Extension.create<ContentPasteOptions>({
   },
 
   addProseMirrorPlugins() {
-    const extensionThis = this
     return [
       new Plugin({
         key: new PluginKey('contentPaste'),
@@ -64,7 +72,7 @@ export const ContentPasteExtension = Extension.create<ContentPasteOptions>({
               file.type.startsWith('image/'),
             )
             if (images.length > 0) {
-              processMultipleImages(images, view, null, extensionThis.options)
+              processMultipleImages(images, view, null, this.options)
               return true
             }
 

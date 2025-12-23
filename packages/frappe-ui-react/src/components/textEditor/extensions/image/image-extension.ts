@@ -1,12 +1,19 @@
+/**
+ * External dependencies.
+ */
 import {
   Node as NodeExtension,
   nodeInputRule,
   mergeAttributes,
 } from "@tiptap/core";
 import { ReactNodeViewRenderer } from "@tiptap/react";
-import ImageNodeView from "./imageNodeView";
 import { Plugin, Selection, Transaction, EditorState } from "@tiptap/pm/state";
 import { EditorView } from "@tiptap/pm/view";
+
+/**
+ * Internal dependencies.
+ */
+import ImageNodeView from "./imageNodeView";
 import { Node } from "@tiptap/pm/model";
 import fileToBase64 from "../../../../utils/fileToBase64";
 import { UploadedFile } from "../../types";
@@ -22,7 +29,8 @@ export interface ImageExtensionOptions {
    * HTML attributes to add to the image element
    * @default {}
    */
-  HTMLAttributes: Record<string, any>;
+  HTMLAttributes: Record<string, unknown>;
+  [key: string]: unknown;
 }
 
 export interface SetImageOptions {
@@ -215,7 +223,8 @@ export const ImageExtension = NodeExtension.create<ImageExtensionOptions>({
   },
 
   addProseMirrorPlugins() {
-    const extensionThis = this;
+    const options = this.options;
+    const editor = this.editor;
 
     return [
       new Plugin({
@@ -224,7 +233,7 @@ export const ImageExtension = NodeExtension.create<ImageExtensionOptions>({
             drop: (view, event) => {
               const hasFiles = event.dataTransfer?.files?.length;
 
-              if (!hasFiles || !extensionThis.options.uploadFunction) {
+              if (!hasFiles || !options.uploadFunction) {
                 return false;
               }
 
@@ -252,12 +261,12 @@ export const ImageExtension = NodeExtension.create<ImageExtensionOptions>({
                 view.dispatch(transaction);
               }
 
-              processMultipleImages(images, view, pos, extensionThis.options);
+              processMultipleImages(images, view, pos, options);
               return true;
             },
 
             paste: (view, event) => {
-              if (!extensionThis.options.uploadFunction) {
+              if (!options.uploadFunction) {
                 return false;
               }
 
@@ -286,7 +295,7 @@ export const ImageExtension = NodeExtension.create<ImageExtensionOptions>({
               }
 
               event.preventDefault();
-              processMultipleImages(images, view, null, extensionThis.options);
+              processMultipleImages(images, view, null, options);
               return true;
             },
           },
@@ -315,7 +324,6 @@ export const ImageExtension = NodeExtension.create<ImageExtensionOptions>({
           if (newImageNodes.length === 0) return null;
 
           newImageNodes.forEach(({ node, pos }) => {
-            const editor = extensionThis.editor;
             if (editor) {
               updateNodeWithDimensions(node.attrs.src, editor.view, pos);
             }
@@ -353,7 +361,7 @@ function uploadImageBase(
   file: File,
   view: EditorView,
   pos: number | null | undefined,
-  options: Record<string, any>,
+  options: Record<string, unknown>,
   insertMode: "insert" | "replace",
   onComplete?: (nodeId: string) => void,
   moveCursor = false
@@ -416,7 +424,8 @@ function uploadImageBase(
         }, 10);
       }
 
-      return options.uploadFunction(file);
+      const uploadFn = options.uploadFunction as (file: File) => Promise<UploadedFile>;
+      return uploadFn(file);
     })
     .then((uploadedImage: UploadedFile) => {
       return getImageDimensions(uploadedImage.file_url)
@@ -486,7 +495,7 @@ function uploadImageWithTracking(
   file: File,
   view: EditorView,
   pos: number | null | undefined,
-  options: Record<string, any>,
+  options: Record<string, unknown>,
   onComplete?: (nodeId: string) => void
 ): boolean {
   return uploadImageBase(file, view, pos, options, "insert", onComplete, true);
@@ -496,7 +505,7 @@ function uploadImage(
   file: File,
   view: EditorView,
   pos: number | null | undefined,
-  options: Record<string, any>
+  options: Record<string, unknown>
 ): boolean {
   return uploadImageBase(file, view, pos, options, "replace");
 }
@@ -563,7 +572,7 @@ export function processMultipleImages(
   images: File[],
   view: EditorView,
   pos: number | null,
-  options: Record<string, any>
+  options: Record<string, unknown>
 ) {
   if (images.length === 1) {
     uploadImage(images[0], view, pos, options);

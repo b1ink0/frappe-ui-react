@@ -1,9 +1,16 @@
+/**
+ * External dependencies.
+ */
 import { useRef, useState } from "react";
-import { Editor } from "@tiptap/react";
+
+/**
+ * Internal dependencies.
+ */
 import { ImageGroupUploadDialog } from "./extensions/image-group";
+import { TextEditorInstance } from "./types";
 
 interface InsertImageProps {
-  editor: Editor;
+  editor: TextEditorInstance;
   children: (props: { onClick?: () => void }) => React.ReactNode;
 }
 

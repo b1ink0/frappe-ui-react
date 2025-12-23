@@ -1,5 +1,12 @@
+/**
+ * External dependencies.
+ */
 import { Node, mergeAttributes } from '@tiptap/core'
 import { ReactNodeViewRenderer } from '@tiptap/react'
+
+/**
+ * Internal dependencies.
+ */
 import { ImageGroupNodeView } from './imageGroupNodeView'
 import { UploadedFile } from '../../../../utils/useFileUpload'
 

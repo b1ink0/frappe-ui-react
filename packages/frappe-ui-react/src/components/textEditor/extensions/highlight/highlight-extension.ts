@@ -1,4 +1,11 @@
+/**
+ * External dependencies.
+ */
 import { Mark, mergeAttributes } from '@tiptap/core'
+
+/**
+ * Internal dependencies.
+ */
 import {
   getClosestNamedColor,
   highlightColorHexMap,
@@ -11,7 +18,7 @@ export interface HighlightOptions {
    * HTML tag to wrap the highlighted text
    * @default 'mark'
    */
-  HTMLAttributes: Record<string, any>
+  HTMLAttributes: Record<string, unknown>
 
   /**
    * Available highlight color names that can be used
@@ -162,7 +169,7 @@ export const NamedHighlightExtension = Mark.create<HighlightOptions>({
     return {
       setHighlightByName:
         (colorName) =>
-        ({ chain, commands, editor, state }) => {
+        ({ chain, state }) => {
           // Validate that the color name is allowed
           if (!this.options.colors.includes(colorName)) {
             console.warn(

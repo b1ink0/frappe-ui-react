@@ -1,8 +1,15 @@
+/**
+ * External dependencies.
+ */
 import { common, createLowlight } from "lowlight";
 import CodeBlockLowlight from "@tiptap/extension-code-block-lowlight";
 import Code from "@tiptap/extension-code";
 import { ReactNodeViewRenderer } from "@tiptap/react";
 import { markInputRule } from "@tiptap/core";
+
+/**
+ * Internal dependencies.
+ */
 import { CodeBlockComponent } from "./codeBlockComponent";
 
 const INDENT = " ".repeat(4);

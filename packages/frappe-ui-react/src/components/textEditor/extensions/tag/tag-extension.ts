@@ -1,10 +1,31 @@
+/**
+ * External dependencies.
+ */
 import { Node, mergeAttributes } from '@tiptap/core'
 import { PluginKey } from '@tiptap/pm/state'
+import { Node as ProseMirrorNode } from '@tiptap/pm/model'
+
+/**
+ * Internal dependencies.
+ */
 import {
   createSuggestionExtension,
   BaseSuggestionItem,
 } from '../suggestion/createSuggestionExtension'
 import { SuggestionList } from '../suggestion/suggestionList'
+
+export interface TagAttributes {
+  tagId: string | null;
+  tagLabel: string;
+}
+
+declare module '@tiptap/core' {
+  interface Commands<ReturnType> {
+    tagItem: {
+      setTag: (attributes: Partial<TagAttributes>) => ReturnType;
+    };
+  }
+}
 
 export const TagNode = Node.create({
   name: 'tagItem',
@@ -58,13 +79,15 @@ export const TagNode = Node.create({
       `#${HTMLAttributes['data-tag-label']}`,
     ]
   },
-  renderText({ node }: any) {
+  
+  renderText({ node }: { node: ProseMirrorNode }) {
     return `#${node.attrs.tagLabel || ''}`
   },
+  
   addCommands() {
     return {
       setTag:
-        (attributes: { tagLabel: string; tagId?: string }) =>
+        (attributes: Partial<TagAttributes>) =>
         ({ commands }) => {
           return commands.insertContent({
             type: this.name,
@@ -76,6 +99,7 @@ export const TagNode = Node.create({
 })
 
 interface TagSuggestionItem extends BaseSuggestionItem {
+  id?: string
   name?: string
   label: string
   isNew?: boolean
@@ -97,7 +121,7 @@ export const TagExtension = createSuggestionExtension<TagSuggestionItem>({
     const { tags: _tags } = editor.extensionManager.extensions.find(
       (ext) => ext.name === 'tagSuggestion',
     )!.options
-    const tags = _tags
+    const tags = typeof _tags === 'function' ? _tags() : _tags
 
     // Filter existing tags based on the query
     const filteredTags = tags
@@ -123,9 +147,9 @@ export const TagExtension = createSuggestionExtension<TagSuggestionItem>({
   },
 
   command: ({ editor, range, props }) => {
-    const attributes = {
+    const attributes: TagAttributes = {
       tagLabel: props.label,
-      ...(props.id && !props.isNew && { tagId: props.id }),
+      tagId: (props.id && !props.isNew) ? props.id : null,
     }
 
     editor

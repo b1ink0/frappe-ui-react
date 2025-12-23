@@ -1,11 +1,18 @@
+/**
+ * External dependencies.
+ */
 import { Editor, Range } from "@tiptap/core";
 import { PluginKey } from "@tiptap/pm/state";
+import { type LucideIcon } from "lucide-react";
+
+/**
+ * Internal dependencies.
+ */
 import {
   createSuggestionExtension,
   type BaseSuggestionItem,
 } from "../suggestion/createSuggestionExtension";
 import { SlashCommandsList } from "./slashCommandsList";
-import { type LucideIcon } from "lucide-react";
 
 import {
   Heading2,

@@ -1,10 +1,10 @@
-import { Editor } from "@tiptap/react";
 import Popover from "../popover/popover";
 import { Tooltip } from "../tooltip";
 import clsx from "clsx";
+import { TextEditorInstance } from "./types";
 
 interface FontColorProps {
-  editor: Editor;
+  editor: TextEditorInstance;
   children: (props: {
     isActive?: boolean;
     onClick?: () => void;
@@ -77,11 +77,7 @@ const backgroundColors: ColorOption[] = [
 const FontColor = ({ editor, children }: FontColorProps) => {
   const setForegroundColor = (color: ColorOption) => {
     if (color.name !== "Default") {
-      editor
-        .chain()
-        .focus()
-        .setColorByName(color.name.toLowerCase())
-        .run();
+      editor.chain().focus().setColorByName(color.name.toLowerCase()).run();
     } else {
       editor.chain().focus().unsetColor().run();
     }

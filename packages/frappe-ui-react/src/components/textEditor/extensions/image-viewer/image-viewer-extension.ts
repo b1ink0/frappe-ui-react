@@ -1,7 +1,14 @@
+/**
+ * External dependencies.
+ */
 import { Extension } from "@tiptap/core";
 import { Plugin, PluginKey } from "@tiptap/pm/state";
 import { createRoot } from "react-dom/client";
 import { createElement } from "react";
+
+/**
+ * Internal dependencies.
+ */
 import ImageViewerModal from "./imageViewerModal";
 
 interface ImageInfo {
@@ -70,14 +77,14 @@ const ImageViewerExtension = Extension.create({
   },
 
   addProseMirrorPlugins() {
-    const extension = this;
+    const editor = this.editor;
 
     return [
       new Plugin({
         key: new PluginKey("imageViewer"),
         props: {
           handleClick(view, pos, event) {
-            if (extension.editor.isEditable) {
+            if (editor.isEditable) {
               return false;
             }
 
@@ -87,7 +94,7 @@ const ImageViewerExtension = Extension.create({
             if (clickedNode?.type.name === "image") {
               event.preventDefault();
               const src = clickedNode.attrs.src;
-              extension.editor.commands.openImageViewer(src);
+              editor.commands.openImageViewer(src);
               return true;
             }
 
@@ -101,7 +108,7 @@ const ImageViewerExtension = Extension.create({
                     (domNode === event.target || domNode.contains(event.target as Node))
                   ) {
                     event.preventDefault();
-                    extension.editor.commands.openImageViewer(node.attrs.src);
+                    editor.commands.openImageViewer(node.attrs.src);
                     foundImageNode = true;
                     return false;
                   }

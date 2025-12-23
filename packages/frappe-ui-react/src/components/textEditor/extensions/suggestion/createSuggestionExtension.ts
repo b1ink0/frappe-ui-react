@@ -11,7 +11,8 @@ import { ComponentType } from 'react'
 export interface BaseSuggestionItem {
   title?: string
   name?: string
-  [key: string]: any
+  display?: string
+  [key: string]: unknown
 }
 
 export interface CreateSuggestionExtensionOptions<
@@ -25,19 +26,20 @@ export interface CreateSuggestionExtensionOptions<
     editor: Editor
   }) => TItem[] | Promise<TItem[]>
   command: (props: { editor: Editor; range: Range; props: TItem }) => void
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   component: ComponentType<any>
   tippyOptions?: Partial<TippyProps>
   allowSpaces?: boolean
   startOfLine?: boolean
   decorationTag?: string
   decorationClass?: string
-  addOptions?: () => Record<string, any>
+  addOptions?: () => Record<string, unknown>
 }
 
 export function createSuggestionExtension<TItem extends BaseSuggestionItem>(
   options: CreateSuggestionExtensionOptions<TItem>,
 ) {
-  type ExtensionFullOptions = Record<string, any> & {
+  type ExtensionFullOptions = Record<string, unknown> & {
     suggestion: Omit<SuggestionOptions<TItem>, 'editor'>
   }
 
@@ -116,8 +118,10 @@ export function createSuggestionExtension<TItem extends BaseSuggestionItem>(
                 if (
                   component &&
                   component.ref &&
+                  // eslint-disable-next-line @typescript-eslint/no-explicit-any
                   typeof (component.ref as any).onKeyDown === 'function'
                 ) {
+                  // eslint-disable-next-line @typescript-eslint/no-explicit-any
                   return (component.ref as any).onKeyDown(props)
                 }
                 return false

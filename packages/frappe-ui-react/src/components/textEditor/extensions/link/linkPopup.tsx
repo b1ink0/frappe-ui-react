@@ -1,49 +1,56 @@
-import { useState, useEffect, useRef } from 'react'
-import { Button } from '../../../button'
-import { TextInput } from '../../../textInput'
-import { Check, X, Copy, Pencil, Link2Off } from 'lucide-react'
-import { isValidUrl } from '../../../../utils/urlValidation'
+/**
+ * External dependencies.
+ */
+import { useState, useEffect, useRef } from "react";
+import { Check, X, Copy, Pencil, Link2Off } from "lucide-react";
+
+/**
+ * Internal dependencies.
+ */
+import { Button } from "../../../button";
+import { TextInput } from "../../../textInput";
+import { isValidUrl } from "../../../../utils/urlValidation";
 
 interface LinkPopupProps {
-  href: string
-  onClose: () => void
-  onUpdateHref: (href: string) => void
+  href: string;
+  onClose: () => void;
+  onUpdateHref: (href: string) => void;
 }
 
 export const LinkPopup = ({ href, onClose, onUpdateHref }: LinkPopupProps) => {
-  const [_href, setHref] = useState(href)
-  const [edit, setEdit] = useState(href === '')
-  const inputRef = useRef<HTMLInputElement>(null)
+  const [_href, setHref] = useState(href);
+  const [edit, setEdit] = useState(href === "");
+  const inputRef = useRef<HTMLInputElement>(null);
 
   const submitLink = () => {
-    if (_href === '' || isValidUrl(_href)) {
-      onUpdateHref(_href)
+    if (_href === "" || isValidUrl(_href)) {
+      onUpdateHref(_href);
     }
-  }
+  };
 
   const copyLink = async () => {
-    if (_href) await navigator.clipboard.writeText(_href)
-  }
+    if (_href) await navigator.clipboard.writeText(_href);
+  };
 
   useEffect(() => {
     if (inputRef.current) {
-      inputRef.current.focus()
-      inputRef.current.select()
+      inputRef.current.focus();
+      inputRef.current.select();
     }
-  }, [edit])
+  }, [edit]);
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
-    if (e.key === 'Enter') {
-      submitLink()
-    } else if (e.key === 'Escape') {
-      onClose()
+    if (e.key === "Enter") {
+      submitLink();
+    } else if (e.key === "Escape") {
+      onClose();
     }
-  }
+  };
 
   return (
     <div className="p-2 w-72 flex items-center gap-2 bg-surface-white shadow-xl rounded">
       {edit ? (
-        <div className='w-full'>
+        <div className="w-full">
           <TextInput
             ref={inputRef}
             type="text"
@@ -51,7 +58,7 @@ export const LinkPopup = ({ href, onClose, onUpdateHref }: LinkPopupProps) => {
             value={_href}
             onChange={(e) => setHref(e.target.value)}
             onKeyDown={handleKeyDown}
-            variant='subtle'
+            variant="subtle"
           />
         </div>
       ) : (
@@ -71,13 +78,13 @@ export const LinkPopup = ({ href, onClose, onUpdateHref }: LinkPopupProps) => {
             <Button
               onClick={submitLink}
               tooltip="Save"
-              icon={() => <Check className='w-4 h-4'/>}
+              icon={() => <Check className="w-4 h-4" />}
               variant="subtle"
             />
             <Button
-              onClick={() => (href ? setEdit(false) : onUpdateHref(''))}
+              onClick={() => (href ? setEdit(false) : onUpdateHref(""))}
               tooltip="Exit"
-              icon={() => <X className='w-4 h-4'/>}
+              icon={() => <X className="w-4 h-4" />}
               variant="subtle"
             />
           </>
@@ -86,24 +93,24 @@ export const LinkPopup = ({ href, onClose, onUpdateHref }: LinkPopupProps) => {
             <Button
               onClick={copyLink}
               tooltip="Copy"
-              icon={() => <Copy className='w-4 h-4'/>}
+              icon={() => <Copy className="w-4 h-4" />}
               variant="subtle"
             />
             <Button
               onClick={() => setEdit(true)}
               tooltip="Edit"
-              icon={() => <Pencil className='w-4 h-4'/>}
+              icon={() => <Pencil className="w-4 h-4" />}
               variant="subtle"
             />
             <Button
               tooltip="Remove"
               variant="subtle"
-              onClick={() => onUpdateHref('')}
-              icon={() => <Link2Off className='w-4 h-4'/>}
+              onClick={() => onUpdateHref("")}
+              icon={() => <Link2Off className="w-4 h-4" />}
             />
           </>
         )}
       </div>
     </div>
-  )
-}
+  );
+};

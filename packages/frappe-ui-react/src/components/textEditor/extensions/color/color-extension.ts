@@ -1,6 +1,12 @@
+/**
+ * External dependencies.
+ */
 import '@tiptap/extension-text-style'
-
 import { Extension } from '@tiptap/core'
+
+/**
+ * Internal dependencies.
+ */
 import { extractTextColorFromStyle } from '../shared/color-utils'
 
 export type ColorOptions = {

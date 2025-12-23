@@ -12,8 +12,7 @@ export function CodeBlockComponent(props: NodeViewProps) {
   const selectedLanguage = props.node.attrs.language;
 
   const languages = useMemo(() => {
-    const supportedLanguages =
-      props.extension.options.lowlight.listLanguages();
+    const supportedLanguages = props.extension.options.lowlight.listLanguages();
     return supportedLanguages
       .map((language: string) => ({
         label: language,

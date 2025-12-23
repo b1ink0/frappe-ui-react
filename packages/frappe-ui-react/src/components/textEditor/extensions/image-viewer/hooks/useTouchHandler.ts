@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useCallback } from "react";
 
 interface UseTouchHandlerOptions {
   targetRef: React.RefObject<HTMLElement | null | undefined>;
@@ -73,7 +73,7 @@ export const useTouchHandler = (options: UseTouchHandlerOptions) => {
     panVelocity.current = { x: 0, y: 0 };
   };
 
-  const handleTouchStart = (event: TouchEvent) => {
+  const handleTouchStart = useCallback((event: TouchEvent) => {
     cancelInertiaAnimation();
     event.preventDefault();
 
@@ -119,9 +119,9 @@ export const useTouchHandler = (options: UseTouchHandlerOptions) => {
       lastTapTime.current = 0;
       touchStartTime.current = 0;
     }
-  };
+  }, [onDoubleTap, doubleTapDelay, onPanStart, onPinchStart]);
 
-  const handleTouchMove = (event: TouchEvent) => {
+  const handleTouchMove = useCallback((event: TouchEvent) => {
     if (!initialTouchPoints.current) return;
 
     event.preventDefault();
@@ -189,9 +189,9 @@ export const useTouchHandler = (options: UseTouchHandlerOptions) => {
         onPanMove(panDeltaX, panDeltaY, event);
       }
     }
-  };
+  }, [isPanning, isPinching, zoomLevel, panThreshold, onPanMove, onPinchMove]);
 
-  const handleTouchEnd = (event: TouchEvent) => {
+  const handleTouchEnd = useCallback((event: TouchEvent) => {
     const touchesLeft = event.touches.length;
     const touchEndTime = performance.now();
     const wasPanning = isPanning;
@@ -215,7 +215,7 @@ export const useTouchHandler = (options: UseTouchHandlerOptions) => {
       ) {
         setIsAnimatingPan(true);
         let lastFrameTime = performance.now();
-        let animVelocity = { ...finalVelocity };
+        const animVelocity = { ...finalVelocity };
 
         const animate = (currentTime: number) => {
           if (!isAnimatingPan) return;
@@ -308,7 +308,7 @@ export const useTouchHandler = (options: UseTouchHandlerOptions) => {
       touchStartTime.current = performance.now();
       initialTouchPoints.current = event.touches;
     }
-  };
+  }, [isPanning, isPinching, zoomLevel, minSwipeDistance, maxVerticalSwipeDistance, maxTapDuration, maxTapMovement, inertiaVelocityThreshold, inertiaDamping, isAnimatingPan, onSwipeLeft, onSwipeRight, onTap, onPanEnd, onPanAnimate, onPinchEnd]);
 
   useEffect(() => {
     const target = targetRef.current;
@@ -328,7 +328,7 @@ export const useTouchHandler = (options: UseTouchHandlerOptions) => {
       target.removeEventListener("touchcancel", handleTouchEnd);
       cancelInertiaAnimation();
     };
-  }, [targetRef]);
+  }, [targetRef, handleTouchEnd, handleTouchMove, handleTouchStart]);
 
   return {
     isPanning,

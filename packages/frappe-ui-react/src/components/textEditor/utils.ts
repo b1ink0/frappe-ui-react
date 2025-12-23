@@ -1,9 +1,5 @@
-import commands, { EditorCommand } from "./commands";
-
-export type EditorButtonOption =
-  | string
-  | EditorCommand
-  | EditorButtonOption[];
+import commands from "./commands";
+import { EditorButtonOption, EditorCommand } from "./types";
 
 export function createEditorButton(
   option: EditorButtonOption

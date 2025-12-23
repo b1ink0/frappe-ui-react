@@ -1,15 +1,15 @@
+/**
+ * External dependencies.
+ */
 import { Suspense } from "react";
-import type { Editor } from "@tiptap/react";
 import { useEditorState } from "@tiptap/react";
-import Popover from "../popover/popover";
-import { EditorCommand } from "./commands";
-import clsx from "clsx";
 
-interface MenuProps {
-  editor: Editor;
-  buttons: (EditorCommand | EditorCommand[])[];
-  className?: string;
-}
+/**
+ * Internal dependencies.
+ */
+import Popover from "../popover/popover";
+import clsx from "clsx";
+import { EditorCommand, MenuProps } from "./types";
 
 const Menu = ({ editor, buttons, className }: MenuProps) => {
   // Subscribe to editor state to re-render on selection changes
@@ -39,9 +39,7 @@ const Menu = ({ editor, buttons, className }: MenuProps) => {
                       className="rounded px-2 py-1 text-base font-medium text-ink-gray-8 transition-colors hover:bg-surface-gray-2"
                       onClick={() => togglePopover()}
                     >
-                      {activeBtn.icon && (
-                        <activeBtn.icon className="h-4 w-4" />
-                      )}
+                      {activeBtn.icon && <activeBtn.icon className="h-4 w-4" />}
                       {!activeBtn.icon && <span>{activeBtn.label}</span>}
                     </button>
                   )}
@@ -81,16 +79,25 @@ const Menu = ({ editor, buttons, className }: MenuProps) => {
 
           if (button.type === "separator") {
             return (
-              <div key={index} className="h-4 w-[2px] border-l border-outline-gray-1"></div>
+              <div
+                key={index}
+                className="h-4 w-[2px] border-l border-outline-gray-1"
+              ></div>
             );
           }
-          
+
           if (button.component) {
             const Component = button.component;
             return (
               <Suspense key={index} fallback={<div className="h-6 w-6" />}>
                 <Component editor={editor}>
-                  {({ isActive, onClick }: { isActive?: boolean; onClick?: (button: EditorCommand) => void }) => (
+                  {({
+                    isActive,
+                    onClick,
+                  }: {
+                    isActive?: boolean;
+                    onClick?: (button: EditorCommand) => void;
+                  }) => (
                     <button
                       className={clsx(
                         "flex rounded p-1 text-ink-gray-8 transition-colors",

@@ -1,6 +1,13 @@
+/**
+ * External dependencies.
+ */
 import { Node, mergeAttributes } from "@tiptap/core";
 import { ReactNodeViewRenderer } from "@tiptap/react";
 import { Plugin, PluginKey } from "@tiptap/pm/state";
+
+/**
+ * Internal dependencies.
+ */
 import { IframeNodeView } from "./iframeNodeView";
 import {
   validateURL,

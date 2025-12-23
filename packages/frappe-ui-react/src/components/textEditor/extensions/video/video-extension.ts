@@ -1,11 +1,18 @@
+/**
+ * External dependencies.
+ */
 import { Node, mergeAttributes, Editor } from "@tiptap/core";
 import { Node as ProseMirrorNode } from "@tiptap/pm/model";
 import { EditorView } from "@tiptap/pm/view";
+
+/**
+ * Internal dependencies.
+ */
 import { UploadedFile } from "../../types";
 
 export interface VideoOptions {
   uploadFunction: ((file: File) => Promise<UploadedFile>) | null;
-  HTMLAttributes: Record<string, any>;
+  HTMLAttributes: React.HTMLAttributes<HTMLVideoElement>;
 }
 
 export interface SetVideoOptions {
@@ -133,7 +140,7 @@ function uploadVideoInternal(
   file: File,
   view: EditorView,
   pos: number | null | undefined,
-  options: Record<string, any>
+  options: VideoOptions
 ): boolean {
   if (!options.uploadFunction) {
     console.error("uploadFunction option is not provided for videos.");

@@ -1,8 +1,15 @@
+/**
+ * External dependencies.
+ */
 import { useState, useEffect, useRef, CSSProperties } from "react";
 import { createPortal } from "react-dom";
 import { type Editor } from "@tiptap/react";
 import { X, Upload } from "lucide-react";
 import clsx from "clsx";
+
+/**
+ * Internal dependencies.
+ */
 import { Button } from "../../../button";
 import { Select } from "../../../select";
 
@@ -112,7 +119,10 @@ export function ImageGroupUploadDialog(props: ImageGroupUploadDialogProps) {
 
     const handleDragOverWindow = (e: DragEvent) => {
       e.preventDefault();
-      if (e.dataTransfer && Array.from(e.dataTransfer.types).includes("Files")) {
+      if (
+        e.dataTransfer &&
+        Array.from(e.dataTransfer.types).includes("Files")
+      ) {
         setIsFileDragging(true);
       }
     };
@@ -189,7 +199,9 @@ export function ImageGroupUploadDialog(props: ImageGroupUploadDialogProps) {
 
     const uniqueNewItems = newImageItems.filter(
       (item) =>
-        !existingFileSignatures.includes(`${item.file!.name}-${item.file!.size}`)
+        !existingFileSignatures.includes(
+          `${item.file!.name}-${item.file!.size}`
+        )
     );
 
     setImages((prev) => [...prev, ...uniqueNewItems]);
@@ -240,9 +252,7 @@ export function ImageGroupUploadDialog(props: ImageGroupUploadDialogProps) {
   }
 
   function isDropTarget(idx: number) {
-    return (
-      overIndex === idx && draggedIndex !== null && draggedIndex !== idx
-    );
+    return overIndex === idx && draggedIndex !== null && draggedIndex !== idx;
   }
 
   function removeImage(idx: number) {
@@ -567,7 +577,9 @@ export function ImageGroupUploadDialog(props: ImageGroupUploadDialogProps) {
               <div
                 className={clsx(
                   "grid gap-2 rounded-lg transition-colors p-2",
-                  isFileDragging ? "bg-blue-50 border-2 border-blue-500 border-dashed" : ""
+                  isFileDragging
+                    ? "bg-blue-50 border-2 border-blue-500 border-dashed"
+                    : ""
                 )}
                 style={gridStyle}
                 onDrop={onDrop}
@@ -640,7 +652,9 @@ export function ImageGroupUploadDialog(props: ImageGroupUploadDialogProps) {
                             ref={captionInputRef}
                             type="text"
                             value={captionEditValue}
-                            onChange={(e) => setCaptionEditValue(e.target.value)}
+                            onChange={(e) =>
+                              setCaptionEditValue(e.target.value)
+                            }
                             onBlur={() => handleCaptionBlur(item.id, idx)}
                             onKeyDown={(e) =>
                               handleCaptionKeyDown(e, item.id, idx)
@@ -699,11 +713,17 @@ export function ImageGroupUploadDialog(props: ImageGroupUploadDialogProps) {
             Cancel
           </Button>
           {mode === "edit" ? (
-            <Button onClick={handleSave} disabled={uploading || images.length === 0}>
+            <Button
+              onClick={handleSave}
+              disabled={uploading || images.length === 0}
+            >
               {uploading ? "Uploading..." : "Save"}
             </Button>
           ) : (
-            <Button onClick={handleUpload} disabled={uploading || images.length === 0}>
+            <Button
+              onClick={handleUpload}
+              disabled={uploading || images.length === 0}
+            >
               {uploading ? "Uploading..." : "Upload"}
             </Button>
           )}

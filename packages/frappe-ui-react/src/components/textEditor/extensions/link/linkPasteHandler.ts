@@ -1,6 +1,13 @@
+/**
+ * External dependencies.
+ */
 import { Editor } from '@tiptap/core'
 import { MarkType } from '@tiptap/pm/model'
 import { Plugin, PluginKey } from '@tiptap/pm/state'
+
+/**
+ * Internal dependencies.
+ */
 import { isValidUrl } from '../../../../utils/urlValidation'
 
 type PasteHandlerOptions = {

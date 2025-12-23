@@ -1,21 +1,24 @@
+/**
+ * External dependencies.
+ */
 import { useMemo } from "react";
-import type { Editor } from "@tiptap/react";
-import { createEditorButton, EditorButtonOption } from "./utils";
-import Menu from "./menu";
-import { EditorCommand } from "./commands";
 
-interface TextEditorFixedMenuProps {
-  editor: Editor;
-  buttons?: boolean | EditorButtonOption[];
-  className?: string;
-}
+/**
+ * Internal dependencies.
+ */
+import { createEditorButton } from "./utils";
+import Menu from "./menu";
+import {
+  EditorButtonOption,
+  EditorCommand,
+  TextEditorFixedMenuProps,
+} from "./types";
 
 const TextEditorFixedMenu = ({
   editor,
   buttons,
   className,
 }: TextEditorFixedMenuProps) => {
-
   const fixedMenuButtons = useMemo(() => {
     if (!buttons) return null;
 
@@ -83,7 +86,9 @@ const TextEditorFixedMenu = ({
     return null;
   }
 
-  return <Menu editor={editor} buttons={fixedMenuButtons} className={className} />;
+  return (
+    <Menu editor={editor} buttons={fixedMenuButtons} className={className} />
+  );
 };
 
 export default TextEditorFixedMenu;

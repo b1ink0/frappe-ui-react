@@ -1,8 +1,15 @@
+/**
+ * External dependencies.
+ */
 import { PluginKey } from '@tiptap/pm/state'
 import {
   BaseSuggestionItem,
   createSuggestionExtension,
 } from '../suggestion/createSuggestionExtension'
+
+/**
+ * Internal dependencies.
+ */
 import { EmojiList } from './emojiList'
 import _EMOJIS from './emojis.json'
 

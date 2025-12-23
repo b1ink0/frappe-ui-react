@@ -1,5 +1,12 @@
+/**
+ * External dependencies.
+ */
 import { lazy } from "react";
-import { Editor } from "@tiptap/react";
+
+/**
+ * Internal dependencies.
+ */
+import { EditorCommand } from "./types";
 import H1Icon from "./icons/h1";
 import H2Icon from "./icons/h2";
 import H3Icon from "./icons/h3";
@@ -34,21 +41,6 @@ const InsertLink = lazy(() => import("./insertLink"));
 const InsertImage = lazy(() => import("./insertImage"));
 const InsertVideo = lazy(() => import("./insertVideo"));
 const InsertIframe = lazy(() => import("./extensions/iframe").then(m => ({ default: m.InsertIframe })));
-
-export interface EditorCommand {
-  label: string;
-  text?: string;
-  icon?: React.ComponentType<{ className?: string }>;
-  action?: (editor: Editor) => void;
-  isActive: (editor: Editor) => boolean;
-  isDisabled?: (editor: Editor) => boolean;
-  component?: React.ComponentType<{ 
-    editor: Editor;
-    children: (props: { isActive?: boolean; onClick?: (button: EditorCommand) => void }) => React.ReactNode;
-  }>;
-  class?: string;
-  type?: string;
-}
 
 const commands: Record<string, EditorCommand> = {
   Paragraph: {

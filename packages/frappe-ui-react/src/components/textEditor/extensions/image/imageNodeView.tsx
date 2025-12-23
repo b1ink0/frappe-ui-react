@@ -1,9 +1,21 @@
+/**
+ * External dependencies.
+ */
 import { useRef, useState, useEffect } from "react";
 import { NodeViewWrapper, NodeViewProps } from "@tiptap/react";
+import {
+  AlignLeft,
+  AlignCenter,
+  AlignRight,
+  MoveDiagonal2,
+} from "lucide-react";
+import clsx from "clsx";
+
+/**
+ * Internal dependencies.
+ */
 import LoadingIndicator from "../../../loadingIndicator";
 import { ErrorMessage } from "../../../errorMessage";
-import { AlignLeft, AlignCenter, AlignRight, MoveDiagonal2 } from "lucide-react";
-import clsx from "clsx";
 
 const ImageNodeView = ({
   node,
@@ -26,8 +38,7 @@ const ImageNodeView = ({
     if (imageRef.current) {
       // Ensure initial aspect ratio is captured if dimensions are available
       const initialWidth = node.attrs.width || imageRef.current.naturalWidth;
-      const initialHeight =
-        node.attrs.height || imageRef.current.naturalHeight;
+      const initialHeight = node.attrs.height || imageRef.current.naturalHeight;
       if (initialWidth && initialHeight) {
         originalAspectRatioRef.current = initialHeight / initialWidth;
       }
@@ -81,7 +92,7 @@ const ImageNodeView = ({
   const createParagraphAfterImage = () => {
     const pos = getPos();
     if (pos === undefined) return;
-    
+
     editor.commands.focus();
     editor
       .chain()
@@ -110,7 +121,8 @@ const ImageNodeView = ({
     selectImage();
     isResizingRef.current = true;
     startDragXRef.current = event.clientX;
-    startWidthRef.current = imageRef.current?.offsetWidth || node.attrs.width || 0;
+    startWidthRef.current =
+      imageRef.current?.offsetWidth || node.attrs.width || 0;
 
     // Calculate aspect ratio from current attributes or natural dimensions
     const width = node.attrs.width || imageRef.current?.naturalWidth;
@@ -127,7 +139,8 @@ const ImageNodeView = ({
   };
 
   const handleResize = (event: MouseEvent) => {
-    if (!isResizingRef.current || !imageRef.current || !containerRef.current) return;
+    if (!isResizingRef.current || !imageRef.current || !containerRef.current)
+      return;
 
     const editorElement = editor.view.dom;
     const editorWidth = editorElement.clientWidth;

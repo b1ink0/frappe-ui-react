@@ -1,6 +1,8 @@
+/**
+ * External dependencies.
+ */
 import { useState, useRef, useEffect, CSSProperties } from "react";
 import { NodeViewWrapper, type NodeViewProps } from "@tiptap/react";
-import { calculateAspectRatio } from "./utils";
 import {
   MoveDiagonal2,
   AlignLeft,
@@ -8,6 +10,11 @@ import {
   AlignRight,
 } from "lucide-react";
 import clsx from "clsx";
+
+/**
+ * Internal dependencies.
+ */
+import { calculateAspectRatio } from "./utils";
 
 export function IframeNodeView(props: NodeViewProps) {
   const iframeRef = useRef<HTMLIFrameElement | null>(null);
@@ -89,7 +96,8 @@ export function IframeNodeView(props: NodeViewProps) {
   };
 
   const handleResize = (event: MouseEvent) => {
-    if (!isResizingRef.current || !iframeRef.current || !containerRef.current) return;
+    if (!isResizingRef.current || !iframeRef.current || !containerRef.current)
+      return;
 
     const editorElement = props.editor.view.dom;
     const editorWidth = editorElement.clientWidth;
@@ -213,13 +221,10 @@ export function IframeNodeView(props: NodeViewProps) {
           {props.node.attrs.src ? (
             <iframe
               ref={iframeRef}
-              className={clsx(
-                "rounded-lg border-0 block max-w-full h-auto",
-                {
-                  "pointer-events-none":
-                    isEditable && !props.node.attrs.interactive,
-                }
-              )}
+              className={clsx("rounded-lg border-0 block max-w-full h-auto", {
+                "pointer-events-none":
+                  isEditable && !props.node.attrs.interactive,
+              })}
               src={props.node.attrs.src}
               style={iframeStyles()}
               title={props.node.attrs.title || ""}
@@ -320,15 +325,13 @@ export function IframeNodeView(props: NodeViewProps) {
         </div>
 
         {/* Caption/Title input */}
-        {((isEditable || props.node.attrs.title) && props.node.attrs.src) && (
+        {(isEditable || props.node.attrs.title) && props.node.attrs.src && (
           <input
             value={props.node.attrs.title || ""}
             className="w-full text-center bg-transparent text-sm text-ink-gray-6 h-7 border-0 mt-2 focus:outline-none focus:ring-0 placeholder-ink-gray-4 disabled:opacity-60"
             placeholder="Add caption"
             disabled={!isEditable}
-            onChange={(e) =>
-              props.updateAttributes({ title: e.target.value })
-            }
+            onChange={(e) => props.updateAttributes({ title: e.target.value })}
             onKeyDown={handleKeydown}
           />
         )}

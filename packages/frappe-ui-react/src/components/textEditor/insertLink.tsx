@@ -1,7 +1,7 @@
-import { Editor } from "@tiptap/react";
+import { TextEditorInstance } from "./types";
 
 interface InsertLinkProps {
-  editor: Editor;
+  editor: TextEditorInstance;
   children: (props: { onClick?: () => void }) => React.ReactNode;
 }
 

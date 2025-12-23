@@ -1,8 +1,7 @@
-import { useState, useEffect, useRef, useMemo } from "react";
-import { Tooltip } from "../../../tooltip";
-import { useZoomPan } from "./hooks/useZoomPan";
-import { useImageNavigation } from "./hooks/useImageNavigation";
-import { useTouchHandler } from "./hooks/useTouchHandler";
+/**
+ * External dependencies.
+ */
+import { useState, useEffect, useRef, useMemo, useCallback } from "react";
 import {
   Download,
   Maximize,
@@ -14,6 +13,14 @@ import {
   X,
 } from "lucide-react";
 import clsx from "clsx";
+
+/**
+ * Internal dependencies.
+ */
+import { Tooltip } from "../../../tooltip";
+import { useZoomPan } from "./hooks/useZoomPan";
+import { useImageNavigation } from "./hooks/useImageNavigation";
+import { useTouchHandler } from "./hooks/useTouchHandler";
 
 interface ImageInfo {
   src: string;
@@ -73,7 +80,11 @@ const ImageViewerModal = ({
     [images, currentIndex]
   );
 
-  const { isPanning: isTouchPanning, isPinching, isAnimatingPan } = useTouchHandler({
+  const {
+    isPanning: isTouchPanning,
+    isPinching,
+    isAnimatingPan,
+  } = useTouchHandler({
     targetRef: imageContainerRef,
     zoomLevel,
     panThreshold: 10,
@@ -138,7 +149,7 @@ const ImageViewerModal = ({
 
   const isPanning = isMousePanning || isTouchPanning;
 
-  const showControlsAndResetTimer = () => {
+  const showControlsAndResetTimer = useCallback(() => {
     setIsControlsVisible(true);
     if (inactivityTimerRef.current) {
       clearTimeout(inactivityTimerRef.current);
@@ -150,22 +161,22 @@ const ImageViewerModal = ({
         showControlsAndResetTimer();
       }
     }, INACTIVITY_TIMEOUT);
-  };
+  }, [isPanning, isPinching]);
 
-  const handleActivity = () => {
+  const handleActivity = useCallback(() => {
     if (!isPinching || !isControlsVisible) {
       showControlsAndResetTimer();
     }
-  };
+  }, [isPinching, isControlsVisible, showControlsAndResetTimer]);
 
-  const close = () => {
+  const close = useCallback(() => {
     onClose();
     resetZoom();
     if (inactivityTimerRef.current) {
       clearTimeout(inactivityTimerRef.current);
       inactivityTimerRef.current = null;
     }
-  };
+  }, [onClose, resetZoom]);
 
   const downloadImage = () => {
     const imageToDownload = currentImage;
@@ -184,7 +195,7 @@ const ImageViewerModal = ({
     document.body.removeChild(link);
   };
 
-  const toggleFullscreen = () => {
+  const toggleFullscreen = useCallback(() => {
     const container = imageContainerRef.current;
 
     if (!isFullscreen) {
@@ -198,7 +209,7 @@ const ImageViewerModal = ({
         setIsFullscreen(false);
       }
     }
-  };
+  }, [isFullscreen]);
 
   useEffect(() => {
     const handleFullscreenChange = () => {
@@ -247,7 +258,17 @@ const ImageViewerModal = ({
       document.removeEventListener("fullscreenchange", handleFullscreenChange);
       document.removeEventListener("keydown", handleKeyDown);
     };
-  }, [show, isPanning]);
+  }, [
+    show,
+    isPanning,
+    handleActivity,
+    previousImage,
+    nextImage,
+    zoomIn,
+    zoomOut,
+    close,
+    toggleFullscreen,
+  ]);
 
   useEffect(() => {
     if (show) {
@@ -272,7 +293,7 @@ const ImageViewerModal = ({
         document.exitFullscreen();
       }
     };
-  }, [show]);
+  }, [show, isFullscreen, resetZoom, showControlsAndResetTimer]);
 
   if (!show) return null;
 
@@ -285,11 +306,7 @@ const ImageViewerModal = ({
       onTouchMove={handleActivity}
     >
       {/* Backdrop */}
-      <div
-        className="absolute inset-0 z-0"
-        ref={backdropRef}
-        onClick={close}
-      />
+      <div className="absolute inset-0 z-0" ref={backdropRef} onClick={close} />
 
       {/* Image Container */}
       <div className="relative z-10 flex flex-col items-center">
@@ -298,9 +315,15 @@ const ImageViewerModal = ({
           alt={currentImage.alt || "Image preview"}
           className="max-w-screen max-h-screen object-contain block"
           style={{
-            transform: `scale(${zoomLevel / 100}) translate(${panPosition.x}px, ${panPosition.y}px)`,
+            transform: `scale(${zoomLevel / 100}) translate(${
+              panPosition.x
+            }px, ${panPosition.y}px)`,
             cursor:
-              zoomLevel > 100 ? (isMousePanning ? "grabbing" : "grab") : "default",
+              zoomLevel > 100
+                ? isMousePanning
+                  ? "grabbing"
+                  : "grab"
+                : "default",
             transition:
               isPanning || isPinching || isAnimatingPan
                 ? "none"
@@ -420,9 +443,7 @@ const ImageViewerModal = ({
             </button>
           </Tooltip>
 
-          <Tooltip
-            text={isFullscreen ? "Exit fullscreen" : "Enter fullscreen"}
-          >
+          <Tooltip text={isFullscreen ? "Exit fullscreen" : "Enter fullscreen"}>
             <button
               className="p-2 hover:bg-gray-900 rounded-r focus:outline-none hidden sm:block"
               onClick={(e) => {

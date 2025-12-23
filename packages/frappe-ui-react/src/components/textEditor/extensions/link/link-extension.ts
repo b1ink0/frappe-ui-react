@@ -1,6 +1,6 @@
 import { createElement } from 'react'
 import { createRoot, Root } from 'react-dom/client'
-import Link from '@tiptap/extension-link'
+import Link, { type LinkOptions } from '@tiptap/extension-link'
 import tippy, { type Instance as TippyInstance } from 'tippy.js'
 import { getMarkRange, Range, Editor } from '@tiptap/core'
 import { MarkType, Mark as ProseMirrorMark } from '@tiptap/pm/model'
@@ -10,10 +10,7 @@ import { linkPasteHandler } from './linkPasteHandler'
 
 declare module '@tiptap/core' {
   interface Commands<ReturnType> {
-    link: {
-      /**
-       * Opens the link editor bubble menu.
-       */
+    linkExtension: {
       openLinkEditor: () => ReturnType
     }
   }
@@ -27,7 +24,7 @@ export const LinkExtension = Link.extend({
       autolink: true,
       defaultProtocol: 'https',
       linkOnPaste: false,
-    }
+    } as LinkOptions
   },
 
   addCommands() {
@@ -178,7 +175,7 @@ function openLinkEditor(href: string, anchor: HTMLElement): Promise<string> {
     document.body.appendChild(container)
 
     let virtualReference: {
-      getBoundingClientRect: () => DOMRect | { [key: string]: any }
+      getBoundingClientRect: () => DOMRect
     }
 
     const selection = window.getSelection()
@@ -211,11 +208,11 @@ function openLinkEditor(href: string, anchor: HTMLElement): Promise<string> {
     let isDestroyed = false
     let promiseSettled = false
 
-    const settlePromise = (action: 'resolve' | 'reject', value?: any) => {
+    const settlePromise = (action: 'resolve' | 'reject', value?: unknown) => {
       if (promiseSettled) return
       promiseSettled = true
       if (action === 'resolve') {
-        resolve(value)
+        resolve(value as string)
       } else {
         reject(value)
       }

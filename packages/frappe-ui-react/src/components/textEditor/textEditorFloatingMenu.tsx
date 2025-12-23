@@ -1,20 +1,28 @@
+/**
+ * External dependencies.
+ */
 import { useMemo } from "react";
 import { FloatingMenu } from "@tiptap/react/menus";
-import type { Editor } from "@tiptap/react";
+
+/**
+ * Internal dependencies.
+ */
 import { createEditorButton } from "./utils";
-import type { EditorCommand } from "./commands";
 import Menu from "./menu";
+import {
+  TextEditorFloatingMenuProps,
+  EditorButtonOption,
+  EditorCommand,
+} from "./types";
 
-interface TextEditorFloatingMenuProps {
-  editor: Editor;
-  buttons?: boolean | string[];
-}
-
-const TextEditorFloatingMenu = ({ editor, buttons }: TextEditorFloatingMenuProps) => {
+const TextEditorFloatingMenu = ({
+  editor,
+  buttons,
+}: TextEditorFloatingMenuProps) => {
   const floatingMenuButtons = useMemo(() => {
     if (!buttons) return null;
 
-    const buttonList: string[] = Array.isArray(buttons)
+    const buttonList: EditorButtonOption[] = Array.isArray(buttons)
       ? buttons
       : [
           "Paragraph",
@@ -27,8 +35,11 @@ const TextEditorFloatingMenu = ({ editor, buttons }: TextEditorFloatingMenuProps
           "Code",
           "Horizontal Rule",
         ];
-        
-    return buttonList.map(createEditorButton) as (EditorCommand | EditorCommand[])[];
+
+    return buttonList.map(createEditorButton) as (
+      | EditorCommand
+      | EditorCommand[]
+    )[];
   }, [buttons]);
 
   if (!floatingMenuButtons) {

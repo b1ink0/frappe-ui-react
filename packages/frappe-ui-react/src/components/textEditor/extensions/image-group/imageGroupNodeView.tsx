@@ -1,7 +1,14 @@
+/**
+ * External dependencies.
+ */
 import { NodeViewContent, NodeViewWrapper } from "@tiptap/react";
 import { type NodeViewProps } from "@tiptap/react";
 import { X, Edit } from "lucide-react";
 import { useEffect, useState } from "react";
+
+/**
+ * Internal dependencies.
+ */
 import { Button } from "../../../button";
 import { Select } from "../../../select";
 import ImageViewerModal from "../image-viewer/imageViewerModal";
@@ -190,7 +197,10 @@ export function ImageGroupNodeView(props: NodeViewProps) {
               {img.attrs.alt && (
                 <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/60 to-transparent rounded-b-[2px] opacity-0 group-hover:opacity-100 transition-opacity">
                   <div className="p-2">
-                    <div className="text-white text-xs truncate" title={img.attrs.alt}>
+                    <div
+                      className="text-white text-xs truncate"
+                      title={img.attrs.alt}
+                    >
                       {img.attrs.alt}
                     </div>
                   </div>

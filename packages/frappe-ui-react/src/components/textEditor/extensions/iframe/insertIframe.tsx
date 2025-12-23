@@ -22,7 +22,9 @@ export function InsertIframe({ editor, children }: InsertIframeProps) {
   const [embedUrl, setEmbedUrl] = useState("");
   const [urlError, setUrlError] = useState("");
   const [title, setTitle] = useState("");
-  const [alignment, setAlignment] = useState<"left" | "center" | "right">("center");
+  const [alignment, setAlignment] = useState<"left" | "center" | "right">(
+    "center"
+  );
   const [customWidth, setCustomWidth] = useState<number>(640);
   const [customHeight, setCustomHeight] = useState<number>(360);
 
@@ -138,23 +140,31 @@ export function InsertIframe({ editor, children }: InsertIframeProps) {
       setShowDialog(false);
       editor.commands.focus();
     } else {
-      setUrlError("Failed to insert embed. Please check the URL and try again.");
+      setUrlError(
+        "Failed to insert embed. Please check the URL and try again."
+      );
     }
   };
 
-  const handleSlashCommandInsert = useCallback((event: Event) => {
-    const customEvent = event as CustomEvent;
-    if (customEvent.detail?.editor === editor) {
-      openIframeDialog();
-    }
-  }, [editor]);
+  const handleSlashCommandInsert = useCallback(
+    (event: Event) => {
+      const customEvent = event as CustomEvent;
+      if (customEvent.detail?.editor === editor) {
+        openIframeDialog();
+      }
+    },
+    [editor]
+  );
 
   useEffect(() => {
     const editorDom = editor.view.dom;
     editorDom.addEventListener("iframe:open-dialog", handleSlashCommandInsert);
 
     return () => {
-      editorDom.removeEventListener("iframe:open-dialog", handleSlashCommandInsert);
+      editorDom.removeEventListener(
+        "iframe:open-dialog",
+        handleSlashCommandInsert
+      );
     };
   }, [editor, handleSlashCommandInsert]);
 

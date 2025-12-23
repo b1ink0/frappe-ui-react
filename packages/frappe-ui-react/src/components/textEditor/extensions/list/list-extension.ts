@@ -22,6 +22,7 @@ export default function improvedList(editor: Editor) {
         const insertPos = $from.pos - 4
         tr.insert(insertPos, paragraphContent)
         tr.setSelection(Selection.near(tr.doc.resolve(insertPos)))
+        return true
       })
       .run()
     return true

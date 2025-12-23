@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 
 interface UseImageNavigationOptions {
   initialIndex: number;
@@ -18,19 +18,19 @@ export const useImageNavigation = ({
     onNavigate?.();
   }, [initialIndex, onNavigate]);
 
-  const nextImage = () => {
+  const nextImage = useCallback(() => {
     if (imageCount > 0) {
       setCurrentIndex((prev) => (prev + 1) % imageCount);
       onNavigate?.();
     }
-  };
+  }, [imageCount, onNavigate]);
 
-  const previousImage = () => {
+  const previousImage = useCallback(() => {
     if (imageCount > 0) {
       setCurrentIndex((prev) => (prev - 1 + imageCount) % imageCount);
       onNavigate?.();
     }
-  };
+  }, [imageCount, onNavigate]);
 
   return {
     currentIndex,

@@ -1,22 +1,25 @@
+/**
+ * External dependencies.
+ */
 import { useMemo } from "react";
-import type { Editor } from "@tiptap/react";
 import { BubbleMenu } from "@tiptap/react/menus";
-import { createEditorButton, EditorButtonOption } from "./utils";
-import Menu from "./menu";
-import { EditorCommand } from "./commands";
 
-interface TextEditorBubbleMenuProps {
-  editor: Editor;
-  buttons?: boolean | EditorButtonOption[];
-  options?: Record<string, any>;
-}
+/**
+ * Internal dependencies.
+ */
+import { createEditorButton } from "./utils";
+import Menu from "./menu";
+import {
+  EditorButtonOption,
+  EditorCommand,
+  TextEditorBubbleMenuProps,
+} from "./types";
 
 const TextEditorBubbleMenu = ({
   editor,
   buttons,
   options = {},
 }: TextEditorBubbleMenuProps) => {
-
   const bubbleMenuButtons = useMemo(() => {
     if (!buttons) return null;
 
@@ -75,10 +78,7 @@ const TextEditorBubbleMenu = ({
   }
 
   return (
-    <BubbleMenu
-      editor={editor}
-      {...options}
-    >
+    <BubbleMenu editor={editor} {...options}>
       <Menu
         editor={editor}
         className="bubble-menu rounded-md border-gray-100 shadow-lg"

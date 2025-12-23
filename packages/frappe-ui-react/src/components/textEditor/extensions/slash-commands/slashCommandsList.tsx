@@ -1,6 +1,13 @@
+/**
+ * External dependencies.
+ */
 import { useRef, forwardRef, useImperativeHandle } from "react";
-import { SuggestionList } from "../suggestion/suggestionList";
 import type { Editor, Range } from "@tiptap/core";
+
+/**
+ * Internal dependencies.
+ */
+import { SuggestionList } from "../suggestion/suggestionList";
 import type { CommandItem } from "./slash-commands-extension";
 
 interface SlashCommandsListProps {
@@ -41,7 +48,8 @@ export const SlashCommandsList = forwardRef<
       showNoResults={true}
     >
       {(item) => {
-        const IconComponent = item.icon;
+        const commandItem = item as CommandItem;
+        const IconComponent = commandItem.icon;
         return (
           <>
             {IconComponent ? (
@@ -49,7 +57,7 @@ export const SlashCommandsList = forwardRef<
             ) : (
               <div className="mr-2 h-4 w-4"></div>
             )}
-            <span>{item.title}</span>
+            <span>{commandItem.title}</span>
           </>
         );
       }}
