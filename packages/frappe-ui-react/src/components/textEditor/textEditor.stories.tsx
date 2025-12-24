@@ -1,10 +1,10 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
-import { useArgs } from "storybook/internal/preview-api";
 import TextEditor from "./textEditor";
 import { Button } from "../button";
 import { EditorContent } from "@tiptap/react";
 
 import TextEditorFixedMenu from "./textEditorFixedMenu";
+import { useState } from "react";
 
 const meta: Meta<typeof TextEditor> = {
   title: "Components/TextEditor",
@@ -140,7 +140,15 @@ const buttons = [
 
 export const Basic: Story = {
   args: {
-    content: `<div>
+    mentions: mentions,
+    tags: tags,
+    placeholder: "Type something...",
+    bubbleMenu: true,
+    fixedMenu: true,
+    editorClass: "prose-sm min-h-[4rem] border rounded-b-lg border-t-0 p-2",
+  },
+  render: function BasicRender(args) {
+    const [content, setContent] = useState(`<div>
   <h2>Heading 2</h2>
   <p>
     This is a paragraph with <strong>bold</strong> and <em>italic</em> text.
@@ -152,26 +160,14 @@ export const Basic: Story = {
   <p>
     <a href="https://frappe.io">Frappe</a>
   </p>
-  <pre><code class="language-javascript">import { Button } from 'frappe-ui'
+  <pre><code class="language-javascript">import { Button } from '@rtcamp/frappe-ui-react'
 const value = ref(true);</code>
   </pre>
-</div>`,
-    mentions: mentions,
-    tags: tags,
-    placeholder: "Type something...",
-    bubbleMenu: true,
-    fixedMenu: true,
-    editorClass: "prose-sm min-h-[4rem] border rounded-b-lg border-t-0 p-2",
-  },
-  render: function BasicRender(args) {
-    const [, updateArgs] = useArgs();
+</div>`);
 
     return (
       <div className="m-2 w-[550px]">
-        <TextEditor
-          {...args}
-          onChange={(val) => updateArgs({ content: val })}
-        />
+        <TextEditor {...args} content={content} onChange={setContent} />
       </div>
     );
   },
@@ -187,11 +183,11 @@ export const CommentEditor: Story = {
     starterkitOptions: { heading: { levels: [2, 3, 4] } },
   },
   render: function CommentEditorRender(args) {
-    const [, updateArgs] = useArgs();
+    const [content, setContent] = useState("");
 
     return (
       <div className="m-2 w-[550px]">
-        <TextEditor {...args} onChange={(val) => updateArgs({ content: val })}>
+        <TextEditor {...args} content={content} onChange={setContent}>
           {({ editor }) => (
             <>
               <EditorContent
