@@ -12,14 +12,21 @@ import clsx from "clsx";
 import { EditorCommand, MenuProps } from "./types";
 
 const Menu = ({ editor, buttons, className }: MenuProps) => {
-  // Subscribe to editor state to re-render on selection changes
-  useEditorState({
+  // Subscribe to editor state to re-render on selection changes and focus state
+  const editorState = useEditorState({
     editor,
-    selector: (ctx) => ctx.editor.state.selection,
+    selector: (ctx) => ({
+      selection: ctx.editor.state.selection,
+      focused: ctx.editor.isFocused,
+    }),
   });
 
   const onButtonClick = (button: EditorCommand) => {
     button.action?.(editor);
+  };
+
+  const isButtonActive = (button: EditorCommand) => {
+    return editorState?.focused && button.isActive?.(editor);
   };
 
   return (
@@ -27,8 +34,9 @@ const Menu = ({ editor, buttons, className }: MenuProps) => {
       <div className="inline-flex items-center gap-1">
         {buttons.map((button, index) => {
           if (Array.isArray(button)) {
-            const activeBtn =
-              button.find((b) => b.isActive(editor)) || button[0];
+            const activeBtn = editorState?.focused
+              ? button.find((b) => b.isActive(editor)) || button[0]
+              : button[0];
 
             return (
               <div key={index} className="shrink-0">
@@ -89,7 +97,22 @@ const Menu = ({ editor, buttons, className }: MenuProps) => {
           if (button.component) {
             const Component = button.component;
             return (
-              <Suspense key={index} fallback={<div className="h-6 w-6" />}>
+              <Suspense
+                key={index}
+                fallback={
+                  <button
+                    className="flex rounded p-1 text-ink-gray-8 transition-colors hover:bg-surface-gray-2"
+                    disabled
+                  >
+                    {button.icon && <button.icon className="h-4 w-4" />}
+                    {!button.icon && button.text && (
+                      <span className="inline-block h-4 min-w-[1rem] text-sm leading-4">
+                        {button.text}
+                      </span>
+                    )}
+                  </button>
+                }
+              >
                 <Component editor={editor}>
                   {({
                     isActive,
@@ -101,7 +124,7 @@ const Menu = ({ editor, buttons, className }: MenuProps) => {
                     <button
                       className={clsx(
                         "flex rounded p-1 text-ink-gray-8 transition-colors",
-                        button.isActive?.(editor) || isActive
+                        isButtonActive(button) || isActive
                           ? "bg-surface-gray-3"
                           : "hover:bg-surface-gray-2",
                         button.class
@@ -129,7 +152,7 @@ const Menu = ({ editor, buttons, className }: MenuProps) => {
               key={index}
               className={clsx(
                 "flex rounded p-1 text-ink-gray-8 transition-colors",
-                button.isActive?.(editor)
+                isButtonActive(button)
                   ? "bg-surface-gray-3"
                   : "hover:bg-surface-gray-2",
                 button.class

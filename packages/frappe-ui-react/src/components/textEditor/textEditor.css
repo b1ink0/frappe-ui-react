@@ -1,3 +1,24 @@
+/* Typography prose color variables override */
+.prose {
+  --tw-prose-body: var(--color-ink-gray-8);
+  --tw-prose-headings: var(--color-ink-gray-9);
+  --tw-prose-lead: var(--color-ink-gray-5);
+  --tw-prose-links: var(--color-ink-gray-9);
+  --tw-prose-bold: var(--color-ink-gray-9);
+  --tw-prose-counters: var(--color-ink-gray-4);
+  --tw-prose-bullets: var(--color-ink-gray-2);
+  --tw-prose-hr: var(--color-ink-gray-1);
+  --tw-prose-quotes: var(--color-ink-gray-8);
+  --tw-prose-quote-borders: var(--color-ink-gray-1);
+  --tw-prose-captions: var(--color-ink-gray-4);
+  --tw-prose-kbd: var(--color-ink-gray-9);
+  --tw-prose-code: var(--color-ink-gray-9);
+  --tw-prose-pre-code: var(--color-ink-gray-1);
+  --tw-prose-pre-bg: var(--color-ink-gray-8);
+  --tw-prose-th-borders: var(--color-ink-gray-2);
+  --tw-prose-td-borders: var(--color-ink-gray-1);
+}
+
 .ProseMirror {
   outline: none;
   caret-color: var(--color-ink-gray-9);
