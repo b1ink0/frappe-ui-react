@@ -81,7 +81,7 @@ export const ActionPositions: Story = {
   render: () => (
     <div className="flex flex-col gap-8 w-64">
       <div>
-        <p className="text-xs text-ink-gray-5 mb-2">Start</p>
+        <p className="text-xs text-ink-gray-5 mb-4">Start</p>
         <Divider
           orientation="horizontal"
           position="start"
@@ -89,7 +89,7 @@ export const ActionPositions: Story = {
         />
       </div>
       <div>
-        <p className="text-xs text-ink-gray-5 mb-2">Center</p>
+        <p className="text-xs text-ink-gray-5 mb-4">Center</p>
         <Divider
           orientation="horizontal"
           position="center"
@@ -97,7 +97,7 @@ export const ActionPositions: Story = {
         />
       </div>
       <div>
-        <p className="text-xs text-ink-gray-5 mb-2">End</p>
+        <p className="text-xs text-ink-gray-5 mb-4">End</p>
         <Divider
           orientation="horizontal"
           position="end"
