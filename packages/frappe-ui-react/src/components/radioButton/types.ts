@@ -7,7 +7,8 @@ export interface RadioButtonOption {
 export interface RadioButtonProps {
   options: RadioButtonOption[];
   size?: "sm" | "md";
-  flow?: "row" | "column";
+  flow?: "column" | "row";
+  disabled?: boolean;
   className?: string;
   value?: string | null;
   onChange?: (
