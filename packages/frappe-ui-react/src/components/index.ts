@@ -32,6 +32,7 @@ export * from "./spinner";
 export * from "./switch";
 export { default as TabButtons } from "./tabButtons";
 export * from "./tabs";
+export * from "./tag";
 export * from "./textInput";
 export * from "./textarea";
 export { default as TextEditor } from "./textEditor";
