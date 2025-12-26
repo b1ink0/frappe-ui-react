@@ -28,6 +28,7 @@ export * from "./radioButton";
 export * from "./rating";
 export * from "./select";
 export * from "./sidebar";
+export * from "./slider";
 export * from "./spinner";
 export * from "./switch";
 export { default as TabButtons } from "./tabButtons";
