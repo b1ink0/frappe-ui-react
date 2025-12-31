@@ -1,7 +1,8 @@
-import type { Meta, StoryObj } from "@storybook/react-vite";
-import Slider from "./slider";
-import type { SliderProps } from "./types";
 import { useState } from "react";
+import type { Meta, StoryObj } from "@storybook/react-vite";
+
+import Slider from "./slider";
+import type { SliderProps, SliderRangeValue, SliderSingleValue } from "./types";
 
 export default {
   title: "Components/Slider",
@@ -39,15 +40,17 @@ export const Default: Story = {
     range: false,
   },
   render: (args) => {
-    const [value, setValue] = useState(args.value as number);
+    const [value, setValue] = useState(args.value);
     return (
       <div className="w-50 p-4 flex flex-col gap-4">
         <Slider
           {...args}
           value={value}
-          onChange={(newValue) => setValue(newValue as number)}
+          onChange={(newValue) => setValue(newValue)}
         />
-        <p className="text-xs text-ink-gray-5">Value: {value as number}</p>
+        <p className="text-xs text-ink-gray-5">
+          Value: {value as SliderSingleValue}
+        </p>
       </div>
     );
   },
@@ -67,10 +70,10 @@ export const Range: Story = {
         <Slider {...args} value={value} onChange={setValue} />
         <div className="w-full flex justify-between flex-wrap">
           <p className="text-xs text-ink-gray-5">
-            Min value: {(value as { min: number; max: number })?.min}
+            Min value: {(value as SliderRangeValue)?.min}
           </p>
           <p className="text-xs text-ink-gray-5">
-            Max value: {(value as { min: number; max: number })?.max}
+            Max value: {(value as SliderRangeValue)?.max}
           </p>
         </div>
       </div>
@@ -93,10 +96,10 @@ export const WithTooltip: Story = {
         <Slider {...args} value={value} onChange={setValue} />
         <div className="w-full flex justify-between flex-wrap">
           <p className="text-xs text-ink-gray-5">
-            Min value: {(value as { min: number; max: number })?.min}
+            Min value: {(value as SliderRangeValue)?.min}
           </p>
           <p className="text-xs text-ink-gray-5">
-            Max value: {(value as { min: number; max: number })?.max}
+            Max value: {(value as SliderRangeValue)?.max}
           </p>
         </div>
       </div>
@@ -117,7 +120,9 @@ export const WithValues: Story = {
     return (
       <div className="w-50 p-4 flex flex-col gap-4">
         <Slider {...args} value={value} onChange={setValue} />
-        <p className="text-xs text-ink-gray-5">Value: {value as number}</p>
+        <p className="text-xs text-ink-gray-5">
+          Value: {value as SliderSingleValue}
+        </p>
       </div>
     );
   },
@@ -135,7 +140,9 @@ export const WithoutKnob: Story = {
     return (
       <div className="w-50 p-4">
         <Slider {...args} value={value} onChange={setValue} />
-        <p className="text-xs mt-2 text-ink-gray-5">Value: {value as number}</p>
+        <p className="text-xs mt-2 text-ink-gray-5">
+          Value: {value as SliderSingleValue}
+        </p>
       </div>
     );
   },

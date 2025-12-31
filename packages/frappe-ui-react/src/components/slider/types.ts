@@ -1,3 +1,7 @@
+export type SliderSingleValue = number;
+export type SliderRangeValue = { min: number; max: number };
+export type SliderValue = SliderSingleValue | SliderRangeValue;
+
 export interface SliderProps {
 	min: number;
 	max: number;
@@ -7,8 +11,8 @@ export interface SliderProps {
 	tooltip?: boolean;
 	showValue?: boolean;
 	size?: 'sm' | 'md' | 'lg' | 'xl';
-	value?: number | { min: number; max: number }; // number for single value, object for range.
+	value?: SliderValue; // number for single value, object for range.
 	disabled?: boolean;
 	className?: string;
-	onChange?: (value: number | { min: number; max: number }) => void;
+	onChange?: (value: SliderValue) => void;
 }
