@@ -10,8 +10,7 @@ import ReactQuill, {
 import "react-quill-new/dist/quill.snow.css";
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
-import ImageResize from "quill-resize-module/dist/resize.js";
-import "quill-resize-module/dist/resize.css";
+import ImageResize from "quill-resize-module";
 import "quill-paste-smart";
 
 /**
