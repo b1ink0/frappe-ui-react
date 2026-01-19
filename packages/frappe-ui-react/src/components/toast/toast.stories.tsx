@@ -7,7 +7,7 @@ import { Button } from "../button";
 export default {
   title: "Components/Toast",
   parameters: { docs: { source: { type: "code" } }, layout: "centered" },
-	tags: ["autodocs"],
+  tags: ["autodocs"],
   decorators: [
     (Story) => (
       <ToastProvider>

@@ -295,7 +295,10 @@ const Dropdown: React.FC<DropdownProps> = ({
               )}
               {group.items.map((item) => (
                 <div data-testid="dropdown-item" key={item.label}>
-                  <DropdownMenu.Item asChild onSelect={() => !item.switch && item.onClick?.()}>
+                  <DropdownMenu.Item
+                    asChild
+                    onSelect={() => !item.switch && item.onClick?.()}
+                  >
                     {renderDropdownItem(item)}
                   </DropdownMenu.Item>
                 </div>

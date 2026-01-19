@@ -141,7 +141,6 @@ export const DateRangePicker: React.FC<DateRangePickerProps> = ({
   formatter,
   placement,
   label,
-  onChange,
   children,
 }) => {
   const {
@@ -191,8 +190,8 @@ export const DateRangePicker: React.FC<DateRangePickerProps> = ({
         const displayValue = formatter
           ? formatter(from, to)
           : from && to
-            ? `${from} to ${to}`
-            : from || "";
+          ? `${from} to ${to}`
+          : from || "";
 
         if (children) {
           return children({ togglePopover, isOpen: open, displayValue });

@@ -178,14 +178,32 @@ export const CalendarWeekly = ({ weeklyDates }: CalendarWeeklyProps) => {
                           i === timeArray.length - 1 && "border-b-0"
                         )}
                         style={{ height: `${hourHeight}px` }}
-                        data-time-attr={index === 0 && i >= 1 ? timeArray[i] : undefined}
-                        onDoubleClick={(e) => handleCellDblClick(e, date.toLocaleDateString("en-CA"), time)}
-                        onClick={(e) => handleCellDblClick(e, date.toLocaleDateString("en-CA"), time)}
+                        data-time-attr={
+                          index === 0 && i >= 1 ? timeArray[i] : undefined
+                        }
+                        onDoubleClick={(e) =>
+                          handleCellDblClick(
+                            e,
+                            date.toLocaleDateString("en-CA"),
+                            time
+                          )
+                        }
+                        onClick={(e) =>
+                          handleCellDblClick(
+                            e,
+                            date.toLocaleDateString("en-CA"),
+                            time
+                          )
+                        }
                       />
                     </div>
                   ))}
                   {(timedEvents[parseDate(date)] || []).map((event, idx) => (
-                    <CalendarEvent key={event.id} event={{ ...event, idx }} date={date} />
+                    <CalendarEvent
+                      key={event.id}
+                      event={{ ...event, idx }}
+                      date={date}
+                    />
                   ))}
                   <CalendarTimeMarker date={date} />
                 </div>

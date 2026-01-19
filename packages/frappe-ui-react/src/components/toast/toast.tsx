@@ -26,7 +26,9 @@ const ToastComponent: React.FC<ToastProps> = ({
           <AlertTriangle className="flex-shrink-0 size-4 text-ink-amber-3 dark:text-amber-700" />
         );
       case "error":
-        return <Info className="flex-shrink-0 size-4 text-ink-red-4 dark:text-red-700" />;
+        return (
+          <Info className="flex-shrink-0 size-4 text-ink-red-4 dark:text-red-700" />
+        );
       default:
         return null;
     }
