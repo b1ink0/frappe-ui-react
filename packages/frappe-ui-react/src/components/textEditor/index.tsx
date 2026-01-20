@@ -14,6 +14,7 @@ import clsx from "clsx";
  */
 import type { TextEditorProps } from "./types";
 import Toolbar from "./toolbar";
+import Link from "@tiptap/extension-link";
 
 /**
  * TextEditor component using Tiptap.
@@ -54,6 +55,15 @@ const TextEditor = ({
       Placeholder.configure({
         placeholder,
         emptyEditorClass: "is-editor-empty",
+      }),
+      Link.configure({
+        openOnClick: false,
+        autolink: true,
+        HTMLAttributes: {
+          class: "text-blue-500 hover:text-blue-700 underline",
+          target: "_blank",
+          rel: "noopener noreferrer",
+        },
       }),
     ];
 

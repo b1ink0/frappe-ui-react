@@ -14,6 +14,7 @@ import {
   AlignLeft,
   AlignCenter,
   AlignRight,
+  Link as LinkIcon,
 } from "lucide-react";
 
 /**
@@ -62,7 +63,9 @@ const COLOR_PALETTE = [
  */
 const ColorPicker = ({ editor }: { editor: Editor }) => {
   const [isOpen, setIsOpen] = useState(false);
-  const [currentColor, setCurrentColor] = useState("#000000");
+  const [currentColor, setCurrentColor] = useState(
+    editor.getAttributes("textStyle").color || "#000000"
+  );
 
   useEffect(() => {
     const updateColor = ({ editor }: { editor: Editor }) => {
@@ -112,6 +115,48 @@ const ColorPicker = ({ editor }: { editor: Editor }) => {
   );
 };
 
+const Link = ({ editor }: { editor: Editor }) => {
+  const [isLinkActive, setIsLinkActive] = useState(
+    editor.isActive("link") || false
+  );
+
+  useEffect(() => {
+    const updateLink = ({ editor }: { editor: Editor }) => {
+      console.log(editor.isActive("link"));
+
+      setIsLinkActive(editor.isActive("link"));
+    };
+
+    editor.on("transaction", updateLink);
+    return () => {
+      editor.off("transaction", updateLink);
+    };
+  }, [editor]);
+
+  const setLink = () => {
+    const url = window.prompt("Enter URL:");
+    if (url) {
+      editor.chain().focus().setLink({ href: url }).run();
+    }
+  };
+
+  const removeLink = () => {
+    editor.chain().focus().unsetLink().run();
+  };
+
+  return (
+    <Button
+      variant="ghost"
+      size="sm"
+      onClick={editor.isActive("link") ? removeLink : setLink}
+      className={isLinkActive ? "bg-surface-gray-4!" : ""}
+      title={isLinkActive ? "Remove link" : "Add link"}
+    >
+      <LinkIcon />
+    </Button>
+  );
+};
+
 /**
  * Toolbar component for the text editor.
  */
@@ -137,7 +182,7 @@ export const Toolbar = ({ editor }: ToolbarProps) => {
           variant="ghost"
           size="sm"
           onClick={() => editor.chain().focus().toggleItalic().run()}
-          className={editor.isActive("italic") ? "bg-surface-gray-3" : ""}
+          className={editor.isActive("italic") ? "bg-color-gray-400" : ""}
           title="Italic (Ctrl+I)"
         >
           <Italic className="size-5" />
@@ -155,7 +200,7 @@ export const Toolbar = ({ editor }: ToolbarProps) => {
           variant="ghost"
           size="sm"
           onClick={() => editor.chain().focus().toggleBulletList().run()}
-          className={editor.isActive("bulletList") ? "bg-surface-gray-3" : ""}
+          className={editor.isActive("bulletList") ? "bg-color-gray-400" : ""}
           title="Bullet list"
         >
           <ListOrdered />
@@ -164,7 +209,7 @@ export const Toolbar = ({ editor }: ToolbarProps) => {
           variant="ghost"
           size="sm"
           onClick={() => editor.chain().focus().toggleOrderedList().run()}
-          className={editor.isActive("orderedList") ? "bg-surface-gray-3" : ""}
+          className={editor.isActive("orderedList") ? "bg-color-gray-400" : ""}
           title="Ordered list"
         >
           <List />
@@ -196,7 +241,7 @@ export const Toolbar = ({ editor }: ToolbarProps) => {
           size="sm"
           onClick={() => editor.chain().focus().setTextAlign("left").run()}
           className={
-            editor.isActive({ textAlign: "left" }) ? "bg-surface-gray-3" : ""
+            editor.isActive({ textAlign: "left" }) ? "bg-color-gray-400" : ""
           }
           title="Align left"
         >
@@ -207,7 +252,7 @@ export const Toolbar = ({ editor }: ToolbarProps) => {
           size="sm"
           onClick={() => editor.chain().focus().setTextAlign("center").run()}
           className={
-            editor.isActive({ textAlign: "center" }) ? "bg-surface-gray-3" : ""
+            editor.isActive({ textAlign: "center" }) ? "bg-color-gray-400" : ""
           }
           title="Align center"
         >
@@ -218,12 +263,16 @@ export const Toolbar = ({ editor }: ToolbarProps) => {
           size="sm"
           onClick={() => editor.chain().focus().setTextAlign("right").run()}
           className={
-            editor.isActive({ textAlign: "right" }) ? "bg-surface-gray-3" : ""
+            editor.isActive({ textAlign: "right" }) ? "bg-color-gray-400" : ""
           }
           title="Align right"
         >
           <AlignRight />
         </Button>
+        {/* Link section */}
+        <div className="flex gap-1 items-center border-r border-outline-gray-2 pr-2">
+          <Link editor={editor} />
+        </div>
       </div>
     </div>
   );
