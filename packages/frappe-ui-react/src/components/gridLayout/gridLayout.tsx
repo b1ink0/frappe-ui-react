@@ -45,11 +45,10 @@ const GridLayout: React.FC<GridLayoutProps> = ({
         .flat()
         .map((l, index) => (
           <div key={l.i} data-grid={l}>
-            {
-              renderItem({
-                index,
-                item: l,
-              })}
+            {renderItem({
+              index,
+              item: l,
+            })}
           </div>
         ))}
     </ResponsiveGridLayout>
