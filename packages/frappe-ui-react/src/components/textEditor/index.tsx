@@ -2,19 +2,19 @@
  * External dependencies.
  */
 import { useMemo, useEffect } from "react";
-import { useEditor, EditorContent } from "@tiptap/react";
+import { useEditor, EditorContent, EditorContext } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import { TextStyle } from "@tiptap/extension-text-style";
 import Color from "@tiptap/extension-color";
 import TextAlign from "@tiptap/extension-text-align";
 import Placeholder from "@tiptap/extension-placeholder";
+import Link from "@tiptap/extension-link";
 import clsx from "clsx";
 /**
  * Internal dependencies.
  */
 import type { TextEditorProps } from "./types";
 import Toolbar from "./toolbar";
-import Link from "@tiptap/extension-link";
 
 /**
  * TextEditor component using Tiptap.
@@ -128,15 +128,18 @@ const TextEditor = ({
       className={containerClasses}
       style={{ resize: "vertical", overflow: "auto" }}
     >
-      {!hideToolbar && <Toolbar editor={editor} />}
-      <div
-        className={clsx(
-          "flex-1 overflow-auto",
-          hideToolbar && "border-none [&_.ql-editor]:min-h-0 [&_.ql-editor]:p-2"
-        )}
-      >
-        <EditorContent editor={editor} />
-      </div>
+      <EditorContext.Provider value={{ editor }}>
+        {!hideToolbar && <Toolbar />}
+        <div
+          className={clsx(
+            "flex-1 overflow-auto",
+            hideToolbar &&
+              "border-none [&_.ql-editor]:min-h-0 [&_.ql-editor]:p-2"
+          )}
+        >
+          <EditorContent editor={editor} />
+        </div>
+      </EditorContext.Provider>
     </div>
   );
 };

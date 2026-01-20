@@ -1,7 +1,7 @@
 /**
  * External dependencies.
  */
-import { Editor } from "@tiptap/react";
+import { Editor, useCurrentEditor } from "@tiptap/react";
 import clsx from "clsx";
 import { Popover } from "@base-ui/react";
 import {
@@ -22,15 +22,6 @@ import {
  */
 import { Button } from "../button";
 import { useEffect, useState } from "react";
-
-/**
- * Toolbar props interface.
- */
-interface ToolbarProps {
-  editor: Editor | null;
-  allowImageUpload?: boolean;
-  allowVideoUpload?: boolean;
-}
 
 /**
  * Color palette matching Quill's default colors.
@@ -61,10 +52,11 @@ const COLOR_PALETTE = [
 /**
  * ColorPicker component for selecting text color.
  */
-const ColorPicker = ({ editor }: { editor: Editor }) => {
+const ColorPicker = () => {
+  const { editor } = useCurrentEditor();
   const [isOpen, setIsOpen] = useState(false);
   const [currentColor, setCurrentColor] = useState(
-    editor.getAttributes("textStyle").color || "#000000"
+    editor?.getAttributes("textStyle").color || "#000000"
   );
 
   useEffect(() => {
@@ -72,9 +64,9 @@ const ColorPicker = ({ editor }: { editor: Editor }) => {
       setCurrentColor(editor.getAttributes("textStyle").color || "#000000");
     };
 
-    editor.on("transaction", updateColor);
+    editor?.on("transaction", updateColor);
     return () => {
-      editor.off("transaction", updateColor);
+      editor?.off("transaction", updateColor);
     };
   }, [editor]);
 
@@ -101,7 +93,7 @@ const ColorPicker = ({ editor }: { editor: Editor }) => {
                   )}
                   style={{ backgroundColor: color }}
                   onClick={() => {
-                    editor.chain().focus().setColor(color).run();
+                    editor?.chain().focus().setColor(color).run();
                     setIsOpen(false);
                   }}
                   title={color}
@@ -118,9 +110,10 @@ const ColorPicker = ({ editor }: { editor: Editor }) => {
 /**
  * Link component for text editor toolbar.
  */
-const Link = ({ editor }: { editor: Editor }) => {
+const Link = () => {
+  const { editor } = useCurrentEditor();
   const [isLinkActive, setIsLinkActive] = useState(
-    editor.isActive("link") || false
+    editor?.isActive("link") || false
   );
 
   useEffect(() => {
@@ -128,28 +121,28 @@ const Link = ({ editor }: { editor: Editor }) => {
       setIsLinkActive(editor.isActive("link"));
     };
 
-    editor.on("transaction", updateLink);
+    editor?.on("transaction", updateLink);
     return () => {
-      editor.off("transaction", updateLink);
+      editor?.off("transaction", updateLink);
     };
   }, [editor]);
 
   const setLink = () => {
     const url = window.prompt("Enter URL:");
     if (url) {
-      editor.chain().focus().setLink({ href: url }).run();
+      editor?.chain().focus().setLink({ href: url }).run();
     }
   };
 
   const removeLink = () => {
-    editor.chain().focus().unsetLink().run();
+    editor?.chain().focus().unsetLink().run();
   };
 
   return (
     <Button
       variant="ghost"
       size="sm"
-      onClick={editor.isActive("link") ? removeLink : setLink}
+      onClick={editor?.isActive("link") ? removeLink : setLink}
       className={isLinkActive ? "bg-surface-gray-4!" : ""}
       title={isLinkActive ? "Remove link" : "Add link"}
     >
@@ -161,12 +154,13 @@ const Link = ({ editor }: { editor: Editor }) => {
 /**
  * Formatting component for text editor toolbar.
  */
-const Format = ({ editor }: { editor: Editor }) => {
+const Format = () => {
+  const { editor } = useCurrentEditor();
   const [isBoldActive, setIsBoldActive] = useState(
-    editor.isActive("bold") || false
+    editor?.isActive("bold") || false
   );
   const [isItalicActive, setIsItalicActive] = useState(
-    editor.isActive("italic") || false
+    editor?.isActive("italic") || false
   );
 
   useEffect(() => {
@@ -174,9 +168,9 @@ const Format = ({ editor }: { editor: Editor }) => {
       setIsBoldActive(editor.isActive("bold"));
       setIsItalicActive(editor.isActive("italic"));
     };
-    editor.on("transaction", updateState);
+    editor?.on("transaction", updateState);
     return () => {
-      editor.off("transaction", updateState);
+      editor?.off("transaction", updateState);
     };
   }, [editor]);
 
@@ -185,7 +179,7 @@ const Format = ({ editor }: { editor: Editor }) => {
       <Button
         variant="ghost"
         size="sm"
-        onClick={() => editor.chain().focus().toggleBold().run()}
+        onClick={() => editor?.chain().focus().toggleBold().run()}
         className={isBoldActive ? "bg-surface-gray-4!" : ""}
         title="Bold (Ctrl+B)"
       >
@@ -194,7 +188,7 @@ const Format = ({ editor }: { editor: Editor }) => {
       <Button
         variant="ghost"
         size="sm"
-        onClick={() => editor.chain().focus().toggleItalic().run()}
+        onClick={() => editor?.chain().focus().toggleItalic().run()}
         className={isItalicActive ? "bg-surface-gray-4!" : ""}
         title="Italic (Ctrl+I)"
       >
@@ -207,12 +201,13 @@ const Format = ({ editor }: { editor: Editor }) => {
 /**
  * List options component for text editor toolbar.
  */
-const List = ({ editor }: { editor: Editor }) => {
+const List = () => {
+  const { editor } = useCurrentEditor();
   const [isBulletListActive, setIsBulletListActive] = useState(
-    editor.isActive("bold") || false
+    editor?.isActive("bold") || false
   );
   const [isOrderedListActive, setIsOrderedListActive] = useState(
-    editor.isActive("italic") || false
+    editor?.isActive("italic") || false
   );
 
   useEffect(() => {
@@ -220,9 +215,9 @@ const List = ({ editor }: { editor: Editor }) => {
       setIsBulletListActive(editor.isActive("bulletList"));
       setIsOrderedListActive(editor.isActive("orderedList"));
     };
-    editor.on("transaction", updateState);
+    editor?.on("transaction", updateState);
     return () => {
-      editor.off("transaction", updateState);
+      editor?.off("transaction", updateState);
     };
   }, [editor]);
 
@@ -231,7 +226,7 @@ const List = ({ editor }: { editor: Editor }) => {
       <Button
         variant="ghost"
         size="sm"
-        onClick={() => editor.chain().focus().toggleBulletList().run()}
+        onClick={() => editor?.chain().focus().toggleBulletList().run()}
         className={isBulletListActive ? "bg-surface-gray-4!" : ""}
         title="Bullet list"
       >
@@ -240,7 +235,7 @@ const List = ({ editor }: { editor: Editor }) => {
       <Button
         variant="ghost"
         size="sm"
-        onClick={() => editor.chain().focus().toggleOrderedList().run()}
+        onClick={() => editor?.chain().focus().toggleOrderedList().run()}
         className={isOrderedListActive ? "bg-surface-gray-4!" : ""}
         title="Ordered list"
       >
@@ -249,8 +244,8 @@ const List = ({ editor }: { editor: Editor }) => {
       <Button
         variant="ghost"
         size="sm"
-        onClick={() => editor.chain().focus().liftListItem("listItem").run()}
-        disabled={!editor.can().liftListItem("listItem")}
+        onClick={() => editor?.chain().focus().liftListItem("listItem").run()}
+        disabled={!editor?.can().liftListItem("listItem")}
         title="Decrease indent"
       >
         <IndentDecrease />
@@ -258,8 +253,8 @@ const List = ({ editor }: { editor: Editor }) => {
       <Button
         variant="ghost"
         size="sm"
-        onClick={() => editor.chain().focus().sinkListItem("listItem").run()}
-        disabled={!editor.can().sinkListItem("listItem")}
+        onClick={() => editor?.chain().focus().sinkListItem("listItem").run()}
+        disabled={!editor?.can().sinkListItem("listItem")}
         title="Increase indent"
       >
         <IndentIncrease />
@@ -271,7 +266,8 @@ const List = ({ editor }: { editor: Editor }) => {
 /**
  * Toolbar component for the text editor.
  */
-export const Toolbar = ({ editor }: ToolbarProps) => {
+export const Toolbar = () => {
+  const { editor } = useCurrentEditor();
   if (!editor) {
     return null;
   }
@@ -280,17 +276,17 @@ export const Toolbar = ({ editor }: ToolbarProps) => {
     <div className="flex flex-wrap gap-1 items-center border-b border-input bg-background p-2">
       {/* Formatting section */}
       <div className="flex gap-1 items-center border-r border-outline-gray-2 pr-1">
-        <Format editor={editor} />
+        <Format />
       </div>
 
       {/* Color section */}
       <div className="flex gap-1 items-center border-r border-outline-gray-2 pr-1">
-        <ColorPicker editor={editor} />
+        <ColorPicker />
       </div>
 
       {/* Lists section */}
       <div className="flex gap-1 items-center border-r border-outline-gray-2">
-        <List editor={editor} />
+        <List />
       </div>
 
       {/* Alignment section */}
@@ -330,7 +326,7 @@ export const Toolbar = ({ editor }: ToolbarProps) => {
         </Button>
         {/* Link section */}
         <div className="flex gap-1 items-center border-r border-outline-gray-2 pr-2">
-          <Link editor={editor} />
+          <Link />
         </div>
       </div>
     </div>
