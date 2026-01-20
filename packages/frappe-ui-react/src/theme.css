@@ -735,4 +735,14 @@ input {
     --shadow-2xl: 0px 0px 1px rgba(0, 0, 0, 0.6),
       0px 1px 3px rgba(0, 0, 0, 0.15), 0px 10px 24px -3px rgba(0, 0, 0, 0.3);
   }
+
+  /* For tip tap place holder to appear */
+  .tiptap p.is-editor-empty:first-child::before {
+  color: #adb5bd;
+  content: attr(data-placeholder);
+  float: left;
+  height: 0;
+  pointer-events: none;
+}
+
 }
