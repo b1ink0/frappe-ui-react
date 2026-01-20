@@ -115,6 +115,9 @@ const ColorPicker = ({ editor }: { editor: Editor }) => {
   );
 };
 
+/**
+ * Link component for text editor toolbar.
+ */
 const Link = ({ editor }: { editor: Editor }) => {
   const [isLinkActive, setIsLinkActive] = useState(
     editor.isActive("link") || false
@@ -122,8 +125,6 @@ const Link = ({ editor }: { editor: Editor }) => {
 
   useEffect(() => {
     const updateLink = ({ editor }: { editor: Editor }) => {
-      console.log(editor.isActive("link"));
-
       setIsLinkActive(editor.isActive("link"));
     };
 
@@ -158,6 +159,54 @@ const Link = ({ editor }: { editor: Editor }) => {
 };
 
 /**
+ * Formatting component for text editor toolbar.
+ */
+const Format = ({ editor }: { editor: Editor }) => {
+  const [isBoldActive, setIsBoldActive] = useState(
+    editor.isActive("bold") || false
+  );
+  const [isItalicActive, setIsItalicActive] = useState(
+    editor.isActive("italic") || false
+  );
+
+  useEffect(() => {
+    const updateState = ({ editor }: { editor: Editor }) => {
+      setIsBoldActive(editor.isActive("bold"));
+      setIsItalicActive(editor.isActive("italic"));
+    };
+    editor.on("transaction", updateState);
+    return () => {
+      editor.off("transaction", updateState);
+    };
+  }, [editor]);
+
+  console.log(isBoldActive);
+
+  return (
+    <>
+      <Button
+        variant="ghost"
+        size="sm"
+        onClick={() => editor.chain().focus().toggleBold().run()}
+        className={isBoldActive ? "bg-surface-gray-4!" : ""}
+        title="Bold (Ctrl+B)"
+      >
+        <Bold className="size-5" />
+      </Button>
+      <Button
+        variant="ghost"
+        size="sm"
+        onClick={() => editor.chain().focus().toggleItalic().run()}
+        className={isItalicActive ? "bg-surface-gray-4!" : ""}
+        title="Italic (Ctrl+I)"
+      >
+        <Italic className="size-5" />
+      </Button>
+    </>
+  );
+};
+
+/**
  * Toolbar component for the text editor.
  */
 export const Toolbar = ({ editor }: ToolbarProps) => {
@@ -169,24 +218,7 @@ export const Toolbar = ({ editor }: ToolbarProps) => {
     <div className="flex flex-wrap gap-1 items-center border-b border-input bg-background p-2">
       {/* Formatting section */}
       <div className="flex gap-1 items-center border-r border-outline-gray-2 pr-1">
-        <Button
-          variant="ghost"
-          size="sm"
-          onClick={() => editor.chain().focus().toggleBold().run()}
-          className={editor.isActive("bold") ? "bg-color-gray-400" : ""}
-          title="Bold (Ctrl+B)"
-        >
-          <Bold className="size-5" />
-        </Button>
-        <Button
-          variant="ghost"
-          size="sm"
-          onClick={() => editor.chain().focus().toggleItalic().run()}
-          className={editor.isActive("italic") ? "bg-color-gray-400" : ""}
-          title="Italic (Ctrl+I)"
-        >
-          <Italic className="size-5" />
-        </Button>
+        <Format editor={editor} />
       </div>
 
       {/* Color section */}
@@ -200,7 +232,7 @@ export const Toolbar = ({ editor }: ToolbarProps) => {
           variant="ghost"
           size="sm"
           onClick={() => editor.chain().focus().toggleBulletList().run()}
-          className={editor.isActive("bulletList") ? "bg-color-gray-400" : ""}
+          className={editor.isActive("bulletList") ? "bg-surface-gray-4" : ""}
           title="Bullet list"
         >
           <ListOrdered />
@@ -209,7 +241,7 @@ export const Toolbar = ({ editor }: ToolbarProps) => {
           variant="ghost"
           size="sm"
           onClick={() => editor.chain().focus().toggleOrderedList().run()}
-          className={editor.isActive("orderedList") ? "bg-color-gray-400" : ""}
+          className={editor.isActive("orderedList") ? "bg-surface-gray-4" : ""}
           title="Ordered list"
         >
           <List />
@@ -235,13 +267,13 @@ export const Toolbar = ({ editor }: ToolbarProps) => {
       </div>
 
       {/* Alignment section */}
-      <div className="flex gap-1 items-center border-r border-outline-gray-2 pr-2">
+      <div className="flex gap-1 items-center">
         <Button
           variant="ghost"
           size="sm"
           onClick={() => editor.chain().focus().setTextAlign("left").run()}
           className={
-            editor.isActive({ textAlign: "left" }) ? "bg-color-gray-400" : ""
+            editor.isActive({ textAlign: "left" }) ? "bg-surface-gray-4" : ""
           }
           title="Align left"
         >
@@ -252,7 +284,7 @@ export const Toolbar = ({ editor }: ToolbarProps) => {
           size="sm"
           onClick={() => editor.chain().focus().setTextAlign("center").run()}
           className={
-            editor.isActive({ textAlign: "center" }) ? "bg-color-gray-400" : ""
+            editor.isActive({ textAlign: "center" }) ? "bg-surface-gray-4" : ""
           }
           title="Align center"
         >
@@ -263,7 +295,7 @@ export const Toolbar = ({ editor }: ToolbarProps) => {
           size="sm"
           onClick={() => editor.chain().focus().setTextAlign("right").run()}
           className={
-            editor.isActive({ textAlign: "right" }) ? "bg-color-gray-400" : ""
+            editor.isActive({ textAlign: "right" }) ? "bg-surface-gray-4" : ""
           }
           title="Align right"
         >
