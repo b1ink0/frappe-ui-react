@@ -1,6 +1,7 @@
 /**
  * External dependencies.
  */
+import { useEffect, useState } from "react";
 import { Editor, useCurrentEditor } from "@tiptap/react";
 import clsx from "clsx";
 import { Popover } from "@base-ui/react";
@@ -21,7 +22,6 @@ import {
  * Internal dependencies.
  */
 import { Button } from "../button";
-import { useEffect, useState } from "react";
 
 const COLOR_PALETTE = [
   "#000000",
