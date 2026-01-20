@@ -1,94 +1,239 @@
 /**
  * External dependencies.
  */
-import { useMemo } from "react";
-import ReactQuill, { Quill, type QuillOptionsStatic } from "react-quill-new";
-import "react-quill-new/dist/quill.snow.css";
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore
-import ImageResize from "quill-resize-module/dist/resize.js";
-import "quill-resize-module/dist/resize.css";
-import "quill-paste-smart";
+import { useMemo, useEffect } from "react";
+import { useEditor, EditorContent } from "@tiptap/react";
+import StarterKit from "@tiptap/starter-kit";
+import { TextStyle } from "@tiptap/extension-text-style";
+import Color from "@tiptap/extension-color";
+import TextAlign from "@tiptap/extension-text-align";
+import Link from "@tiptap/extension-link";
+import Image from "@tiptap/extension-image";
+import Placeholder from "@tiptap/extension-placeholder";
+import clsx from "clsx";
+import { Node as TiptapNode } from "@tiptap/core";
 
 /**
  * Internal dependencies.
  */
-export interface TextEditorProps extends ReactQuill.ReactQuillProps {
-  allowImageUpload?: boolean;
-  allowVideoUpload?: boolean;
-  className?: string;
-  hideToolbar?: boolean;
-  onChange: (value: string) => void;
-  value?: string;
-  placeholder?: string;
-}
+import type { TextEditorProps } from "./types";
+import Toolbar from "./toolbar";
 
-Quill.register("modules/imageResize", ImageResize);
+/**
+ * Custom video extension for Tiptap.
+ */
+ 
+const VideoExtension = TiptapNode.create({
+  name: "video",
+  group: "block",
+  atom: true,
 
+  addAttributes() {
+    return {
+      src: { default: null },
+      width: { default: "560" },
+      height: { default: "315" },
+    };
+  },
+
+  parseHTML() {
+    return [
+      {
+        tag: 'iframe[src*="youtube.com"]',
+      },
+      {
+        tag: 'iframe[src*="vimeo.com"]',
+      },
+      {
+        tag: "iframe[src]",
+      },
+    ];
+  },
+
+  renderHTML({ HTMLAttributes }) {
+    return [
+      "div",
+      {
+        style:
+          "position: relative; width: 100%; padding-bottom: 56.25%; height: 0; overflow: hidden;",
+      },
+      [
+        "iframe",
+        {
+          src: HTMLAttributes.src,
+          frameborder: "0",
+          allow:
+            "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture",
+          allowfullscreen: "true",
+          style:
+            "position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; border-radius: 0.5rem;",
+        },
+      ],
+    ];
+  },
+
+  addCommands() {
+     
+    return {
+      insertVideo:
+        (options: { src: string }) =>
+        ({ commands }: any) => {
+          return commands.insertContent({
+            type: this.name,
+            attrs: {
+              src: options.src,
+            },
+          });
+        },
+    } as any;
+  },
+}) as any;
+
+/**
+ * TextEditor component using Tiptap.
+ */
 const TextEditor = ({
   allowImageUpload = false,
   allowVideoUpload = false,
   className,
   onChange,
+  onContentChange,
   hideToolbar = false,
   value,
-  ...props
+  placeholder = "Write something...",
+  disabled = false,
 }: TextEditorProps) => {
-  const modules = useMemo<QuillOptionsStatic["modules"]>(() => {
-    const modules: QuillOptionsStatic["modules"] = {};
-
-    if (allowImageUpload) {
-      modules.imageResize = {
-        modules: ["Resize", "DisplaySize", "Toolbar"],
-      };
-    }
-
-    const toolbarOptions = [
-      ["bold", "italic"],
-      [{ color: [] }],
-      [
-        { list: "ordered" },
-        { list: "bullet" },
-        { indent: "-1" },
-        { indent: "+1" },
-      ],
-      [{ align: [] }],
-      ["link"],
+  /**
+   * Configure extensions based on props.
+   */
+  const extensions = useMemo(() => {
+    const baseExtensions = [
+      StarterKit.configure({
+        bulletList: {
+          keepMarks: true,
+          keepAttributes: false,
+        },
+        orderedList: {
+          keepMarks: true,
+          keepAttributes: false,
+        },
+      }),
+      TextStyle,
+      Color.configure({
+        types: ["textStyle"],
+      }),
+      TextAlign.configure({
+        types: ["heading", "paragraph"],
+        alignments: ["left", "center", "right", "justify"],
+      }),
+      Link.configure({
+        openOnClick: false,
+        autolink: true,
+        HTMLAttributes: {
+          class: "text-blue-500 hover:text-blue-700 underline",
+          target: "_blank",
+          rel: "noopener noreferrer",
+        },
+      }),
+      Image.configure({
+        inline: true,
+        allowBase64: true,
+        HTMLAttributes: {
+          class: "rounded-md",
+        },
+      }),
+      Placeholder.configure({
+        placeholder,
+        emptyEditorClass: "is-editor-empty",
+      }),
     ];
 
-    if (allowImageUpload) {
-      toolbarOptions.push(["image"]);
-    }
-
     if (allowVideoUpload) {
-      toolbarOptions.push(["video"]);
+      baseExtensions.push(VideoExtension);
     }
 
-    if (!hideToolbar) {
-      modules.toolbar = toolbarOptions;
-    }
+    return baseExtensions;
+  }, [allowVideoUpload, placeholder]);
 
-    return modules;
-  }, [allowImageUpload, hideToolbar, allowVideoUpload]);
+  /**
+   * Initialize Tiptap editor.
+   */
+  const editor = useEditor({
+    extensions,
+    content: value || "",
+    editable: !disabled,
+    onUpdate: ({ editor: updatedEditor }) => {
+      const html = updatedEditor.getHTML();
+      onChange(html);
+
+      if (onContentChange) {
+        const json = updatedEditor.getJSON();
+        onContentChange(json);
+      }
+    },
+    editorProps: {
+      attributes: {
+        class: clsx(
+          "prose prose-sm max-w-none focus:outline-none p-2",
+          "whitespace-normal",
+          disabled && "opacity-60 pointer-events-none"
+        ),
+      },
+    },
+  });
+
+  /**
+   * Sync external value changes to editor.
+   */
+  useEffect(() => {
+    if (editor && value !== undefined) {
+      const currentContent = editor.getHTML();
+      if (currentContent !== value) {
+        // Update content without emitting update event
+        editor.commands.setContent(value);
+      }
+    }
+  }, [editor, value]);
+
+  /**
+   * Cleanup editor on unmount.
+   */
+  useEffect(() => {
+    return () => {
+      editor?.destroy();
+    };
+  }, [editor]);
+
+  const containerClasses = clsx(
+    "border rounded-md border-input bg-background text-foreground overflow-hidden",
+    {
+      "border-none !resize-none": hideToolbar,
+      "flex flex-col": true,
+    },
+    className
+  );
 
   return (
-    <ReactQuill
-      {...props}
+    <div
+      className={containerClasses}
       style={{ resize: "vertical", overflow: "auto" }}
-      className={`
-        border rounded-md border-input [&>div:first-child]:border-t-0 [&>div:first-child]:border-r-0 [&>div:first-child]:border-l-0 [&>div:first-child]:border-input [&>div:first-child]:border-bottom [&>div:last-child]:border-none text-foreground bg-background whitespace-normal
-        ${
-          hideToolbar &&
-          "border-none !resize-none [&_.ql-editor]:min-h-0 [&_.ql-editor]:p-2"
-        }
-        ${!hideToolbar && "break-all"}
-        ${className}
-    `}
-      theme="snow"
-      modules={modules}
-      onChange={onChange}
-      value={value}
-    />
+    >
+      {!hideToolbar && (
+        <Toolbar
+          editor={editor}
+          allowImageUpload={allowImageUpload}
+          allowVideoUpload={allowVideoUpload}
+        />
+      )}
+      <div
+        className={clsx(
+          "flex-1 overflow-auto",
+          hideToolbar && "border-none [&_.ql-editor]:min-h-0 [&_.ql-editor]:p-2"
+        )}
+      >
+        <EditorContent editor={editor} />
+      </div>
+    </div>
   );
 };
 

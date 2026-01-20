@@ -23,6 +23,10 @@ const meta: Meta<typeof TextEditor> = {
       control: "text",
       description: "Initial content of the editor",
     },
+    placeholder: {
+      control: "text",
+      description: "Placeholder text when editor is empty",
+    },
   },
   tags: ["autodocs"],
 };
@@ -33,6 +37,7 @@ type Story = StoryObj<typeof meta>;
 export const Basic: Story = {
   args: {
     allowImageUpload: true,
+    placeholder: "Write something...",
     value: `
 		<p>This is a paragraph with <strong>bold</strong> and <em>italic</em> text.</p>
 		<p style="text-align: center;">This text is center-aligned.</p>
@@ -59,6 +64,102 @@ export const Basic: Story = {
           value={value}
           onChange={(newValue) => setValue(newValue)}
         />
+      </div>
+    );
+  },
+};
+
+export const WithJSONOutput: Story = {
+  args: {
+    allowImageUpload: true,
+    placeholder: "Write something...",
+    onChange: () => {},
+  },
+  render: (args) => {
+    const [html, setHtml] = useState("");
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const [json, setJson] = useState<any>(null);
+
+    return (
+      <div className="w-3xl mx-auto">
+        <TextEditor
+          {...args}
+          value={html}
+          onChange={(newValue) => setHtml(newValue)}
+          onContentChange={(jsonContent) => setJson(jsonContent)}
+        />
+        <div className="mt-4 grid grid-cols-2 gap-4">
+          <div>
+            <h3 className="font-bold mb-2">HTML Output:</h3>
+            <pre className="p-2 bg-surface-gray-1 border border-outline-gray-2 rounded text-sm overflow-auto max-h-48">
+              {html}
+            </pre>
+          </div>
+          <div>
+            <h3 className="font-bold mb-2">JSON Output:</h3>
+            <pre className="p-2 bg-surface-gray-1 border border-outline-gray-2 rounded text-sm overflow-auto max-h-48">
+              {JSON.stringify(json, null, 2)}
+            </pre>
+          </div>
+        </div>
+      </div>
+    );
+  },
+};
+
+export const HiddenToolbar: Story = {
+  args: {
+    hideToolbar: true,
+    placeholder: "Start typing...",
+    onChange: () => {},
+  },
+  render: (args) => {
+    const [value, setValue] = useState("");
+
+    return (
+      <div className="w-3xl mx-auto">
+        <TextEditor
+          {...args}
+          value={value}
+          onChange={(newValue) => setValue(newValue)}
+        />
+      </div>
+    );
+  },
+};
+
+export const WithMediaSupport: Story = {
+  args: {
+    allowImageUpload: true,
+    allowVideoUpload: true,
+    placeholder: "Write something... You can also add images and videos!",
+    onChange: () => {},
+  },
+  render: (args) => {
+    const [value, setValue] = useState("");
+
+    return (
+      <div className="w-3xl mx-auto">
+        <TextEditor
+          {...args}
+          value={value}
+          onChange={(newValue) => setValue(newValue)}
+        />
+      </div>
+    );
+  },
+};
+
+export const Disabled: Story = {
+  args: {
+    disabled: true,
+    value: `<p>This editor is disabled and cannot be edited.</p>`,
+    onChange: () => {},
+  },
+  render: (args) => {
+    return (
+      <div className="w-3xl mx-auto">
+        <TextEditor {...args} />
       </div>
     );
   },
