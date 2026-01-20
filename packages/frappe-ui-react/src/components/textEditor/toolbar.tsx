@@ -3,13 +3,14 @@
  */
 import { Editor } from "@tiptap/react";
 import clsx from "clsx";
-import { Popover } from "@headlessui/react";
+import { Popover } from "@base-ui/react";
 
 /**
  * Internal dependencies.
  */
 import { Button } from "../button";
 import { Bold, Italic } from "lucide-react";
+import { useEffect, useState } from "react";
 
 /**
  * Toolbar props interface.
@@ -50,37 +51,54 @@ const COLOR_PALETTE = [
  * ColorPicker component for selecting text color.
  */
 const ColorPicker = ({ editor }: { editor: Editor }) => {
-  const currentColor = editor.getAttributes("textStyle").color || "#000000";
+  const [isOpen, setIsOpen] = useState(false);
+  const [currentColor, setCurrentColor] = useState("#000000");
+
+  useEffect(() => {
+    const updateColor = ({ editor }: { editor: Editor }) => {
+      setCurrentColor(editor.getAttributes("textStyle").color || "#000000");
+    };
+
+    editor.on("transaction", updateColor);
+    return () => {
+      editor.off("transaction", updateColor);
+    };
+  }, [editor]);
 
   return (
-    <Popover className="relative">
-      <Popover.Button as={Button} variant="ghost" size="sm">
-        <div className="flex items-center gap-1">
-          <div
-            className="w-4 h-4 rounded border border-outline-gray-2"
-            style={{ backgroundColor: currentColor }}
-          />
-        </div>
-      </Popover.Button>
-      <Popover.Panel className="absolute z-50 bg-background border border-input rounded-md p-2 shadow-lg">
-        <div className="grid grid-cols-8 gap-1">
-          {COLOR_PALETTE.map((color) => (
-            <button
-              key={color}
-              className={clsx(
-                "w-6 h-6 rounded border-2 transition-all hover:scale-110",
-                currentColor === color
-                  ? "border-foreground"
-                  : "border-outline-gray-2"
-              )}
-              style={{ backgroundColor: color }}
-              onClick={() => editor.chain().focus().setColor(color).run()}
-              title={color}
-            />
-          ))}
-        </div>
-      </Popover.Panel>
-    </Popover>
+    <Popover.Root open={isOpen} onOpenChange={setIsOpen}>
+      <Popover.Trigger className="relative">
+        <button
+          className="size-4 rounded border border-outline-gray-2 pt-1"
+          style={{ backgroundColor: currentColor }}
+        />
+      </Popover.Trigger>
+      <Popover.Portal>
+        <Popover.Positioner sideOffset={8}>
+          <Popover.Popup className="bg-white border border-input rounded-md p-2 shadow-lg">
+            <div className="grid grid-cols-8 gap-1">
+              {COLOR_PALETTE.map((color) => (
+                <button
+                  key={color}
+                  className={clsx(
+                    "w-6 h-6 rounded border-2 transition-all hover:scale-110",
+                    currentColor === color
+                      ? "border-foreground"
+                      : "border-outline-gray-2"
+                  )}
+                  style={{ backgroundColor: color }}
+                  onClick={() => {
+                    editor.chain().focus().setColor(color).run();
+                    setIsOpen(false);
+                  }}
+                  title={color}
+                />
+              ))}
+            </div>
+          </Popover.Popup>
+        </Popover.Positioner>
+      </Popover.Portal>
+    </Popover.Root>
   );
 };
 
@@ -125,7 +143,7 @@ export const Toolbar = ({
   return (
     <div className="flex flex-wrap gap-1 items-center border-b border-input bg-background p-2">
       {/* Formatting section */}
-      <div className="flex gap-1 items-center border-r border-outline-gray-2 pr-2">
+      <div className="flex gap-1 items-center border-r border-outline-gray-2 pr-1">
         <Button
           variant="ghost"
           size="sm"
@@ -147,12 +165,12 @@ export const Toolbar = ({
       </div>
 
       {/* Color section */}
-      <div className="flex gap-1 items-center border-r border-outline-gray-2 pr-2">
+      <div className="flex gap-1 items-center border-r border-outline-gray-2 pr-1">
         <ColorPicker editor={editor} />
       </div>
 
       {/* Lists section */}
-      <div className="flex gap-1 items-center border-r border-outline-gray-2 pr-2">
+      <div className="flex gap-1 items-center border-r border-outline-gray-2">
         <Button
           variant="ghost"
           size="sm"
