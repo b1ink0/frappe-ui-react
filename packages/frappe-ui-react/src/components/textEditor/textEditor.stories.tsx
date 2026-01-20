@@ -29,7 +29,20 @@ type Story = StoryObj<typeof meta>;
 export const Basic: Story = {
   args: {
     placeholder: "Write something...",
-    value: "",
+    value: `
+		<p>This is a paragraph with <strong>bold</strong> and <em>italic</em> text.</p>
+		<p style="text-align: center;">This text is center-aligned.</p>
+		<p style="text-align: right;">This text is right-aligned.</p>
+		<ul>
+			<li>This is a bullet point</li>
+			<li>Another bullet point</li>
+		</ul>
+		<ol>
+			<li>This is a numbered list</li>
+			<li>Second item in numbered list</li>
+		</ol>
+		<p>This paragraph has a <a href="https://frappe.io" target="_blank">link to Frappe</a>.</p>
+		`,
     onChange: () => {},
   },
   render: (args) => {
