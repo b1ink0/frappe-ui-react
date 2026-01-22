@@ -2,7 +2,7 @@ import { useMemo } from "react";
 import clsx from "clsx";
 
 import { Button } from "../button";
-import type { DividerProps } from "./types";
+import { DividerProps } from "./types";
 
 const Divider = ({
   orientation = "horizontal",

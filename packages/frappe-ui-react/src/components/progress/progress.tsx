@@ -1,5 +1,5 @@
 import React from "react";
-import type { ProgressProps } from "./types";
+import { ProgressProps } from "./types";
 
 const MIN_VALUE = 0;
 const MAX_VALUE = 100;

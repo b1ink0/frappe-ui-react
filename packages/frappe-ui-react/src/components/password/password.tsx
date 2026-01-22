@@ -2,7 +2,7 @@ import React, { useState, useMemo, useEffect, useRef } from "react";
 import { FormControl } from "../formControl";
 import { Tooltip } from "../tooltip";
 import KeyboardShortcut from "../keyboardShortcut";
-import type { PasswordProps } from "./types";
+import { PasswordProps } from "./types";
 import { Eye, EyeOff } from "lucide-react";
 
 const Password: React.FC<PasswordProps> = ({ value, ...attrs }) => {
@@ -21,10 +21,12 @@ const Password: React.FC<PasswordProps> = ({ value, ...attrs }) => {
     };
 
     const inputElement = inputRef.current;
-      inputElement?.addEventListener("keydown", handleKeyDown);
+    if (inputElement) {
+      inputElement.addEventListener("keydown", handleKeyDown);
       return () => {
-        inputElement?.removeEventListener("keydown", handleKeyDown);
+        inputElement.removeEventListener("keydown", handleKeyDown);
       };
+    }
   }, []);
 
   return (

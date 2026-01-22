@@ -1,5 +1,5 @@
 import type { ReactNode } from "react";
-import type { TextInputTypes } from "../../common/types";
+import { TextInputTypes } from "../../common/types";
 
 export interface TextInputProps {
   type?: TextInputTypes;

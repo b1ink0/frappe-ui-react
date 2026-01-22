@@ -1,5 +1,5 @@
-import React, { useState, useMemo } from "react";
-import { Responsive, WidthProvider, type Layout, type Layouts } from "react-grid-layout";
+import React, { useState, useMemo, useEffect, ReactNode } from "react";
+import { Responsive, WidthProvider, Layout, Layouts } from "react-grid-layout";
 import "react-grid-layout/css/styles.css";
 import "react-resizable/css/styles.css";
 
@@ -7,7 +7,11 @@ import type { GridLayoutProps } from "./types";
 
 const ResponsiveGridLayout = WidthProvider(Responsive);
 
-const GridLayout: React.FC<GridLayoutProps> = ({
+interface MyGridLayoutProps extends GridLayoutProps {
+  renderItem: (props: { index: number; item: Layout }) => ReactNode;
+}
+
+const GridLayout: React.FC<MyGridLayoutProps> = ({
   layout: initialLayout,
   cols = 12,
   rowHeight = 52,
@@ -15,6 +19,15 @@ const GridLayout: React.FC<GridLayoutProps> = ({
   renderItem,
 }) => {
   const [layout, setLayout] = useState<Layouts>(initialLayout);
+  const [layoutReady, setLayoutReady] = useState(false);
+  useEffect(() => {
+    setLayout(initialLayout);
+    setLayoutReady(true);
+  }, [initialLayout]);
+
+  useEffect(() => {
+    setLayoutReady(true);
+  }, []);
 
   const options = useMemo(() => {
     return {
@@ -45,10 +58,11 @@ const GridLayout: React.FC<GridLayoutProps> = ({
         .flat()
         .map((l, index) => (
           <div key={l.i} data-grid={l}>
-            {renderItem({
-              index,
-              item: l,
-            })}
+            {layoutReady &&
+              renderItem({
+                index,
+                item: l,
+              })}
           </div>
         ))}
     </ResponsiveGridLayout>

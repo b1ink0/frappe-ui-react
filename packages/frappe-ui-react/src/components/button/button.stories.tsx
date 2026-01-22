@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 
 import Button from "./button";
-import type { ButtonProps } from "./types";
+import { ButtonProps } from "./types";
 
 export default {
   title: "Components/Button",

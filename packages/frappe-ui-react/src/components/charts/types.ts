@@ -1,6 +1,6 @@
-import type { EChartsOption } from "echarts";
+import { EChartsOption } from "echarts";
 
-import type { TimeGrain } from "./helpers";
+import { TimeGrain } from "./helpers";
 
 export type AxisChartConfig = {
   data: Record<string, any>[];

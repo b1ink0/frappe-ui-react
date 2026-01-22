@@ -1324,7 +1324,10 @@ const ThemeShowcase: React.FC = () => {
             <div className="typography-section">
               <div className="space-y-4">
                 {fontFamilies.map((font) => (
-                  <div key={font.name} className="p-4 bg-surface-white">
+                  <div
+                    key={font.name}
+                    className="p-4 bg-white"
+                  >
                     <div className="flex items-baseline justify-between mb-2">
                       <span className="font-semibold text-gray-700">
                         {font.name}

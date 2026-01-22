@@ -1,4 +1,4 @@
-import type { ButtonProps } from "../button";
+import { ButtonProps } from "../button";
 
 export interface DialogActionContext {
   close: () => void;
@@ -15,7 +15,7 @@ export interface DialogActionButtonProps {
 }
 
 export interface DialogOptions {
-  title?: (() => React.ReactElement) | string;
+  title?: (() => React.ReactNode) | string;
   message?: string;
   size?:
     | "xs"
