@@ -1,4 +1,4 @@
-import type { TabItem } from "./tabs";
+import { TabItem } from "./tabs";
 
 export interface TabPanelProps {
   tabs: TabItem[];

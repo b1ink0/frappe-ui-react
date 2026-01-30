@@ -3,6 +3,7 @@ import clsx from "clsx";
 
 import {
   parseDate,
+  parseDateWithDay,
   twelveHoursFormat,
   twentyFourHoursFormat,
 } from "./calendarUtils";
@@ -35,7 +36,7 @@ export const CalendarDaily = () => {
     <div className="h-[90%] min-h-[500px] min-w-[600px]">
       <div
         className={`flex shrink-0 h-fit border-outline-gray-1 ${
-          config.noBorder ? "border-t-[1px]" : "border-[1px] border-b-0"
+          config.noBorder ? 'border-t-[1px]' : 'border-[1px] border-b-0'
         }`}
       >
         <div className="flex justify-center items-start py-0.5 w-20 text-base text-ink-gray-6 text-center">
@@ -79,18 +80,10 @@ export const CalendarDaily = () => {
                   className="w-full border-b border-gray-200"
                   style={{ height: `${hourHeight}px` }}
                   onClick={(e) =>
-                    handleCellDblClick(
-                      e,
-                      currentDate.toDate().toLocaleDateString("en-CA"),
-                      twentyFourHoursFormat[timeIndex]
-                    )
+                    handleCellDblClick(e, currentDate.toDate().toLocaleDateString("en-CA"), twentyFourHoursFormat[timeIndex])
                   }
                   onDoubleClick={(e) =>
-                    handleCellDblClick(
-                      e,
-                      currentDate.toDate().toLocaleDateString("en-CA"),
-                      twentyFourHoursFormat[timeIndex]
-                    )
+                    handleCellDblClick(e, currentDate.toDate().toLocaleDateString("en-CA"), twentyFourHoursFormat[timeIndex])
                   }
                 />
               </div>

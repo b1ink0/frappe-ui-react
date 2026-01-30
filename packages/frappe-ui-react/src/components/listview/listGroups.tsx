@@ -1,6 +1,6 @@
 import React, {
   useContext,
-  type ReactNode,
+  ReactNode,
   useState,
   useEffect,
   useMemo,

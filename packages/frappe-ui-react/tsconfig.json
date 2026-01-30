@@ -1,27 +1,25 @@
 {
-  "extends": "../../tsconfig.app.json",
   "compilerOptions": {
-    "rootDir": "./src",
-    "noEmit": false,
-    "outDir": "dist",
+    "target": "ESNext",
+    "module": "ESNext",
+    "moduleResolution": "node",
+    "lib": ["DOM", "ESNext"],
+    "jsx": "react-jsx",
     "declaration": true,
-    "declarationDir": "dist-types",
     "sourceMap": true,
-    "typeRoots": ["./typings", "./node_modules/@types"],
-    "noUncheckedSideEffectImports": true,
-    "baseUrl": ".",
-    "paths": {
-      "@rtcamp/*": ["packages/frappe-ui-react/src/*"]
-    }
+    "strict": true,
+    "resolveJsonModule": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "outDir": "dist",
+    "declarationDir": "dist-types"
   },
   "include": ["src"],
   "exclude": [
     "**/node_modules",
     "dist",
-    "dist-types",
-    "src/utils/tailwind.config.cjs",
     "**/*.test.ts",
-    "**/*.stories.ts",
     "**/*.stories.tsx",
     "**/tests/**/*.ts",
     "**/tests/**/*.tsx"

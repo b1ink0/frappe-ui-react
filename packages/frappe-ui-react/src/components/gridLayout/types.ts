@@ -1,5 +1,4 @@
-import type { ReactNode } from "react";
-import type { Layouts, Layout as RGL_Layout } from "react-grid-layout";
+import { Layouts, Layout as RGL_Layout } from "react-grid-layout";
 
 export type Layout = RGL_Layout;
 
@@ -8,5 +7,4 @@ export interface GridLayoutProps {
   cols?: number;
   rowHeight?: number;
   disabled?: boolean;
-  renderItem: (props: { index: number; item: Layout }) => ReactNode;
 }

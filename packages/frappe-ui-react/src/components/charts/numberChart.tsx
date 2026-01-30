@@ -1,7 +1,7 @@
 import React from "react";
 
 import { formatValue } from "./helpers";
-import type { NumberChartConfig } from "./types";
+import { NumberChartConfig } from "./types";
 
 interface RenderPropHelpers {
   formatValue: typeof formatValue;
