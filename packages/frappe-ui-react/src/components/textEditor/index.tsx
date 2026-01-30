@@ -10,9 +10,7 @@ export interface TextEditorProps {
 
 /* eslint-disable @typescript-eslint/no-unused-vars */
 const TextEditor = (_props: TextEditorProps) => {
-    return (
-        <div></div>
-    );
-}
+  return <div></div>;
+};
 
 export default TextEditor;
