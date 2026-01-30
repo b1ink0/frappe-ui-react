@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Button } from "../button";
-import type { DialogActionButtonProps } from "./types";
+import { DialogActionButtonProps } from "./types";
 
 export const DialogActionButton = ({
   action,

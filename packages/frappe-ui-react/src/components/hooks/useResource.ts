@@ -10,10 +10,8 @@ interface ResourceState<TData, TError> {
   error: TError | null;
 }
 
-export interface ResourceOutput<TData, TError> extends ResourceState<
-  TData,
-  TError
-> {
+export interface ResourceOutput<TData, TError>
+  extends ResourceState<TData, TError> {
   fetch: (params?: any) => Promise<void>;
   submit: (params?: any) => Promise<void>;
 }

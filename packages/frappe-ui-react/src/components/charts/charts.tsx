@@ -44,7 +44,7 @@ const ChartsWrapper: React.FC<ChartsWrapperProps> = ({
       resizeObserver.disconnect();
       chartInstance.current?.dispose();
     };
-  }, [events, theme]);
+  }, [events]);
 
   useEffect(() => {
     if (chartInstance.current) {

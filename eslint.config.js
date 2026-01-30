@@ -5,25 +5,27 @@ import globals from "globals";
 import reactHooks from "eslint-plugin-react-hooks";
 import reactRefresh from "eslint-plugin-react-refresh";
 import tseslint from "typescript-eslint";
-import { defineConfig, globalIgnores } from "eslint/config";
+import { globalIgnores } from "eslint/config";
 
-export default defineConfig([
-  globalIgnores(["dist", "storybook-static"]),
-  reactHooks.configs.flat.recommended,
-  {
-    files: ["**/*.{ts,tsx}"],
-    extends: [
-      js.configs.recommended,
-      tseslint.configs.recommended,
-      reactRefresh.configs.vite,
-      storybook.configs["flat/recommended"],
-    ],
-    languageOptions: {
-      ecmaVersion: 2020,
-      globals: globals.browser,
+export default tseslint.config(
+  [
+    globalIgnores(["dist"]),
+    {
+      files: ["**/*.{ts,tsx}"],
+      extends: [
+        js.configs.recommended,
+        tseslint.configs.recommended,
+        reactHooks.configs["recommended-latest"],
+        reactRefresh.configs.vite,
+      ],
+      languageOptions: {
+        ecmaVersion: 2020,
+        globals: globals.browser,
+      },
+      rules: {
+        "@typescript-eslint/no-explicit-any": "warn",
+      },
     },
-    rules: {
-      "@typescript-eslint/no-explicit-any": "warn",
-    },
-  },
-]);
+  ],
+  storybook.configs["flat/recommended"]
+);

@@ -1,6 +1,6 @@
 import {
-  type AutocompleteOption,
-  type AutocompleteOptionGroup,
+  AutocompleteOption,
+  AutocompleteOptionGroup,
 } from "../components/autoComplete/types";
 
 export const simpleOptions: AutocompleteOption[] = [

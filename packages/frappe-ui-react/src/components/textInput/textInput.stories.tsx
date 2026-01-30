@@ -1,6 +1,6 @@
 import { useState } from "react";
-import type { Meta, StoryObj } from "@storybook/react-vite";
-import type { TextInputProps } from "./types";
+import { Meta, StoryObj } from "@storybook/react-vite";
+import { TextInputProps } from "./types";
 import TextInput from "./textInput";
 import { Avatar } from "../avatar";
 import FeatherIcon from "../featherIcon";
@@ -192,9 +192,7 @@ export const PrefixSlotIcon = {
   args: {
     type: "url",
     placeholder: "Placeholder",
-    prefix: (size) => (
-      <FeatherIcon className={size === "sm" ? "w-4" : "w-5"} name="search" />
-    ),
+    prefix: (size) => <FeatherIcon className={size === "sm" ? "w-4" : "w-5"} name="search" />,
     value: "",
   },
 };
