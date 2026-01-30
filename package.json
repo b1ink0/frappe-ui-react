@@ -84,5 +84,6 @@
   },
   "dependencies": {
     "react-docgen-typescript": "^2.4.0"
-  }
+  },
+  "packageManager": "pnpm@10.13.1"
 }
