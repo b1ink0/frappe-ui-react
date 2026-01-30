@@ -35,7 +35,7 @@ jobs:
           ls 
           pwd 
           rm -rf **/node_modules
-          rm -rf pnpm-lock.yaml
+          rm -rf package-lock.json
           pnpm install || true
 
       - name: Build Storybook
