@@ -1,6 +1,6 @@
 import { useState } from "react";
-import type { Meta, StoryObj } from "@storybook/react-vite";
-import type { TextareaProps } from "./types";
+import { Meta, StoryObj } from "@storybook/react-vite";
+import { TextareaProps } from "./types";
 import TextArea from "./textarea";
 
 export default {
@@ -78,15 +78,5 @@ export const OutlineVariant = {
     placeholder: "Placeholder",
     variant: "outline",
     value: "",
-  },
-};
-
-export const Disabled = {
-  ...Template,
-  args: {
-    placeholder: "Disabled textarea",
-    variant: "outline",
-    value: "",
-    disabled: true,
   },
 };

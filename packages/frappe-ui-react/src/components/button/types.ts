@@ -3,7 +3,8 @@ export type ButtonSize = "sm" | "md" | "lg" | "xl" | "2xl";
 export type ButtonVariant = "solid" | "subtle" | "outline" | "ghost";
 export type ButtonThemeVariant = `${ButtonTheme}-${ButtonVariant}`;
 
-export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+export interface ButtonProps
+  extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   theme?: ButtonTheme;
   size?: ButtonSize;
   variant?: ButtonVariant;

@@ -26,7 +26,9 @@ export default {
 } as Meta<typeof Breadcrumbs>;
 
 const BreadcrumbsTemplate: StoryObj<BreadcrumbsProps> = {
-  render: (args) => <Breadcrumbs {...args} />,
+  render: (args) => (
+    <Breadcrumbs {...args} />
+  ),
 };
 
 export const WithOnClickOption: StoryObj<BreadcrumbsProps> = {
