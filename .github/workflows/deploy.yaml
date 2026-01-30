@@ -21,19 +21,22 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v6
 
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+
       - name: Setup Node.js
         uses: actions/setup-node@v6
         with:
           node-version-file: '.nvmrc'
-          cache: 'npm'
+          cache: 'pnpm'
 
       - name: Install dependencies
         run: |
           ls 
           pwd 
           rm -rf **/node_modules
-          rm -rf package-lock.json
-          npm install || true
+          rm -rf pnpm-lock.yaml
+          pnpm install || true
 
       - name: Build Storybook
         run: pnpm build-storybook
