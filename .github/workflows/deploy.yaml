@@ -36,7 +36,7 @@ jobs:
           npm install || true
 
       - name: Build Storybook
-        run: npm run build-storybook
+        run: pnpm build-storybook
 
       - name: Setup Pages
         uses: actions/configure-pages@v5
